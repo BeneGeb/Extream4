@@ -1,31 +1,26 @@
-# Importieren der Pygame-Bibliothek
 import pygame
 
-# initialisieren von pygame
 pygame.init()
 
-# genutzte Farbe
+
 ORANGE  = ( 255, 140, 0)
 ROT     = ( 255, 0, 0)
 GRUEN   = ( 0, 255, 0)
 SCHWARZ = ( 0, 0, 0)
 WEISS   = ( 255, 255, 255)
 
-# Fenster öffnen
 screen = pygame.display.set_mode((640, 480))
 
-# Titel für Fensterkopf
 pygame.display.set_caption("Unser erstes Pygame-Spiel")
 
-# solange die Variable True ist, soll das Spiel laufen
 spielaktiv = True
 
-# Bildschirm Aktualisierungen einstellen
+# Set up timer
 clock = pygame.time.Clock()
 
-# Schleife Hauptprogramm
+
 while spielaktiv:
-    # Überprüfen, ob Nutzer eine Aktion durchgeführt hat
+    # UserInteraction
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             spielaktiv = False
@@ -33,7 +28,7 @@ while spielaktiv:
         elif event.type == pygame.KEYDOWN:
             print("Spieler hat Taste gedrückt")
 
-            # Taste für Spieler 1
+        
             if event.key == pygame.K_RIGHT:
                 print("Spieler hat Pfeiltaste rechts gedrückt")
             elif event.key == pygame.K_LEFT:
@@ -45,7 +40,6 @@ while spielaktiv:
             elif event.key == pygame.K_SPACE:
                 print("Spieler hat Leertaste gedrückt")
 
-            # Taste für Spieler 2
             elif event.key == pygame.K_w:
                 print("Spieler hat Taste w gedrückt")
             elif event.key == pygame.K_a:
@@ -58,17 +52,17 @@ while spielaktiv:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             print("Spieler hast Maus angeklickt")
 
-    # Spiellogik hier integrieren
+    # Gamelogic
 
-    # Spielfeld löschen
+    # Fill Display
     screen.fill(WEISS)
 
-    # Spielfeld/figuren zeichnen
+    # Draw Structures and Figures
 
-    # Fenster aktualisieren
+    # Update Disply
     pygame.display.flip()
 
-    # Refresh-Zeiten festlegen
+    # Setupr refreshtimer
     clock.tick(60)
 
 pygame.quit()
