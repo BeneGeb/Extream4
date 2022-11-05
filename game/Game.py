@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 
 pygame.init()
 
@@ -10,7 +11,11 @@ WEISS   = ( 255, 255, 255)
 
 class Game:
     def runGame(self):
-        screen = pygame.display.set_mode((640, 480))
+        screen = pygame.display.set_mode((1142, 1008))
+        
+        #Hintergrund
+        bg = pygame.image.load("Spielbrett.png")
+        bg = pygame.transform.scale(bg,(1142,1008))
 
         pygame.display.set_caption("Unser erstes Pygame-Spiel")
 
@@ -21,6 +26,8 @@ class Game:
 
 
         while gameActive:
+            # Hintergrund
+            screen.blit(bg,(0,0))
             # UserInteraction
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -56,7 +63,7 @@ class Game:
             # Gamelogic
 
             # Fill Display
-            screen.fill(WEISS)
+            #screen.fill(WEISS)
 
             # Draw Structures and Figures
 
