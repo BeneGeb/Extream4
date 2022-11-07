@@ -43,7 +43,7 @@ class Game:
                     print("Spieler hat Taste gedrückt")
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    self.dice.handleClick(pygame.mouse.get_pos())
+                    dice.handleClick(pygame.mouse.get_pos())
 
             # Gamelogic
 
