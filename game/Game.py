@@ -10,7 +10,13 @@ GRUEN   = ( 0, 255, 0)
 SCHWARZ = ( 0, 0, 0)
 WEISS   = ( 255, 255, 255)
 
+laenge = 1142
+breite = 1008
+screen = pygame.display.set_mode((laenge, breite))
+
 # Würfel Klasse
+#Bereich des Würfels
+Wuerfelbereich = pygame.Rect(*screen.get_rect().center,0,0).inflate(100,100)
 
 # WürfelAugenbilder mit Skalierung
 dice1 = pygame.image.load("Würfel_1.png")
@@ -37,6 +43,44 @@ def Wuerfelwurf():
 
 
 
+# Button für den Würfel
+class Button:
+ 
+    def __init__(self, text,  pos, font, bg="black", feedback=""):
+        self.x, self.y = pos
+        self.font = pygame.font.SysFont("Arial", font)
+        if feedback == "":
+            self.feedback = "text"
+        else:
+            self.feedback = feedback
+        self.change_text(text, bg)
+ 
+    def change_text(self, text, bg="black"):
+        self.text = self.font.render(text, 1, pygame.Color("White"))
+        self.size = self.text.get_size()
+        self.surface = pygame.Surface(self.size)
+        self.surface.fill(bg)
+        self.surface.blit(self.text, (0, 0))
+        self.rect = pygame.Rect(self.x, self.y, self.size[0], self.size[1])
+ 
+    def show(self):
+        screen.blit(button1.surface, (self.x, self.y))
+ 
+    def click(self, event):
+        x, y = pygame.mouse.get_pos()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if pygame.mouse.get_pressed()[0]:
+                if self.rect.collidepoint(x, y):
+                    self.change_text(self.feedback, bg="red")
+                    return True
+button1 = Button(
+    "Würfeln",
+    (100, 100),
+    font=30,
+    bg="navy",
+    feedback="You clicked me")
+
+
 class Game:
     def runGame(self):
         wurf = 0
@@ -45,6 +89,10 @@ class Game:
         breite = 1008
         screen = pygame.display.set_mode((laenge, breite))
         
+        # Position der Maus
+        pos = pygame.mouse.get_pos()
+        Bereich = Wuerfelbereich.collidedict(pos)
+
         #Hintergrund
         bg = pygame.image.load("Spielbrett.png")
         bg = pygame.transform.scale(bg,(laenge, breite))
@@ -64,47 +112,30 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     gameActive = False
-                    print("Spieler hat Quit-Button angeklickt")
+                    print("Spieler hat Quit-Button angeklickt")   
                 elif event.type == pygame.KEYDOWN:
                     print("Spieler hat Taste gedrückt")
+                    
 
-                
-                    if event.key == pygame.K_RIGHT:
-                        print("Spieler hat Pfeiltaste rechts gedrückt")
-                    elif event.key == pygame.K_LEFT:
-                        print("Spieler hat Pfeiltaste links gedrückt")
-                    elif event.key == pygame.K_UP:
-                        print("Spieler hat Pfeiltaste hoch gedrückt")
-                    elif event.key == pygame.K_DOWN:
-                        print("Spieler hat Pfeiltaste runter gedrückt")
-                    elif event.key == pygame.K_SPACE:
-                        print("Spieler hat Leertaste gedrückt")
-
-                    elif event.key == pygame.K_w:
-                        print("Spieler hat Taste w gedrückt")
-                    elif event.key == pygame.K_a:
-                        print("Spieler hat Taste a gedrückt")
-                    elif event.key == pygame.K_s:
-                        print("Spieler hat Taste s gedrückt")
-                    elif event.key == pygame.K_d:
-                        print("Spieler hat Taste d gedrückt")
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    wurf = Wuerfelwurf()
-                    wuerfelaugen = all_dice[wurf]
-                    print(f"Spieler hat {wurf} gerollt")
+                    #if button1.click(event):
+                    if Bereich:
+                            wurf = Wuerfelwurf()
+                            wuerfelaugen = all_dice[wurf]
+                            print(f"Spieler hat {wurf} gerollt")
                 
             # Würfelbild und Koordinaten des Würfels
             if ( wuerfelaugen != None ):
                 screen.blit( wuerfelaugen, ( 0, 0) ) 
 
             # Gamelogic
-
+            button1.show()
             
 
             # Draw Structures and Figures
 
-            # Update Disply
+            # Update Display
             pygame.display.flip()
 
             # Setupr refreshtimer
