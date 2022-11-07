@@ -16,7 +16,6 @@ class Game:
         self.width = 1142
         self.height = 1008
         self.screen = pygame.display.set_mode((self.width, self.height))
-        self.dice = Dice(self.screen, (0, 0), 100)
 
     def runGame(self):
         screen = self.screen
@@ -24,6 +23,7 @@ class Game:
         bg = pygame.image.load("Spielbrett.png")
         bg = pygame.transform.scale(bg, (self.width, self.height))
 
+        dice = Dice(self.screen, (0, 0), 100)
         pygame.display.set_caption("Unser erstes Pygame-Spiel")
 
         gameActive = True
@@ -48,7 +48,7 @@ class Game:
             # Gamelogic
 
             # Draw Structures and Figures
-            self.dice.draw()
+            dice.draw()
 
             # Update Display
             pygame.display.flip()
