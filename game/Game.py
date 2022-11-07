@@ -32,7 +32,6 @@ pygame.display.set_icon( dice6 )
 
 def Wuerfelwurf():
     wurf   = random.randint( 1, 6 )
-
     return wurf
 
 
@@ -103,6 +102,7 @@ class Game:
             
 
             # Draw Structures and Figures
+            
 
             # Update Disply
             pygame.display.flip()
