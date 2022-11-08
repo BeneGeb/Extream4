@@ -10,7 +10,7 @@ class Figure:
         # self.loadImage(team)
 
     def loadImage(self, color):
-        image = pygame.image.load("Figure_" + color + ".png")
+        image = pygame.image.load("Spielfigur_" + color + ".png")
         image = pygame.transform.scale(image)
         self.image = image
 
