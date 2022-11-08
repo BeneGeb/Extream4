@@ -5,8 +5,7 @@ pygame.init()
 
 
 class Dice:
-    def __init__(self, screen, position, size):
-        self.screen = screen
+    def __init__(self, position, size):
         self.position = position
         self.currentValue = 6
         self.size = size
@@ -24,8 +23,8 @@ class Dice:
     def rollDice(self):
         self.currentValue = random.randint(1, 6)
 
-    def draw(self):
-        self.screen.blit(self.all_dice[self.currentValue], (0, 0))
+    def draw(self, screen):
+        screen.blit(self.all_dice[self.currentValue], (0, 0))
 
     def handleClick(self, clickedPos):
         diceX, diceY = self.position

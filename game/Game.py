@@ -23,7 +23,7 @@ class Game:
         bg = pygame.image.load("Spielbrett.png")
         bg = pygame.transform.scale(bg, (self.width, self.height))
 
-        dice = Dice(self.screen, (0, 0), 100)
+        dice = Dice((0, 0), 100)
         pygame.display.set_caption("Unser erstes Pygame-Spiel")
 
         gameActive = True
@@ -48,7 +48,7 @@ class Game:
             # Gamelogic
 
             # Draw Structures and Figures
-            dice.draw()
+            dice.draw(screen)
 
             # Update Display
             pygame.display.flip()
