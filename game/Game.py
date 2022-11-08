@@ -13,9 +13,9 @@ WEISS = (255, 255, 255)
 
 
 class Game:
-    def __init__(self):
-        self.width = 1142
-        self.height = 1008
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
         self.screen = pygame.display.set_mode((self.width, self.height))
 
     def runGame(self):
@@ -24,7 +24,7 @@ class Game:
         bg = pygame.image.load("Spielbrett.png")
         bg = pygame.transform.scale(bg, (self.width, self.height))
 
-        dice = Dice((0, 0), 100)
+        dice = Dice((0, 0), 130)
         pygame.display.set_caption("Unser erstes Pygame-Spiel")
 
         gameActive = True
