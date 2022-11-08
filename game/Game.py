@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from .Dice import Dice
-from .Figure import Figure
+from .Circle import Circle
 
 pygame.init()
 
@@ -17,7 +17,6 @@ class Game:
         self.width = width
         self.height = height
         self.screen = pygame.display.set_mode((self.width, self.height))
-        self.player = ["red", "green", "yellow", "blue"]
 
     def runGame(self):
         screen = self.screen
@@ -29,9 +28,6 @@ class Game:
         pygame.display.set_caption("Unser erstes Pygame-Spiel")
 
         gameActive = True
-        gameFinished = False
-
-        currentPlayer = self.player[0]
 
         # Set up timer
         clock = pygame.time.Clock()
@@ -51,13 +47,15 @@ class Game:
                     dice.handleClick(pygame.mouse.get_pos())
 
             # Gamelogic
-            # gameField.checkWin()
-            # gameField.showPossibleMoves(currentPlayer, dice.getValue())
-            #
 
             # Draw Structures and Figures
-            # gameField.draw(screen)
             dice.draw(screen)
+            Circle(WEISS,screen)
+            #pygame.draw.circle(screen,(255,255,255),(389,426),30,0)
+            #pygame.draw.circle(screen,(255,255,255),(306,426),30,0)
+            #pygame.draw.circle(screen,(255,255,255),(223,425),30,0)
+            #pygame.draw.circle(screen,(255,255,255),(306,509),30,0)
+            #pygame.draw.circle(screen,(255,255,255),(306,592),30,0)
 
             # Update Display
             pygame.display.flip()
