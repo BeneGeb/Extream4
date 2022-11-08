@@ -1,4 +1,4 @@
 from game import Game
 
-game = Game(1100, 1000)
+game = Game(1142, 1008)
 game.runGame()
