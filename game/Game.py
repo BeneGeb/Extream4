@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from .Dice import Dice
-from .figure import Figure
+from .Figure import Figure
 
 pygame.init()
 
@@ -17,6 +17,7 @@ class Game:
         self.width = width
         self.height = height
         self.screen = pygame.display.set_mode((self.width, self.height))
+        self.player = ["red", "green", "yellow", "blue"]
 
     def runGame(self):
         screen = self.screen
@@ -28,6 +29,7 @@ class Game:
         pygame.display.set_caption("Unser erstes Pygame-Spiel")
 
         gameActive = True
+        gameFinished = False
 
         # Set up timer
         clock = pygame.time.Clock()
@@ -47,6 +49,9 @@ class Game:
                     dice.handleClick(pygame.mouse.get_pos())
 
             # Gamelogic
+            while not gameFinished:
+                
+
 
             # Draw Structures and Figures
             dice.draw(screen)
