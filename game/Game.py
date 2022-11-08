@@ -31,6 +31,8 @@ class Game:
         gameActive = True
         gameFinished = False
 
+        currentPlayer = self.player[0]
+
         # Set up timer
         clock = pygame.time.Clock()
 
@@ -49,11 +51,12 @@ class Game:
                     dice.handleClick(pygame.mouse.get_pos())
 
             # Gamelogic
-            while not gameFinished:
-                
-
+            # gameField.checkWin()
+            # gameField.showPossibleMoves(currentPlayer, dice.getValue())
+            #
 
             # Draw Structures and Figures
+            # gameField.draw(screen)
             dice.draw(screen)
 
             # Update Display
