@@ -11,7 +11,7 @@ class Figure:
 
     def loadImage(self, color):
         image = pygame.image.load("Spielfigur_" + color + ".png")
-        image = pygame.transform.scale(image, (100, 100))
+        image = pygame.transform.scale(image, (30, 30))
         self.image = image
 
     def draw(self, screen):
