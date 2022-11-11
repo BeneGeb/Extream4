@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from .Dice import Dice
-from .Figure import Figure
+from .figure import Figure
 from .Circle import Circle
 
 pygame.init()
@@ -56,7 +56,7 @@ class Game:
             Circle(WEISS, screen)
             # pygame.draw.circle(screen,(255,255,255),(389,426),30,0)
             # pygame.draw.circle(screen,(255,255,255),(306,426),30,0)
-            # pygame.draw.circle(screen,(255,255,255),(223,425),30,0)
+            # pygame.draw.circle(screen,(255,255,255),(555,94),30,0)
             # pygame.draw.circle(screen,(255,255,255),(306,509),30,0)
             # pygame.draw.circle(screen,(255,255,255),(306,592),30,0)
 
