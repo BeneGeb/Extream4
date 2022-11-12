@@ -1,8 +1,8 @@
 import pygame
 from pygame.locals import *
 from .Dice import Dice
-from .figure import Figure
-from .Circle import Circle
+from .Figure import Figure
+from .Gamefield import GameField
 
 pygame.init()
 
@@ -27,6 +27,7 @@ class Game:
 
         dice = Dice((0, 0), 130)
         figure = Figure("green", (0, 0))
+        gamefield = GameField()
         pygame.display.set_caption("Unser erstes Pygame-Spiel")
 
         gameActive = True
@@ -53,12 +54,13 @@ class Game:
             # Draw Structures and Figures
             dice.draw(screen)
             figure.draw(screen)
-            Circle(WEISS,ORANGE,screen)
+            gamefield.draw(screen)
+            # Circle(WEISS, ORANGE, screen)
             # pygame.draw.circle(screen,(255,255,255),(389,426),30,0)
             # pygame.draw.circle(screen,(255,255,255),(306,426),30,0)
-            #pygame.draw.circle(screen,(255,255,255),(1053,85),30,0)
-            #pygame.draw.circle(screen,(255,255,255),(223,85),30,0)
-            #pygame.draw.circle(screen,(255,255,255),(223,175),30,0)
+            # pygame.draw.circle(screen,(255,255,255),(1053,85),30,0)
+            # pygame.draw.circle(screen,(255,255,255),(223,85),30,0)
+            # pygame.draw.circle(screen,(255,255,255),(223,175),30,0)
 
             # Update Display
             pygame.display.flip()
