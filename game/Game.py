@@ -53,12 +53,12 @@ class Game:
             # Draw Structures and Figures
             dice.draw(screen)
             figure.draw(screen)
-            Circle(WEISS, screen)
+            Circle(WEISS,ORANGE,screen)
             # pygame.draw.circle(screen,(255,255,255),(389,426),30,0)
             # pygame.draw.circle(screen,(255,255,255),(306,426),30,0)
-            # pygame.draw.circle(screen,(255,255,255),(555,94),30,0)
-            # pygame.draw.circle(screen,(255,255,255),(306,509),30,0)
-            # pygame.draw.circle(screen,(255,255,255),(306,592),30,0)
+            #pygame.draw.circle(screen,(255,255,255),(1053,85),30,0)
+            #pygame.draw.circle(screen,(255,255,255),(223,85),30,0)
+            #pygame.draw.circle(screen,(255,255,255),(223,175),30,0)
 
             # Update Display
             pygame.display.flip()
