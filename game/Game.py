@@ -56,7 +56,7 @@ class Game:
             Circle(WEISS,ORANGE,screen)
             # pygame.draw.circle(screen,(255,255,255),(389,426),30,0)
             # pygame.draw.circle(screen,(255,255,255),(306,426),30,0)
-            #pygame.draw.circle(screen,(255,255,255),(1053,85),30,0)
+            #pygame.draw.circle(screen,(255,255,255),(1053,915),30,0)
             #pygame.draw.circle(screen,(255,255,255),(223,85),30,0)
             #pygame.draw.circle(screen,(255,255,255),(223,175),30,0)
 

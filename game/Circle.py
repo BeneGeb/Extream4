@@ -12,12 +12,12 @@ class Circle:
         self.position_y2 = 94
         self.position_x_rot = 223
         self.position_y_rot = 85
-        self.erste_reihe(screen)
+        self.x_reihe(screen)
         self.y_reihe(screen)
-        self.rote_kreise(screen,color_2)
-        #self.gelbe_kreise(screen,color_2,self.position_x_rot,self.position_y_rot)
+        self.rote_kreise(screen,)
+        
     
-    def erste_reihe(self,screen):
+    def x_reihe(self,screen):
         self.position_y -= 83
         zwischen_x= self.position_x 
         for i in range(3):
@@ -40,7 +40,7 @@ class Circle:
                      pygame.draw.circle(screen,(255,255,255),(self.position_x2,self.position_y2),30,0)
                 self.position_y2 += 83
     
-    def rote_kreise(self,screen,color_2):
+    def rote_kreise(self,screen):
         zwischen_y_rot = self.position_y_rot
         self.position_y_rot -= 90
         zwischen_x_rot = self.position_x_rot
@@ -48,12 +48,12 @@ class Circle:
             self.position_y_rot += 90
             self.position_x_rot = zwischen_x_rot
             for j in range(2):
-                pygame.draw.circle(screen,color_2,(self.position_x_rot,self.position_y_rot),30,0)
+                pygame.draw.circle(screen,(255,0,0),(self.position_x_rot,self.position_y_rot),30,0)
                 self.position_x_rot += 90
         
-        Circle.gelbe_kreise(self,screen,color_2,zwischen_x_rot,zwischen_y_rot) 
+        Circle.gelbe_kreise(self,screen,zwischen_x_rot,zwischen_y_rot) 
     
-    def gelbe_kreise(self,screen,color_2,pos_x,pos_y):
+    def gelbe_kreise(self,screen,pos_x,pos_y):
         pos_x += 740
         pos_y -= 90
         zwischen_x = pos_x
@@ -61,7 +61,29 @@ class Circle:
             pos_y += 90
             pos_x = zwischen_x
             for j in range(2):
-                pygame.draw.circle(screen,color_2,(pos_x,pos_y),30,0)
+                pygame.draw.circle(screen,(255,255,0),(pos_x,pos_y),30,0)
                 pos_x += 90
+        
+        Circle.blaue_kreise(self,screen,pos_x,pos_y)
 
+    def blaue_kreise(self,screen,pos_x,pos_y):
+        pos_y += 740
+        zwischen_y = pos_y
+        for i in range(2):
+            pos_x -= 90
+            pos_y = zwischen_y
+            for j in range(2):
+                pygame.draw.circle(screen,(0, 0, 255),(pos_x,pos_y),30,0)
+                pos_y -= 90
 
+        Circle.gruene_kreise(self,screen,pos_x,zwischen_y)        
+    
+    def gruene_kreise(self,screen,pos_x,pos_y):
+        pos_x -= 830
+        zwischen_y = pos_y
+        for i in range (2):
+            pos_x += 90
+            pos_y = zwischen_y
+            for j in range(2):
+                pygame.draw.circle(screen,(0,255,0),(pos_x,pos_y),30,0)
+                pos_y -= 90
