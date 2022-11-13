@@ -37,7 +37,7 @@ class GameField:
             startX = helperX
             for j in range(11):
                 if startY != 509 or startX != 638:
-                    circles.append(Circle(WEISS, (startX, startY)))
+                    circles.append(Circle(WEISS, (startX, startY), "normal"))
                 startX += 83
 
         return circles
@@ -52,7 +52,7 @@ class GameField:
             startY = helperY
             for j in range(11):
                 if startY != 509 or startX != 638:
-                    circles.append(Circle(WEISS, (startX, startY)))
+                    circles.append(Circle(WEISS, (startX, startY), "normal"))
                 startY += 83
 
         return circles
@@ -81,6 +81,6 @@ class GameField:
             y += 90
             x = helperX
             for j in range(2):
-                circles.append(Circle(team, (x, y)))
+                circles.append(Circle(team, (x, y), "base"))
                 x += 90
         return circles
