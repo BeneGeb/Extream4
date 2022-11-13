@@ -22,8 +22,8 @@ class Game:
     def runGame(self):
         screen = self.screen
         # Hintergrund
-        bg = pygame.image.load("Spielbrett.png")
-        bg = pygame.transform.scale(bg, (self.width, self.height))
+        # bg = pygame.image.load("Spielbrett.png")
+        # bg = pygame.transform.scale(bg, (self.width, self.height))
 
         dice = Dice((0, 0), 130)
         figure = Figure("green", (0, 0))
@@ -36,8 +36,7 @@ class Game:
         clock = pygame.time.Clock()
 
         while gameActive:
-            # Hintergrund
-            screen.blit(bg, (0, 0))
+
             # UserInteraction
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -53,8 +52,9 @@ class Game:
 
             # Draw Structures and Figures
             dice.draw(screen)
-            figure.draw(screen)
             gamefield.draw(screen)
+
+            # figure.draw(screen)
             # Circle(WEISS, ORANGE, screen)
             # pygame.draw.circle(screen,(255,255,255),(389,426),30,0)
             # pygame.draw.circle(screen,(255,255,255),(306,426),30,0)
