@@ -5,7 +5,7 @@ pygame.init()
 
 
 class Circle:
-    def __init__(self, color, position, type,number):
+    def __init__(self, color, position, type, number):
         self.color = color
         self.position = position
         self.type = type
@@ -19,7 +19,7 @@ class Circle:
         sqy = (clickedY - y) ** 2
 
         if math.sqrt(sqx + sqy) < 30:
-            self.color = (100, 100, 100)
+            print(self.number)
 
     def draw(self, screen):
         x, y = self.position

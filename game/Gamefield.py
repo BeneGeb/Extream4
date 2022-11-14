@@ -16,6 +16,10 @@ class GameField:
         for circle in self.allCircles:
             circle.draw(screen)
 
+    def handleClick(self, clickedPos):
+        for circle in self.allCircles:
+            circle.handleClick(clickedPos)
+
     def loadAllCircles(self):
         allCircles = []
         for circle in self.loadHorizontalRows():
@@ -33,21 +37,19 @@ class GameField:
         helperX = startX
         j = 0
         for i in range(4):
-           startX += addiere
-           circles.append(Circle(WEISS, (startX, startY), "neutral",j))
-           j += 1
+            startX += addiere
+            circles.append(Circle(WEISS, (startX, startY), "neutral", j))
+            j += 1
         for i in range(4):
             startY -= addiere
-            circles.append(Circle(WEISS, (startX, startY), "neutral",j))
+            circles.append(Circle(WEISS, (startX, startY), "neutral", j))
             j += 1
         for i in range(2):
-           startX += addiere
-           circles.append(Circle(WEISS, (startX, startY), "neutral",j))
-           j +=1
+            startX += addiere
+            circles.append(Circle(WEISS, (startX, startY), "neutral", j))
+            j += 1
         print(j)
         return circles
-
-    
 
     def loadAllTeams(self):
         allTeams = []
@@ -73,6 +75,6 @@ class GameField:
             y += 90
             x = helperX
             for j in range(2):
-                circles.append(Circle(color, (x, y), "base-blue",0))
+                circles.append(Circle(color, (x, y), "base-blue", 0))
                 x += 90
         return circles
