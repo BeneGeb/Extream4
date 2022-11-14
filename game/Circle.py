@@ -1,4 +1,5 @@
 import pygame
+import math
 
 pygame.init()
 
@@ -9,6 +10,16 @@ class Circle:
         self.position = position
         self.type = type
         self.number = number
+
+    def handleClick(self, clickedPos):
+        clickedX, clickedY = clickedPos
+        x, y = self.position
+
+        sqx = (clickedX - x) ** 2
+        sqy = (clickedY - y) ** 2
+
+        if math.sqrt(sqx + sqy) < 30:
+            self.color = (100, 100, 100)
 
     def draw(self, screen):
         x, y = self.position
