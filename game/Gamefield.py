@@ -20,8 +20,6 @@ class GameField:
         allCircles = []
         for circle in self.loadHorizontalRows():
             allCircles.append(circle)
-        for circle in self.loadVerticalColumns():
-            allCircles.append(circle)
         for circle in self.loadAllTeams():
             allCircles.append(circle)
 
@@ -29,33 +27,27 @@ class GameField:
 
     def loadHorizontalRows(self):
         circles = []
-        startY = 343
-        startX = 223
+        startY = 426
+        startX = 140
+        addiere = 83
         helperX = startX
-        for i in range(3):
-            startY += 83
-            startX = helperX
-            for j in range(11):
-                if startY != 509 or startX != 638:
-                    circles.append(Circle(WEISS, (startX, startY), "neutral"))
-                startX += 83
-
+        j = 0
+        for i in range(4):
+           startX += addiere
+           circles.append(Circle(WEISS, (startX, startY), "neutral",j))
+           j += 1
+        for i in range(4):
+            startY -= addiere
+            circles.append(Circle(WEISS, (startX, startY), "neutral",j))
+            j += 1
+        for i in range(2):
+           startX += addiere
+           circles.append(Circle(WEISS, (startX, startY), "neutral",j))
+           j +=1
+        print(j)
         return circles
 
-    def loadVerticalColumns(self):
-        circles = []
-        startX = 472
-        startY = 94
-        helperY = startY
-        for i in range(3):
-            startX += 83
-            startY = helperY
-            for j in range(11):
-                if startY != 509 or startX != 638:
-                    circles.append(Circle(WEISS, (startX, startY), "neutral"))
-                startY += 83
-
-        return circles
+    
 
     def loadAllTeams(self):
         allTeams = []
@@ -81,6 +73,6 @@ class GameField:
             y += 90
             x = helperX
             for j in range(2):
-                circles.append(Circle(color, (x, y), "base-blue"))
+                circles.append(Circle(color, (x, y), "base-blue",0))
                 x += 90
         return circles
