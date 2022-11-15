@@ -122,7 +122,7 @@ class GameField:
         circles = []
         start_X = 223
         start_Y = 509
-        blue = 0
+        blue = 3
         red = 0
         for i in range(9):
             start_X += 83
@@ -131,7 +131,7 @@ class GameField:
                 red += 1
             if i > 4:
                 circles.append(Circle(BLAU, (start_X, start_Y), "house", blue))
-                blue += 1
+                blue -= 1
         return circles
 
     def Homefield_vertikal(self):
@@ -139,7 +139,7 @@ class GameField:
         start_X = 638
         start_Y = 94
         yellow = 0
-        green = 0
+        green = 3
         for i in range(9):
             start_Y += 83
             if i < 4:
@@ -147,7 +147,7 @@ class GameField:
                 yellow += 1
             if i > 4:
                 circles.append(Circle(GRUEN, (start_X, start_Y), "house", green))
-                green += 1
+                green -= 1
         return circles
 
     def loadAllTeams(self):
