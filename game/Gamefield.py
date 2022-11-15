@@ -34,10 +34,14 @@ class GameField:
         startY = 426
         startX = 140
         addiere = 83
-        helperX = startX
         j = 0
-        for i in range(4):
+        
+        for i in range(5):
             startX += addiere
+            if i == 0:
+                circles.append(Circle(ROT, (startX, startY), "neutral", j))
+                j += 1
+                continue
             circles.append(Circle(WEISS, (startX, startY), "neutral", j))
             j += 1
         for i in range(4):
@@ -46,10 +50,69 @@ class GameField:
             j += 1
         for i in range(2):
             startX += addiere
+            if i == 1:
+                circles.append(Circle(GELB, (startX, startY), "neutral", j))
+                j += 1
+                break
             circles.append(Circle(WEISS, (startX, startY), "neutral", j))
             j += 1
-        print(j)
+        GameField.zweite_Z(self,startX,startY,addiere,circles,j)
         return circles
+
+    def zweite_Z(self,posi_x,posi_y,addiere,circles,j):
+        for i in range(4):
+            posi_y += addiere
+            circles.append(Circle(WEISS, (posi_x, posi_y), "neutral", j))
+            j +=1
+        for i in range(4):
+            posi_x += addiere
+            circles.append(Circle(WEISS, (posi_x, posi_y), "neutral", j))
+            j +=1
+        for i in range(2):
+            posi_y += addiere
+            if i == 1:
+                circles.append(Circle(BLAU, (posi_x, posi_y), "neutral", j))
+                j +=1
+                break
+            circles.append(Circle(WEISS, (posi_x, posi_y), "neutral", j))
+            j +=1
+
+        GameField.dritte_Z(self,posi_x,posi_y,addiere,circles,j)
+
+    def dritte_Z(self,posi_x,posi_y,addiere,circles,j):
+        for i in range(4):
+            posi_x -= addiere
+            circles.append(Circle(WEISS, (posi_x, posi_y), "neutral", j))
+            j +=1
+        for i in range(4):
+            posi_y += addiere
+            circles.append(Circle(WEISS, (posi_x, posi_y), "neutral", j))
+            j +=1
+        for i in range(2):
+            posi_x -= addiere
+            if i == 1:
+                circles.append(Circle(GRUEN, (posi_x, posi_y), "neutral", j))
+                j +=1
+                break
+            circles.append(Circle(WEISS, (posi_x, posi_y), "neutral", j))
+            j +=1
+
+        GameField.vierte_Z(self,posi_x,posi_y,addiere,circles,j)
+
+    def vierte_Z(self,posi_x,posi_y,addiere,circles,j):
+        for i in range(4):
+            posi_y -= addiere
+            circles.append(Circle(WEISS, (posi_x, posi_y), "neutral", j))
+            j +=1
+        for i in range(4):
+            posi_x -= addiere
+            circles.append(Circle(WEISS, (posi_x, posi_y), "neutral", j))
+            j +=1
+        for i in range(1):
+            posi_y -= addiere
+            circles.append(Circle(WEISS, (posi_x, posi_y), "neutral", j))
+            j +=1
+        print(j)
 
     def loadAllTeams(self):
         allTeams = []
