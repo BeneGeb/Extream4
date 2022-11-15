@@ -33,6 +33,7 @@ class GameField:
                 clickedFigure = figure.handleClick(clickedPos)
                 clickedFigure.innerColor = SCHWARZ
 
+        # position der Figur wird geändert
         if isinstance(self.lastClicked, Figure) and isinstance(clickedCircle, Circle):
             self.lastClicked.move(clickedCircle.position)
 

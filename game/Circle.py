@@ -11,9 +11,9 @@ class Circle:
         self.type = type
         self.number = number
         if "base" in type:
-            self.manned = False
-        else:
             self.manned = True
+        else:
+            self.manned = False
 
     def handleClick(self, clickedPos):
         clickedX, clickedY = clickedPos
