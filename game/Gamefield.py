@@ -22,14 +22,18 @@ class GameField:
 
     def loadAllCircles(self):
         allCircles = []
-        for circle in self.loadHorizontalRows():
+        for circle in self.loadNeutralFields():
             allCircles.append(circle)
         for circle in self.loadAllTeams():
+            allCircles.append(circle)
+        for circle in self.Homefield_horizontal():
+            allCircles.append(circle)
+        for circle in self.Homefield_vertikal():
             allCircles.append(circle)
 
         return allCircles
 
-    def loadNeutralFieldss(self):
+    def loadNeutralFields(self):
         circles = []
         startY = 426
         startX = 140
@@ -113,7 +117,39 @@ class GameField:
             posi_y -= addiere
             circles.append(Circle(WEISS, (posi_x, posi_y), "neutral", j))
             j += 1
-        print(j)
+        
+
+    def Homefield_horizontal(self):
+        circles = []
+        start_X = 223
+        start_Y = 509
+        blue = 0
+        red = 0
+        for i in range(9):
+            start_X += 83
+            if i < 4:
+                circles.append(Circle(ROT, (start_X, start_Y), "house", red))
+                red += 1
+            if i > 4:
+                circles.append(Circle(BLAU, (start_X, start_Y), "house", blue))
+                blue += 1
+        return circles
+
+    def Homefield_vertikal(self):
+        circles = []
+        start_X = 638
+        start_Y = 94
+        yellow = 0
+        green = 0
+        for i in range(9):
+            start_Y += 83
+            if i < 4:
+                circles.append(Circle(GELB, (start_X, start_Y), "house", yellow))
+                yellow += 1
+            if i > 4:
+                circles.append(Circle(GRUEN, (start_X, start_Y), "house", green))
+                green += 1
+        return circles
 
     def loadAllTeams(self):
         allTeams = []
@@ -131,14 +167,19 @@ class GameField:
     def loadTeam(self, startPosition, color):
         circles = []
         x, y = startPosition
-
+        team_color = ["base-red","base-yellow,","base-green","base-blue"]
+        number = 0
         y -= 90
         helperX = x
 
-        for i in range(2):
-            y += 90
-            x = helperX
-            for j in range(2):
-                circles.append(Circle(color, (x, y), "base-blue", 0))
-                x += 90
-        return circles
+        for h in range(4):
+            number = 0
+            for i in range(2):
+                y += 90
+                x = helperX
+                for j in range(2):
+                    circles.append(Circle(color, (x, y), team_color[h], number))
+                    x += 90
+                    number += 1
+            return circles
+        
