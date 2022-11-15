@@ -7,6 +7,7 @@ ROT = (255, 0, 0)
 GELB = (255, 255, 0)
 GRUEN = (0, 255, 0)
 BLAU = (0, 0, 255)
+SCHWARZ = (0, 0, 0)
 
 
 class GameField:
@@ -30,6 +31,7 @@ class GameField:
         for figure in self.allFigures:
             if figure.handleClick(clickedPos):
                 clickedFigure = figure.handleClick(clickedPos)
+                clickedFigure.innerColor = SCHWARZ
 
         if isinstance(self.lastClicked, Figure) and isinstance(clickedCircle, Circle):
             self.lastClicked.move(clickedCircle.position)
