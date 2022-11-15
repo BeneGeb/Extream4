@@ -2,9 +2,13 @@ import pygame
 
 pygame.init()
 
+WEISS = (255, 255, 255)
+SCHWARZ = (0, 0, 0)
+
 
 class Figure:
-    def __init__(self, team, position):
+    def __init__(self, color, team, position):
+        self.color = color
         self.team = team
         self.position = position
         self.loadImage(team)
@@ -16,8 +20,10 @@ class Figure:
 
     def draw(self, screen):
         x, y = self.position
-        # ygame.draw.rect(screen, (255, 140, 0), pygame.Rect(x, y, 60, 60))
-        screen.blit(self.image, (x, y))
+        pygame.draw.circle(screen, SCHWARZ, (x, y), 24, 0)
+        pygame.draw.circle(screen, self.color, (x, y), 22, 0)
+        pygame.draw.circle(screen, SCHWARZ, (x, y), 12, 0)
+        pygame.draw.circle(screen, WEISS, (x, y), 10, 0)
 
     def move(self, newPosition):
         self.position = newPosition
