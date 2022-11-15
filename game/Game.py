@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from .Dice import Dice
-from .figure import Figure
+from .Figure import Figure
 from .Gamefield import GameField
 
 pygame.init()
@@ -24,7 +24,7 @@ class Game:
         # Hintergrund
         # bg = pygame.image.load("Spielbrett.png")
         # bg = pygame.transform.scale(bg, (self.width, self.height))
-        screen.fill((155,155,155))
+        screen.fill((155, 155, 155))
 
         dice = Dice((0, 0), 130)
         figure = Figure("green", (0, 0))
@@ -55,7 +55,6 @@ class Game:
             # Draw Structures and Figures
             dice.draw(screen)
             gamefield.draw(screen)
-            
 
             # figure.draw(screen)
             # Circle(WEISS, ORANGE, screen)
