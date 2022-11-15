@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from .Dice import Dice
-from .figure import Figure
+from .Figure import Figure
 from .Gamefield import GameField
 
 pygame.init()
@@ -27,7 +27,7 @@ class Game:
         screen.fill((155, 155, 155))
 
         dice = Dice((0, 0), 130)
-        figure = Figure("green", (0, 0))
+        # figure = Figure("green", (0, 0))
         gamefield = GameField()
         pygame.display.set_caption("Unser erstes Pygame-Spiel")
 
