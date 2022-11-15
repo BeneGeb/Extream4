@@ -1,5 +1,6 @@
 import pygame
 from .Circle import Circle
+from .Figure import Figure
 
 WEISS = (255, 255, 255)
 ROT = (255, 0, 0)
@@ -11,14 +12,29 @@ BLAU = (0, 0, 255)
 class GameField:
     def __init__(self):
         self.allCircles = self.loadAllCircles()
+        self.allFigures = self.placeStartFigures()
+        self.lastClicked = None
 
     def draw(self, screen):
         for circle in self.allCircles:
             circle.draw(screen)
+        for figure in self.allFigures:
+            figure.draw(screen)
 
     def handleClick(self, clickedPos):
+        clickedFigure = None
+        clickedCircle = None
         for circle in self.allCircles:
-            circle.handleClick(clickedPos)
+            if circle.handleClick(clickedPos):
+                clickedCircle = circle.handleClick(clickedPos)
+        for figure in self.allFigures:
+            if figure.handleClick(clickedPos):
+                clickedFigure = figure.handleClick(clickedPos)
+
+        if isinstance(self.lastClicked, Figure) and isinstance(clickedCircle, Circle):
+            self.lastClicked.move(clickedCircle.position)
+
+        self.lastClicked = clickedFigure
 
     def loadAllCircles(self):
         allCircles = []
@@ -67,7 +83,14 @@ class GameField:
     def loadSecondQuarter(self, posi_x, posi_y, addiere, circles, j):
         for i in range(4):
             posi_y += addiere
-            circles.append(Circle(WEISS, (posi_x, posi_y), "neutral", j))
+            circles.append(
+                Circle(
+                    WEISS,
+                    (posi_x, posi_y),
+                    "neutral",
+                    j,
+                )
+            )
             j += 1
         for i in range(4):
             posi_x += addiere
@@ -178,3 +201,13 @@ class GameField:
                 x += 90
                 number += 1
         return circles
+
+    def placeStartFigures(self):
+        allFigures = []
+        baseFields = [field for field in self.allCircles if "base-" in field.type]
+        for baseField in baseFields:
+            allFigures.append(
+                Figure(baseField.color, baseField.type[5:], baseField.position)
+            )
+
+        return allFigures

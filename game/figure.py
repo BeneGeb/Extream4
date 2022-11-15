@@ -1,4 +1,5 @@
 import pygame
+import math
 
 pygame.init()
 
@@ -11,12 +12,6 @@ class Figure:
         self.color = color
         self.team = team
         self.position = position
-        self.loadImage(team)
-
-    def loadImage(self, color):
-        image = pygame.image.load("Spielfigur_" + color + ".png")
-        image = pygame.transform.scale(image, (30, 30))
-        self.image = image
 
     def draw(self, screen):
         x, y = self.position
@@ -27,3 +22,15 @@ class Figure:
 
     def move(self, newPosition):
         self.position = newPosition
+
+    def handleClick(self, clickedPos):
+        clickedX, clickedY = clickedPos
+        x, y = self.position
+
+        sqx = (clickedX - x) ** 2
+        sqy = (clickedY - y) ** 2
+
+        if math.sqrt(sqx + sqy) < 22:
+            return self
+        else:
+            return

@@ -10,6 +10,10 @@ class Circle:
         self.position = position
         self.type = type
         self.number = number
+        if "base" in type:
+            self.manned = False
+        else:
+            self.manned = True
 
     def handleClick(self, clickedPos):
         clickedX, clickedY = clickedPos
@@ -19,7 +23,9 @@ class Circle:
         sqy = (clickedY - y) ** 2
 
         if math.sqrt(sqx + sqy) < 30:
-            print(self.number)
+            return self
+        else:
+            return
 
     def draw(self, screen):
         x, y = self.position
