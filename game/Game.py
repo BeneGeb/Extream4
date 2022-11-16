@@ -1,8 +1,9 @@
 import pygame
 from pygame.locals import *
 from .Dice import Dice
-from .Figure import Figure
+from .figure import Figure
 from .Gamefield import GameField
+from .Menu import Menu
 
 pygame.init()
 
@@ -26,12 +27,15 @@ class Game:
         dice = Dice((0, 0), 130)
         gamefield = GameField()
         pygame.display.set_caption("Unser erstes Pygame-Spiel")
-
+        player = Menu.player(self)
+        currentplayer = player[0]
         gameActive = True
+        hasThrowed = False
+        movement = 0
 
         # Set up timer
         clock = pygame.time.Clock()
-
+    
         while gameActive:
 
             # UserInteraction
@@ -43,10 +47,31 @@ class Game:
                     print("Spieler hat Taste gedrückt")
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    dice.handleClick(pygame.mouse.get_pos())
-                    gamefield.handleClick(pygame.mouse.get_pos())
+                    if hasThrowed == False:
+                        throw = dice.handleClick(pygame.mouse.get_pos())
+                        if throw != None:
+                            hasThrowed = True
+                    else:
+                        if gamefield.handleClick(pygame.mouse.get_pos()):
+                            movement += 1
+                            if movement == 100:
+                                hasThrowed = False
+                                movement = 0
+                    
+                    
+                    #gamefield.handleClick(pygame.mouse.get_pos())
+                    #print("hier")
 
             # Gamelogic
+
+                
+                # if throw != 6 and throw != None:
+                #     gamefield.handleClick(pygame.mouse.get_pos())
+                #     print("hier")
+                # elif throw == 6 and throw != None:
+                #     print("wirf nochmal")
+                #     throw
+                    
 
             # Draw Structures and Figures
             dice.draw(screen)

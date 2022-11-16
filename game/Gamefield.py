@@ -1,6 +1,6 @@
 import pygame
 from .Circle import Circle
-from .Figure import Figure
+from .figure import Figure
 
 WEISS = (255, 255, 255)
 ROT = (255, 0, 0)
@@ -25,20 +25,23 @@ class GameField:
     def handleClick(self, clickedPos):
         clickedFigure = None
         clickedCircle = None
+        found = False
         for circle in self.allCircles:
             if circle.handleClick(clickedPos):
+                found = True
                 clickedCircle = circle.handleClick(clickedPos)
         for figure in self.allFigures:
             if figure.handleClick(clickedPos):
+                found = True
                 clickedFigure = figure.handleClick(clickedPos)
                 clickedFigure.innerColor = SCHWARZ
-
         # position der Figur wird geändert
-        if isinstance(self.lastClicked, Figure) and isinstance(clickedCircle, Circle):
-            self.lastClicked.move(clickedCircle.position)
+            if isinstance(self.lastClicked, Figure) and isinstance(clickedCircle, Circle):
+                self.lastClicked.move(clickedCircle.position)
 
-        self.lastClicked = clickedFigure
+            self.lastClicked = clickedFigure
 
+        return found
     def loadAllCircles(self):
         allCircles = []
         for circle in self.loadNeutralFields():
