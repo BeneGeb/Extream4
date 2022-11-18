@@ -210,10 +210,10 @@ class GameField:
                 for circle in self.loadTeam((963, 85), GELB, player):
                     allTeams.append(circle)
             if player == 2:
-                for circle in self.loadTeam((223, 825), GRUEN, player):
+                for circle in self.loadTeam((963, 825), BLAU, player):
                     allTeams.append(circle)
             if player == 3:
-                for circle in self.loadTeam((963, 825), BLAU, player):
+                for circle in self.loadTeam((223, 825), GRUEN, player):
                     allTeams.append(circle)
 
         return allTeams

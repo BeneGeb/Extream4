@@ -28,6 +28,13 @@ class Game:
         print("Next Player")
         return currentPlayerNumber
 
+    def drawCurrentPlayer(self, currentPlayerNumber, screen):
+        font = pygame.font.Font(None, 40)
+        font_surface = font.render(
+            self.allPlayer[currentPlayerNumber], True, pygame.Color("white")
+        )
+        screen.blit(font_surface, (0, 150))
+
     def runGame(self):
         screen = self.screen
         allPlayer = self.allPlayer
@@ -53,7 +60,7 @@ class Game:
         clock = pygame.time.Clock()
 
         while gameActive:
-
+            screen.fill((155, 155, 155))
             # UserInteraction
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -83,7 +90,9 @@ class Game:
                                 gamefield.checkAllFiguresInBase(currentPlayerNumber)
                                 and diceTries > 1
                             ):
-                                self.changePlayer(currentPlayerNumber, numberOfPlayers)
+                                currentPlayerNumber = self.changePlayer(
+                                    currentPlayerNumber, numberOfPlayers
+                                )
                                 diceTries = 0
                             else:
                                 currentStage += 1
@@ -110,6 +119,8 @@ class Game:
             # Draw Structures and Figures
             dice.draw(screen)
             gamefield.draw(screen)
+
+            self.drawCurrentPlayer(currentPlayerNumber, screen)
 
             # Update Display
             pygame.display.flip()
