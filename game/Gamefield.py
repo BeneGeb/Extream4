@@ -1,6 +1,6 @@
 import pygame
 from .Circle import Circle
-from .figure import Figure
+from .Figure import Figure
 
 WEISS = (255, 255, 255)
 ROT = (255, 0, 0)
@@ -11,10 +11,11 @@ SCHWARZ = (0, 0, 0)
 
 
 class GameField:
-    def __init__(self):
-        self.allCircles = self.loadAllCircles()
+    def __init__(self, numberOfPlayers):
+        self.allCircles = self.loadAllCircles(numberOfPlayers)
         self.allFigures = self.placeStartFigures()
         self.lastClicked = None
+        self.lastClickedCircle = None
 
     def draw(self, screen):
         for circle in self.allCircles:
@@ -22,31 +23,51 @@ class GameField:
         for figure in self.allFigures:
             figure.draw(screen)
 
-    def handleClick(self, clickedPos):
+    def handleClick(self, clickedPos, player, currenStage):
         clickedFigure = None
         clickedCircle = None
-        found = False
+        clicked = False
+
         for circle in self.allCircles:
             if circle.handleClick(clickedPos):
-                found = True
                 clickedCircle = circle.handleClick(clickedPos)
+                clicked = True
+
         for figure in self.allFigures:
-            if figure.handleClick(clickedPos):
-                found = True
+            if figure.handleClick(clickedPos) and int(figure.player) == player:
                 clickedFigure = figure.handleClick(clickedPos)
                 clickedFigure.innerColor = SCHWARZ
+                clicked = True
+
         # position der Figur wird geändert
-            if isinstance(self.lastClicked, Figure) and isinstance(clickedCircle, Circle):
-                self.lastClicked.move(clickedCircle.position)
+        if isinstance(self.lastClicked, Figure) and isinstance(clickedCircle, Circle):
+            self.lastClicked.move(clickedCircle.position)
+            self.lastClickedCircle.manned = False
 
-            self.lastClicked = clickedFigure
+        self.lastClickedCircle = clickedCircle
+        self.lastClicked = clickedFigure
 
-        return found
-    def loadAllCircles(self):
+        return clicked
+
+    def checkAllFiguresInBase(self, player):
+        baseFields = [
+            field
+            for field in self.allCircles
+            if "base-" + str(player) in field.type and field.manned == True
+        ]
+        if len(baseFields) == 4:
+            return True
+        else:
+            return False
+
+    def resetLastClickedFigure(self):
+        self.lastClickedFigure = None
+
+    def loadAllCircles(self, numberOfPlayers):
         allCircles = []
         for circle in self.loadNeutralFields():
             allCircles.append(circle)
-        for circle in self.loadAllTeams():
+        for circle in self.loadAllTeams(numberOfPlayers):
             allCircles.append(circle)
         for circle in self.Homefield_horizontal():
             allCircles.append(circle)
@@ -179,16 +200,21 @@ class GameField:
                 green -= 1
         return circles
 
-    def loadAllTeams(self):
+    def loadAllTeams(self, numberOfPlayers):
         allTeams = []
-        for circle in self.loadTeam((223, 85), ROT, "red"):
-            allTeams.append(circle)
-        for circle in self.loadTeam((963, 85), GELB, "yellow"):
-            allTeams.append(circle)
-        for circle in self.loadTeam((223, 825), GRUEN, "green"):
-            allTeams.append(circle)
-        for circle in self.loadTeam((963, 825), BLAU, "blue"):
-            allTeams.append(circle)
+        for player in range(0, numberOfPlayers):
+            if player == 0:
+                for circle in self.loadTeam((223, 85), ROT, player):
+                    allTeams.append(circle)
+            if player == 1:
+                for circle in self.loadTeam((963, 85), GELB, player):
+                    allTeams.append(circle)
+            if player == 2:
+                for circle in self.loadTeam((223, 825), GRUEN, player):
+                    allTeams.append(circle)
+            if player == 3:
+                for circle in self.loadTeam((963, 825), BLAU, player):
+                    allTeams.append(circle)
 
         return allTeams
 
@@ -203,7 +229,7 @@ class GameField:
             y += 90
             x = helperX
             for j in range(2):
-                circles.append(Circle(color, (x, y), "base-" + team, number))
+                circles.append(Circle(color, (x, y), "base-" + str(team), number))
                 x += 90
                 number += 1
         return circles

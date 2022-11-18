@@ -25,7 +25,9 @@ class Dice:
         return self.currentValue
 
     def draw(self, screen):
+
         screen.blit(self.all_dice[self.currentValue], (0, 0))
+
     def handleClick(self, clickedPos):
         diceX, diceY = self.position
         clickedX, clickedY = clickedPos
@@ -35,8 +37,6 @@ class Dice:
             and diceY <= clickedY <= diceY + self.size
         ):
             return self.rollDice()
-            
-            
 
     def getDiceValue(self):
         return self.currentValue

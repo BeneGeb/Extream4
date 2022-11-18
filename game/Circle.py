@@ -25,7 +25,7 @@ class Circle:
         if math.sqrt(sqx + sqy) < 30:
             return self
         else:
-            return
+            return False
 
     def draw(self, screen):
         x, y = self.position

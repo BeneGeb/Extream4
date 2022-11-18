@@ -8,9 +8,9 @@ SCHWARZ = (0, 0, 0)
 
 
 class Figure:
-    def __init__(self, color, team, position):
+    def __init__(self, color, player, position):
         self.color = color
-        self.team = team
+        self.player = player
         self.position = position
         self.innerColor = WEISS
 

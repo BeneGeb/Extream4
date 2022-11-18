@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 from .Dice import Dice
-from .figure import Figure
 from .Gamefield import GameField
 from .Menu import Menu
 
@@ -15,27 +14,44 @@ WEISS = (255, 255, 255)
 
 
 class Game:
-    def __init__(self, width, height):
+    def __init__(self, width, height, allPlayer):
         self.width = width
         self.height = height
         self.screen = pygame.display.set_mode((self.width, self.height))
+        self.allPlayer = allPlayer
+
+    def changePlayer(self, currentPlayerNumber, numberOfPlayers):
+        if currentPlayerNumber < numberOfPlayers - 1:
+            currentPlayerNumber += 1
+        else:
+            currentPlayerNumber = 0
+        print("Next Player")
+        return currentPlayerNumber
 
     def runGame(self):
         screen = self.screen
+        allPlayer = self.allPlayer
+
         screen.fill((155, 155, 155))
+        pygame.display.set_caption("Pacheesi")
+
+        gameActive = True
+        currentPlayerNumber = 0
+        numberOfPlayers = len(allPlayer)
+        diceTries = 0
 
         dice = Dice((0, 0), 130)
-        gamefield = GameField()
-        pygame.display.set_caption("Unser erstes Pygame-Spiel")
-        player = Menu.player(self)
-        currentplayer = player[0]
-        gameActive = True
-        hasThrowed = False
-        movement = 0
+        gamefield = GameField(numberOfPlayers)
+
+        # Wir haben 3 Phasen in einem Zug:
+        # 0: nicht gewürfelt, 1: gewürfelt und nun wird Figur ausgewählt, 2: Figur wurde gezogen
+        # bei einer 6 wird am Ende auf 0 zurückgesetzt
+
+        currentStage = 0
 
         # Set up timer
         clock = pygame.time.Clock()
-    
+
         while gameActive:
 
             # UserInteraction
@@ -47,43 +63,53 @@ class Game:
                     print("Spieler hat Taste gedrückt")
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if hasThrowed == False:
-                        throw = dice.handleClick(pygame.mouse.get_pos())
-                        if throw != None:
-                            hasThrowed = True
+                    mousePosition = pygame.mouse.get_pos()
+
+                    if currentStage == 0:
+                        # Es wurde noch nicht gewürfelt
+                        if dice.handleClick(mousePosition):
+                            if (
+                                gamefield.checkAllFiguresInBase(currentPlayerNumber)
+                                and dice.currentValue == 6
+                            ):
+                                currentStage += 1
+                                diceTries = 0
+                            elif (
+                                gamefield.checkAllFiguresInBase(currentPlayerNumber)
+                                and diceTries < 2
+                            ):
+                                diceTries += 1
+                            elif (
+                                gamefield.checkAllFiguresInBase(currentPlayerNumber)
+                                and diceTries > 1
+                            ):
+                                self.changePlayer(currentPlayerNumber, numberOfPlayers)
+                                diceTries = 0
+                            else:
+                                currentStage += 1
+                                diceTries = 0
+                            print("rolled Dice")
                     else:
-                        if gamefield.handleClick(pygame.mouse.get_pos()):
-                            movement += 1
-                            if movement == 100:
-                                hasThrowed = False
-                                movement = 0
-                    
-                    
-                    #gamefield.handleClick(pygame.mouse.get_pos())
-                    #print("hier")
+
+                        # Es wurde vorher gewürfelt
+                        if gamefield.handleClick(
+                            mousePosition, currentPlayerNumber, currentStage
+                        ):
+                            if currentStage == 1:
+                                currentStage += 1
+                            elif currentStage == 2 and dice.currentValue != 6:
+                                currentStage = 0
+                                currentPlayerNumber = self.changePlayer(
+                                    currentPlayerNumber, numberOfPlayers
+                                )
+                            elif currentStage == 2 and dice.currentValue == 6:
+                                currentStage = 0
 
             # Gamelogic
-
-                
-                # if throw != 6 and throw != None:
-                #     gamefield.handleClick(pygame.mouse.get_pos())
-                #     print("hier")
-                # elif throw == 6 and throw != None:
-                #     print("wirf nochmal")
-                #     throw
-                    
 
             # Draw Structures and Figures
             dice.draw(screen)
             gamefield.draw(screen)
-
-            # figure.draw(screen)
-            # Circle(WEISS, ORANGE, screen)
-            # pygame.draw.circle(screen,ORANGE,(638,177),30,0)
-            # pygame.draw.circle(screen,(255,255,255),(306,426),30,0)
-            # pygame.draw.circle(screen,ORANGE,(306,509),30,0)
-            # pygame.draw.circle(screen,(255,255,255),(223,85),30,0)
-            # pygame.draw.circle(screen,(255,255,255),(223,175),30,0)
 
             # Update Display
             pygame.display.flip()
