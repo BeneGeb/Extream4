@@ -1,8 +1,8 @@
 import pygame
 from pygame.locals import *
-from .Dice import Dice
-from .Gamefield import GameField
-from .Menu import Menu
+import Dice
+import Gamefield
+import Menu
 
 pygame.init()
 
