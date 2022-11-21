@@ -1,6 +1,6 @@
 import pygame
 from .Circle import Circle
-from .figure import Figure
+from .Figure import Figure
 
 WEISS = (255, 255, 255)
 ROT = (255, 0, 0)
