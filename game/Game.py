@@ -1,8 +1,9 @@
 import pygame
 from pygame.locals import *
-import Dice
-import Gamefield
-import Menu
+from .Dice import Dice
+from .Gamefield import GameField
+from .Menu import Menu
+from .Window import Window
 
 pygame.init()
 
@@ -38,7 +39,6 @@ class Game:
     def runGame(self):
         screen = self.screen
         allPlayer = self.allPlayer
-
         screen.fill((155, 155, 155))
         pygame.display.set_caption("Pacheesi")
 
