@@ -102,7 +102,7 @@ class Game:
                         ):
                             currentStage = 2
                     elif currentStage == 2:
-                        waitClickResult = gamefield.waitClickCircleToMove(
+                        waitClickResult = gamefield.waitClickCircleToMoveTo(
                             mousePosition, currentPlayerNumber
                         )
                         if waitClickResult and dice.currentValue != 6:

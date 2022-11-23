@@ -66,7 +66,7 @@ class GameField:
 
         return clicked
 
-    def waitClickCircleToMove(self, clickedPos, playerNumber):
+    def waitClickCircleToMoveTo(self, clickedPos, playerNumber):
         clickedCircle = self.getClickedCircle(clickedPos)
         clickedFigure = None
         moved = False
@@ -76,6 +76,8 @@ class GameField:
 
             if clickedFigure:
                 if int(clickedFigure.player) != playerNumber:
+                    emptyBaseField = self.getEmptyBaseField(clickedFigure.player)
+                    self.kickFigure(clickedFigure, emptyBaseField)
                     self.moveFigure(clickedCircle.position)
                     moved = True
                 else:
@@ -85,6 +87,18 @@ class GameField:
                 moved = True
 
         return moved
+
+    def getEmptyBaseField(self, playerNumber):
+        emptyBaseCircle = [
+            field
+            for field in self.allCircles
+            if "base-" + str(playerNumber) in field.type and field.manned == False
+        ]
+        return emptyBaseCircle[0]
+
+    def kickFigure(self, clickedFigure, emptyBaseField):
+        clickedFigure.move(emptyBaseField.position)
+        emptyBaseField.manned = True
 
     def moveFigure(self, newPosition):
         self.lastClickedFigure.move(newPosition)
