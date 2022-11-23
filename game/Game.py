@@ -96,21 +96,38 @@ class Game:
                                 currentStage += 1
                                 diceTries = 0
                             print("rolled Dice")
-                    else:
-
-                        # Es wurde vorher gewürfelt
-                        if gamefield.handleClick(
-                            mousePosition, currentPlayerNumber, currentStage
+                    elif currentStage == 1:
+                        if gamefield.waitClickFigureToMove(
+                            mousePosition, currentPlayerNumber
                         ):
-                            if currentStage == 1:
-                                currentStage += 1
-                            elif currentStage == 2 and dice.currentValue != 6:
-                                currentStage = 0
-                                currentPlayerNumber = self.changePlayer(
-                                    currentPlayerNumber, numberOfPlayers
-                                )
-                            elif currentStage == 2 and dice.currentValue == 6:
-                                currentStage = 0
+                            currentStage = 2
+                    elif currentStage == 2:
+                        waitClickResult = gamefield.waitClickCircleToMove(
+                            mousePosition, currentPlayerNumber
+                        )
+                        if waitClickResult and dice.currentValue != 6:
+                            currentStage = 0
+                            currentPlayerNumber = self.changePlayer(
+                                currentPlayerNumber, numberOfPlayers
+                            )
+                        elif waitClickResult and dice.currentValue == 6:
+                            currentStage = 0
+                        elif waitClickResult == False:
+                            currentStage = 1
+
+                    # elif currentStage == 2:
+                    # if gamefield.handleClick(
+                    #     mousePosition, currentPlayerNumber, currentStage
+                    # ):
+                    #     if currentStage == 1:
+                    #         currentStage += 1
+                    #     elif currentStage == 2 and dice.currentValue != 6:
+                    #         currentStage = 0
+                    #         currentPlayerNumber = self.changePlayer(
+                    #             currentPlayerNumber, numberOfPlayers
+                    #         )
+                    #     elif currentStage == 2 and dice.currentValue == 6:
+                    #         currentStage = 0
 
             # Gamelogic
 

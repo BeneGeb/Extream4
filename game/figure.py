@@ -25,7 +25,6 @@ class Figure:
         self.position = newPosition
 
     def handleClick(self, clickedPos):
-        self.innerColor = WEISS
         clickedX, clickedY = clickedPos
         x, y = self.position
 
