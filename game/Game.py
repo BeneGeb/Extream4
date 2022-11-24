@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from .Dice import Dice
-from .Gamefield import GameField
+from .GameField.GameField import GameField
 
 pygame.init()
 
