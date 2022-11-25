@@ -31,7 +31,7 @@ class Figure:
         sqx = (clickedX - x) ** 2
         sqy = (clickedY - y) ** 2
 
-        if math.sqrt(sqx + sqy) < 22:
+        if math.sqrt(sqx + sqy) < 24:
             return self
         else:
             return
