@@ -69,7 +69,7 @@ class Game:
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mousePosition = pygame.mouse.get_pos()
-
+                    gamefield.devHelper(mousePosition)
                     if currentStage == 0:
                         # Es wurde noch nicht gewürfelt
                         if dice.handleClick(mousePosition):
@@ -98,7 +98,7 @@ class Game:
                             print("rolled Dice")
                     elif currentStage == 1:
                         if gamefield.waitClickFigureToMove(
-                            mousePosition, currentPlayerNumber
+                            mousePosition, currentPlayerNumber, dice.currentValue
                         ):
                             currentStage = 2
                     elif currentStage == 2:
@@ -113,6 +113,9 @@ class Game:
                         elif waitClickResult and dice.currentValue == 6:
                             currentStage = 0
                         elif waitClickResult == False:
+                            gamefield.waitClickFigureToMove(
+                                mousePosition, currentPlayerNumber, dice.currentValue
+                            )
                             currentStage = 1
 
                     # elif currentStage == 2:

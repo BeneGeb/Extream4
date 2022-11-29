@@ -139,10 +139,10 @@ def Homefield_horizontal():
     for i in range(9):
         start_X += 83
         if i < 4:
-            circles.append(Circle(ROT, (start_X, start_Y), "house", red))
+            circles.append(Circle(ROT, (start_X, start_Y), "house-0", red))
             red += 1
         if i > 4:
-            circles.append(Circle(BLAU, (start_X, start_Y), "house", blue))
+            circles.append(Circle(BLAU, (start_X, start_Y), "house-2", blue))
             blue -= 1
     return circles
 
@@ -156,10 +156,10 @@ def Homefield_vertikal():
     for i in range(9):
         start_Y += 83
         if i < 4:
-            circles.append(Circle(GELB, (start_X, start_Y), "house", yellow))
+            circles.append(Circle(GELB, (start_X, start_Y), "house-1", yellow))
             yellow += 1
         if i > 4:
-            circles.append(Circle(GRUEN, (start_X, start_Y), "house", green))
+            circles.append(Circle(GRUEN, (start_X, start_Y), "house-3", green))
             green -= 1
     return circles
 

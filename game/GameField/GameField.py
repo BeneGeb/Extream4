@@ -25,33 +25,7 @@ class GameField:
         for figure in self.allFigures:
             figure.draw(screen)
 
-    def handleClick(self, clickedPos, player, currenStage):
-        clickedFigure = None
-        clickedCircle = None
-        clicked = False
-
-        for circle in self.allCircles:
-            if circle.handleClick(clickedPos):
-                clickedCircle = circle.handleClick(clickedPos)
-                clicked = True
-
-        for figure in self.allFigures:
-            if figure.handleClick(clickedPos) and int(figure.player) == player:
-                clickedFigure = figure.handleClick(clickedPos)
-                clickedFigure.innerColor = SCHWARZ
-                clicked = True
-
-        # position der Figur wird geändert
-        if isinstance(self.lastClicked, Figure) and isinstance(clickedCircle, Circle):
-            self.lastClicked.move(clickedCircle.position)
-            self.lastClickedCircle.manned = False
-
-        self.lastClickedCircle = clickedCircle
-        self.lastClicked = clickedFigure
-
-        return clicked
-
-    def waitClickFigureToMove(self, clickedPos, playerNumber):
+    def waitClickFigureToMove(self, clickedPos, playerNumber, rolledNumber):
         clickedFigure = self.getClickedFigure(clickedPos)
         clickedCircle = None
         clicked = False
@@ -66,6 +40,7 @@ class GameField:
                 clickedFigure.innerColor = SCHWARZ
             self.lastClickedFigure = clickedFigure
             self.lastClickedCircle = clickedCircle
+            # self.showPossibleMove(clickedFigure, clickedCircle, rolledNumber)
 
         return clicked
 
@@ -131,3 +106,25 @@ class GameField:
             return True
         else:
             return False
+
+    def showPossibleMove(self, figure, circle, rolledNumber):
+        currentNumber = circle.number
+        newNumber = currentNumber + rolledNumber
+
+        if "base" in circle:
+
+            possibleField = [
+                field
+                for field in self.allCircles
+                if field.number == newNumber
+                and "base" not in field.type
+                and "house" not in field.type
+            ]
+
+    def devHelper(self, clickedPos):
+        for circle in self.allCircles:
+            if circle.handleClick(clickedPos):
+                print(circle.type)
+                print(circle.number)
+                print("")
+                return circle
