@@ -1,5 +1,6 @@
 from tkinter import *
 from .Game import Game
+import time
 
 
 class Window:
@@ -61,6 +62,7 @@ class Window:
         tkFenster.mainloop()
 
     def startGame(self, tkfenster):
-        tkfenster.quit()
+        tkfenster.destroy()
+
         game = Game(1142, 1008, ["red", "yellow", "blue", "green"])
         game.runGame()

@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from .Dice import Dice
 from .GameField.GameField import GameField
+import tkinter
 
 pygame.init()
 
