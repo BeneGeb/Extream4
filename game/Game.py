@@ -35,6 +35,10 @@ class Game:
         )
         screen.blit(font_surface, (0, 150))
 
+    def loadIcon():
+        icon = pygame.image.load("Icon.png")
+        pygame.display.set_icon(icon)
+
     def runGame(self):
         screen = self.screen
         allPlayer = self.allPlayer
@@ -45,6 +49,8 @@ class Game:
         currentPlayerNumber = 0
         numberOfPlayers = len(allPlayer)
         diceTries = 0
+        diceStatus = "static"
+        diceAnimationCounter = 0
 
         dice = Dice((0, 0), 130)
         gamefield = GameField(numberOfPlayers)
@@ -96,6 +102,8 @@ class Game:
                             else:
                                 currentStage += 1
                                 diceTries = 0
+                            diceStatus = "rolling"
+                            diceAnimationCounter = 0
                             print("rolled Dice")
                     elif currentStage == 1:
                         if gamefield.waitClickFigureToMove(
@@ -136,7 +144,14 @@ class Game:
             # Gamelogic
 
             # Draw Structures and Figures
-            dice.draw(screen)
+            if diceStatus == "rolling":
+                dice.drawAnimation(screen, diceAnimationCounter)
+                diceAnimationCounter += 1
+                if diceAnimationCounter == 100:
+                    diceStatus = "static"
+            elif diceStatus == "static":
+                dice.draw(screen)
+
             gamefield.draw(screen)
 
             self.drawCurrentPlayer(currentPlayerNumber, screen)
