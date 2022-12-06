@@ -35,7 +35,8 @@ class Game:
         )
         screen.blit(font_surface, (0, 150))
 
-    def loadIcon():
+    def setUpPygame():
+        pygame.display.set_caption("Pacheesi")
         icon = pygame.image.load("Icon.png")
         pygame.display.set_icon(icon)
 
@@ -43,7 +44,6 @@ class Game:
         screen = self.screen
         allPlayer = self.allPlayer
         screen.fill((155, 155, 155))
-        pygame.display.set_caption("Pacheesi")
 
         gameActive = True
         currentPlayerNumber = 0
