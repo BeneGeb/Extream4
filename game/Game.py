@@ -4,6 +4,14 @@ from .Dice import Dice
 from .GameField.GameField import GameField
 import tkinter
 
+
+def setUpPygame():
+    pygame.display.set_caption("Pacheesi")
+    icon = pygame.image.load("Würfel_1.png")
+    pygame.display.set_icon(icon)
+
+
+setUpPygame()
 pygame.init()
 
 ORANGE = (255, 140, 0)
@@ -34,11 +42,6 @@ class Game:
             self.allPlayer[currentPlayerNumber], True, pygame.Color("white")
         )
         screen.blit(font_surface, (0, 150))
-
-    def setUpPygame():
-        pygame.display.set_caption("Pacheesi")
-        icon = pygame.image.load("Icon.png")
-        pygame.display.set_icon(icon)
 
     def runGame(self):
         screen = self.screen
