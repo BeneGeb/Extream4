@@ -1,14 +1,7 @@
 from .Circle import Circle
 from .Figure import Figure
 from ..Helper.GameFieldLoader import GameFieldLoader
-
-
-WEISS = (255, 255, 255)
-ROT = (255, 0, 0)
-GELB = (255, 255, 0)
-GRUEN = (0, 255, 0)
-BLAU = (0, 0, 255)
-SCHWARZ = (0, 0, 0)
+from ..settings import Settings
 
 
 class GameField:
@@ -34,10 +27,10 @@ class GameField:
             clicked = True
             clickedCircle = self.getClickedCircle(clickedPos)
             if self.lastClickedFigure:
-                self.lastClickedFigure.innerColor = WEISS
-                clickedFigure.innerColor = SCHWARZ
+                self.lastClickedFigure.innerColor = Settings.UNSELECTED_CIRCLE_COLOR
+                clickedFigure.innerColor = Settings.SELECTED_CIRCLE_COLOR
             else:
-                clickedFigure.innerColor = SCHWARZ
+                clickedFigure.innerColor = Settings.SELECTED_CIRCLE_COLOR
             self.lastClickedFigure = clickedFigure
             self.lastClickedCircle = clickedCircle
             # self.showPossibleMove(clickedFigure, clickedCircle, rolledNumber)
@@ -81,7 +74,7 @@ class GameField:
     def moveFigure(self, newPosition):
         self.lastClickedFigure.move(newPosition)
         self.lastClickedCircle.manned = False
-        self.lastClickedFigure.innerColor = WEISS
+        self.lastClickedFigure.innerColor = Settings.UNSELECTED_CIRCLE_COLOR
 
         self.lastClickedFigure = None
         self.lastClickedFigure = None
@@ -112,7 +105,6 @@ class GameField:
         newNumber = currentNumber + rolledNumber
 
         if "base" in circle:
-
             possibleField = [
                 field
                 for field in self.allCircles

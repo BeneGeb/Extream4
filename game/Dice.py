@@ -26,13 +26,13 @@ class Dice:
         return self.currentValue
 
     def draw(self, screen):
-        screen.blit(self.all_dice[self.currentValue], (0, 0))
+        screen.blit(self.all_dice[self.currentValue], self.position)
 
     def drawAnimation(self, screen, animationCounter):
         if animationCounter % 8 == 0:
             self.animationValue = random.randint(1, 6)
 
-        screen.blit(self.all_dice[self.animationValue], (0, 0))
+        screen.blit(self.all_dice[self.animationValue], self.position)
 
     def handleClick(self, clickedPos):
         diceX, diceY = self.position
