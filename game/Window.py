@@ -107,5 +107,5 @@ class Window:
     def startGame(self, tkfenster):
         tkfenster.destroy()
 
-        game = Game(1142, 1008, ["red", "yellow", "blue", "green"])
+        game = Game()
         game.runGame()
