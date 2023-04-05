@@ -1,6 +1,7 @@
 from tkinter import *
+from tkinter import colorchooser
 from .Game import Game
-import time
+
 
 
 class Window:
@@ -15,29 +16,11 @@ class Window:
             master=tkFenster, text="Menü", bg="white", font=("Arial", 18, "bold")
         )
         labelMenue.place(x=45, y=30)
+        
+        for i in range(1,5):
 
-        labelSpieleranzahl = Label(
-            master=tkFenster, text="Spieleranzahl", bg="white", font=("Arial", 14)
-        )
-        labelSpieleranzahl.place(x=45, y=80)
-
-        labelMehrspieler = Label(
-            master=tkFenster, text="Mehrspieler", bg="white", font=("Arial", 14)
-        )
-        labelMehrspieler.place(x=45, y=140)
-
-        labelSolospieler = Label(
-            master=tkFenster, text="Solo", bg="white", font=("Arial", 14)
-        )
-        labelSolospieler.place(x=220, y=140)
-
-        labelEigenschaftenspieler = Label(
-            master=tkFenster,
-            text="Spielereigenschaften einstellen",
-            bg="white",
-            font=("Arial", 14),
-        )
-        labelEigenschaftenspieler.place(x=45, y=210)
+            labelplayer = Label(master= tkFenster, text="Player "+str(i), bg="white", font=("Arial", 10))
+            labelplayer.place(x=45, y= 40+(i*40))
 
         # Button
         v = IntVar()
@@ -52,15 +35,75 @@ class Window:
         )
         buttonStart.place(x=45, y=250, width=50, height=50)
 
-        Solobutton = Radiobutton(tkFenster, variable=v, bg="white", value=1)
-        Solobutton.place(x=300, y=140)
+        #Dropdown Menü
+        OPTIONS = [
+        "Mensch",
+        "KI"
+        ]
 
-        Mehrbutton = Radiobutton(tkFenster, variable=v, bg="white", value=2)
-        Mehrbutton.place(x=175, y=140)
+        player_1 = StringVar(tkFenster)
+        player_1.set(OPTIONS[0]) # default value
+
+        player_2 = StringVar(tkFenster)
+        player_2.set(OPTIONS[0]) # default value
+
+        player_3 = StringVar(tkFenster)
+        player_3.set(OPTIONS[0]) # default value
+
+        player_4 = StringVar(tkFenster)
+        player_4.set(OPTIONS[0]) # default value
+
+        
+        drop0 = OptionMenu(tkFenster, player_1, *OPTIONS)
+        drop1= OptionMenu(tkFenster, player_2, *OPTIONS)
+        drop2 = OptionMenu(tkFenster, player_3, *OPTIONS)
+        drop3 = OptionMenu(tkFenster, player_4, *OPTIONS)
+        drop0.pack()
+        drop1.pack()
+        drop2.pack()
+        drop3.pack()
+
+        def ok():
+            print ("value is:" + player_1.get())
+
+        #button = Button(tkFenster, text="OK", command=ok)
+        #button.pack()
+        #button.place(x=175, y=180)
+
+        drop0.place(x=130, y=80)
+        drop1.place(x=130, y=120)
+        drop2.place(x=130, y= 160)
+        drop3.place(x=130, y=200)
+
+        # Farbraster
+
+        def color():
+            the_color = colorchooser.askcolor()
+            print(the_color)
+        
+        
+        collor_button_player1 = Button(tkFenster, text="Wähle deine Farbe", command=color)
+        collor_button_player1.pack()
+        collor_button_player1.place(x=230, y=80)
+
+        collor_button_player2 = Button(tkFenster, text="Wähle deine Farbe", command=color)
+        collor_button_player2.pack()
+        collor_button_player2.place(x=230, y=120)
+
+        collor_button_player3 = Button(tkFenster, text="Wähle deine Farbe", command=color)
+        collor_button_player3.pack()
+        collor_button_player3.place(x=230, y=160)
+
+        collor_button_player4 = Button(tkFenster, text="Wähle deine Farbe", command=color)
+        collor_button_player4.pack()
+        collor_button_player4.place(x=230, y=200)
+        
 
         # Aktivierung des Fensters
         tkFenster.mainloop()
 
+
+        # Spielstarten
     def startGame(self, tkfenster):
         tkfenster.destroy()
 
