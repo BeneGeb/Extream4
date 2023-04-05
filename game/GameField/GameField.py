@@ -117,6 +117,7 @@ class GameField:
         for circle in self.allCircles:
             if circle.handleClick(clickedPos):
                 print(circle.type)
+                print(circle.position)
                 print(circle.number)
                 print("")
                 return circle

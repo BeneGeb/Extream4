@@ -18,140 +18,79 @@ def loadAllCircles(numberOfPlayers):
     allCircles = []
     for circle in loadNeutralFields():
         allCircles.append(circle)
-    for circle in loadAllTeams(numberOfPlayers):
+    for circle in loadAllTeams():
         allCircles.append(circle)
-    for circle in Homefield_horizontal():
-        allCircles.append(circle)
-    for circle in Homefield_vertikal():
-        allCircles.append(circle)
+    # for circle in Homefield_horizontal():
+    #     allCircles.append(circle)
+    # for circle in Homefield_vertikal():
+    #     allCircles.append(circle)
 
     return allCircles
 
 
 def loadNeutralFields():
     circles = []
-    startY = 426
-    startX = 140
-    addiere = 83
-    j = 0
+    firstDirections = ["right", "down", "left", "up"]
+    secondDirections = ["up", "right", "down", "left"]
+    settingX, settingY = Settings.GAMEFIELD_POSITION
+    settingY += 4 * Settings.CIRCLE_DIFFERENCE
+    position = (settingX, settingY)
 
-    for i in range(5):
-        startX += addiere
-        if i == 0:
-            circles.append(
-                Circle(Settings.listPlayers[0].color, (startX, startY), "neutral", j)
-            )
-            j += 1
-            continue
-        circles.append(
-            Circle(Settings.NEUTRAL_FIELD_COLOR, (startX, startY), "neutral", j)
+    for i in range(0, 4):
+        position, resCircles = loadQuarter(
+            position,
+            firstDirections[i],
+            secondDirections[i],
+            Settings.listPlayers[i].color,
+            0,
         )
-        j += 1
-    for i in range(4):
-        startY -= addiere
-        circles.append(
-            Circle(Settings.NEUTRAL_FIELD_COLOR, (startX, startY), "neutral", j)
-        )
-        j += 1
-    for i in range(2):
-        startX += addiere
-        if i == 1:
-            circles.append(
-                Circle(Settings.listPlayers[1].color, (startX, startY), "neutral", j)
-            )
-            j += 1
-            break
-        circles.append(
-            Circle(Settings.NEUTRAL_FIELD_COLOR, (startX, startY), "neutral", j)
-        )
-        j += 1
-    loadSecondQuarter(startX, startY, addiere, circles, j)
+        for circle in resCircles:
+            circles.append(circle)
+        position = evalPosition(firstDirections[i], position)
 
     return circles
 
 
-def loadSecondQuarter(posi_x, posi_y, addiere, circles, j):
-    for i in range(4):
-        posi_y += addiere
-        circles.append(
-            Circle(
-                Settings.NEUTRAL_FIELD_COLOR,
-                (posi_x, posi_y),
-                "neutral",
-                j,
-            )
-        )
-        j += 1
-    for i in range(4):
-        posi_x += addiere
-        circles.append(
-            Circle(Settings.NEUTRAL_FIELD_COLOR, (posi_x, posi_y), "neutral", j)
-        )
-        j += 1
-    for i in range(2):
-        posi_y += addiere
-        if i == 1:
-            circles.append(
-                Circle(Settings.listPlayers[2].color, (posi_x, posi_y), "neutral", j)
-            )
-            j += 1
-            break
-        circles.append(
-            Circle(Settings.NEUTRAL_FIELD_COLOR, (posi_x, posi_y), "neutral", j)
-        )
-        j += 1
+def loadQuarter(
+    startPosition, firstDirection, secondDirection, startColor, startNumber
+):
+    circles = []
+    position = startPosition
 
-    loadThirdQuarter(posi_x, posi_y, addiere, circles, j)
+    for i in range(startNumber, startNumber + 5):
+        if i == 0:
+            circles.append(Circle(startColor, position, "neutral", i))
+        else:
+            position = evalPosition(firstDirection, position)
+            circles.append(Circle(Settings.NEUTRAL_FIELD_COLOR, position, "neutral", i))
+
+    startNumber += 5
+
+    for i in range(startNumber, startNumber + 4):
+        position = evalPosition(secondDirection, position)
+        circles.append(Circle(Settings.NEUTRAL_FIELD_COLOR, position, "neutral", i))
+    startNumber += 4
+
+    position = evalPosition(firstDirection, position)
+    circles.append(
+        Circle(Settings.NEUTRAL_FIELD_COLOR, position, "neutral", startNumber)
+    )
+
+    return (position, circles)
 
 
-def loadThirdQuarter(posi_x, posi_y, addiere, circles, j):
-    for i in range(4):
-        posi_x -= addiere
-        circles.append(
-            Circle(Settings.NEUTRAL_FIELD_COLOR, (posi_x, posi_y), "neutral", j)
-        )
-        j += 1
-    for i in range(4):
-        posi_y += addiere
-        circles.append(
-            Circle(Settings.NEUTRAL_FIELD_COLOR, (posi_x, posi_y), "neutral", j)
-        )
-        j += 1
-    for i in range(2):
-        posi_x -= addiere
-        if i == 1:
-            circles.append(
-                Circle(Settings.listPlayers[3].color, (posi_x, posi_y), "neutral", j)
-            )
-            j += 1
-            break
-        circles.append(
-            Circle(Settings.NEUTRAL_FIELD_COLOR, (posi_x, posi_y), "neutral", j)
-        )
-        j += 1
+def evalPosition(direction, position):
+    posX, posY = position
+    if direction == "right":
+        posX += Settings.CIRCLE_DIFFERENCE
+    if direction == "left":
+        posX -= Settings.CIRCLE_DIFFERENCE
+    if direction == "up":
+        posY -= Settings.CIRCLE_DIFFERENCE
+    if direction == "down":
+        posY += Settings.CIRCLE_DIFFERENCE
 
-    loadFourthQuarter(posi_x, posi_y, addiere, circles, j)
-
-
-def loadFourthQuarter(posi_x, posi_y, addiere, circles, j):
-    for i in range(4):
-        posi_y -= addiere
-        circles.append(
-            Circle(Settings.NEUTRAL_FIELD_COLOR, (posi_x, posi_y), "neutral", j)
-        )
-        j += 1
-    for i in range(4):
-        posi_x -= addiere
-        circles.append(
-            Circle(Settings.NEUTRAL_FIELD_COLOR, (posi_x, posi_y), "neutral", j)
-        )
-        j += 1
-    for i in range(1):
-        posi_y -= addiere
-        circles.append(
-            Circle(Settings.NEUTRAL_FIELD_COLOR, (posi_x, posi_y), "neutral", j)
-        )
-        j += 1
+    return (posX, posY)
 
 
 def Homefield_horizontal():
@@ -204,38 +143,41 @@ def Homefield_vertikal():
     return circles
 
 
-def loadAllTeams(numberOfPlayers):
+def loadAllTeams():
     allTeams = []
-    for player in range(0, numberOfPlayers):
-        if player == 0:
-            for circle in loadTeam((223, 85), Settings.listPlayers[0].color, player):
-                allTeams.append(circle)
-        if player == 1:
-            for circle in loadTeam((963, 85), Settings.listPlayers[1].color, player):
-                allTeams.append(circle)
-        if player == 2:
-            for circle in loadTeam((963, 825), Settings.listPlayers[2].color, player):
-                allTeams.append(circle)
-        if player == 3:
-            for circle in loadTeam((223, 825), Settings.listPlayers[3].color, player):
-                allTeams.append(circle)
-
+    position = Settings.GAMEFIELD_POSITION
+    for i in range(0, 4):
+        for circle in loadTeam(position, Settings.listPlayers[i].color, i):
+            allTeams.append(circle)
+        position = evalTeamPosition(position, i)
     return allTeams
+
+
+def evalTeamPosition(position, number):
+    x, y = position
+    if number == 0:
+        x += 9 * Settings.CIRCLE_DIFFERENCE
+    if number == 1:
+        y += 9 * Settings.CIRCLE_DIFFERENCE
+    if number == 2:
+        x -= 9 * Settings.CIRCLE_DIFFERENCE
+
+    return (x, y)
 
 
 def loadTeam(startPosition, color, team):
     circles = []
     x, y = startPosition
     number = 0
-    y -= 90
+    y -= Settings.CIRCLE_DIFFERENCE
     helperX = x
 
     for i in range(2):
-        y += 90
+        y += Settings.CIRCLE_DIFFERENCE
         x = helperX
         for j in range(2):
             circles.append(Circle(color, (x, y), "base-" + str(team), number))
-            x += 90
+            x += Settings.CIRCLE_DIFFERENCE
             number += 1
     return circles
 

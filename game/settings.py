@@ -10,14 +10,18 @@ class Settings:
     BLACK = (0, 0, 0)
     BACKGROUNDCOLOR = (155, 155, 155)
 
+    CIRCLE_DIFFERENCE = 60
+
+    GAMEFIELD_POSITION = (223, 85)
+
     UNSELECTED_CIRCLE_COLOR = WHITE
     SELECTED_CIRCLE_COLOR = BLACK
 
     listPlayers = [
-        Player(RED, "Bene"),
-        Player(YELLOW, "Yichen"),
-        Player(BLUE, "Samuel"),
-        Player(GREEN, "Pascal"),
+        Player(RED, "Bene", False),
+        Player(YELLOW, "Yichen", False),
+        Player(BLUE, "Samuel", False),
+        Player(GREEN, "Pascal", False),
     ]
     NEUTRAL_FIELD_COLOR = WHITE
 
