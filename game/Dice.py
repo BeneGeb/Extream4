@@ -25,24 +25,35 @@ class Dice:
     def rollDice(self):
         self.currentValue = random.randint(1, 6)
         return self.currentValue
-    
+
     def drawRectAroundDice(self, screen, currentPlayerNumber):
         positionY = self.position[0]
         positionX = self.position[1]
-        position = (positionY-4, positionX-4)
-        pygame.draw.rect(screen, Settings.listPlayers[currentPlayerNumber].color, position + (139,139), border_radius = 25, width = 5)      
+        position = (positionY - 4, positionX - 4)
+        pygame.draw.rect(
+            screen,
+            Settings.listPlayers[currentPlayerNumber].color,
+            position + (139, 139),
+            border_radius=25,
+            width=5,
+        )
 
     def draw(self, screen, currentPlayerNumber):
-        screen.blit(self.all_dice[self.currentValue], self.position) 
-        pygame.draw.rect(screen, Settings.listPlayers[currentPlayerNumber].color, self.position + (130,130), border_radius = 20, width = 5)      
+        screen.blit(self.all_dice[self.currentValue], self.position)
+        pygame.draw.rect(
+            screen,
+            Settings.listPlayers[currentPlayerNumber].color,
+            self.position + (130, 130),
+            border_radius=20,
+            width=5,
+        )
 
     def drawAnimation(self, screen, currentPlayerNumber, animationCounter):
         if animationCounter % 8 == 0:
             self.animationValue = random.randint(1, 6)
 
         screen.blit(self.all_dice[self.animationValue], self.position)
-        Dice.drawDiceRect(self, screen, currentPlayerNumber)     
-
+        Dice.drawRectAroundDice(self, screen, currentPlayerNumber)
 
     def handleClick(self, clickedPos):
         diceX, diceY = self.position
