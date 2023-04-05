@@ -134,12 +134,12 @@ class Game:
 
             # Draw Dice
             if diceStatus == "rolling":
-                self.dice.drawAnimation(screen, diceAnimationCounter)
+                self.dice.drawAnimation(screen, currentPlayerNumber, diceAnimationCounter)
                 diceAnimationCounter += 1
                 if diceAnimationCounter == 100:
                     diceStatus = "static"
             elif diceStatus == "static":
-                self.dice.draw(screen)
+                self.dice.draw(screen, currentPlayerNumber)
 
             gamefield.draw(screen)
 
