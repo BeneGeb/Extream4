@@ -1,5 +1,6 @@
 import pygame
 import math
+from ..settings import Settings
 
 pygame.init()
 
@@ -22,11 +23,11 @@ class Circle:
         sqx = (clickedX - x) ** 2
         sqy = (clickedY - y) ** 2
 
-        if math.sqrt(sqx + sqy) < 30:
+        if math.sqrt(sqx + sqy) < Settings.CIRCLE_SIZE:
             return self
         else:
             return False
 
     def draw(self, screen):
         x, y = self.position
-        pygame.draw.circle(screen, self.color, (x, y), 30, 0)
+        pygame.draw.circle(screen, self.color, (x, y), Settings.CIRCLE_SIZE, 0)

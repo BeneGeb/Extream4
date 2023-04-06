@@ -1,5 +1,6 @@
 import pygame
 import math
+from ..settings import Settings
 
 pygame.init()
 
@@ -16,10 +17,12 @@ class Figure:
 
     def draw(self, screen):
         x, y = self.position
-        pygame.draw.circle(screen, SCHWARZ, (x, y), 24, 0)
-        pygame.draw.circle(screen, self.color, (x, y), 22, 0)
-        pygame.draw.circle(screen, SCHWARZ, (x, y), 12, 0)
-        pygame.draw.circle(screen, self.innerColor, (x, y), 10, 0)
+        pygame.draw.circle(screen, SCHWARZ, (x, y), Settings.FIGURE_SIZE, 0)
+        pygame.draw.circle(screen, self.color, (x, y), Settings.FIGURE_SIZE - 2, 0)
+        pygame.draw.circle(screen, SCHWARZ, (x, y), Settings.FIGURE_SIZE / 2, 0)
+        pygame.draw.circle(
+            screen, self.innerColor, (x, y), Settings.FIGURE_SIZE / 2 - 2, 0
+        )
 
     def move(self, newPosition):
         self.position = newPosition
