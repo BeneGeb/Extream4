@@ -20,7 +20,9 @@ class Game:
     def __init__(self):
         self.width = Settings.WINDOW_WIDTH
         self.height = Settings.WINDOW_HEIGHT
-        self.screen = pygame.display.set_mode((self.width, self.height))
+        self.screen = pygame.display.set_mode(
+            (self.width, self.height), pygame.RESIZABLE
+        )
         self.dice = Dice(Settings.DICE_POSITION, Settings.DICE_SIZE)
 
     def changePlayer(self, currentPlayerNumber, numberOfPlayers):
@@ -127,14 +129,17 @@ class Game:
                                 self.dice.currentValue,
                             )
                             currentStage = 1
-
+                elif event.type == VIDEORESIZE:
+                    Settings.ChangeSettings(event.dict["size"])
             # Gamelogic
 
             # Draw Structures and Figures
 
             # Draw Dice
             if diceStatus == "rolling":
-                self.dice.drawAnimation(screen, currentPlayerNumber, diceAnimationCounter)
+                self.dice.drawAnimation(
+                    screen, currentPlayerNumber, diceAnimationCounter
+                )
                 diceAnimationCounter += 1
                 if diceAnimationCounter == 100:
                     diceStatus = "static"

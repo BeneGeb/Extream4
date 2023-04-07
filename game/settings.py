@@ -35,3 +35,6 @@ class Settings:
 
     DICE_POSITION = (10, 10)
     DICE_SIZE = 130
+
+    def ChangeSettings(c):
+        print(c)

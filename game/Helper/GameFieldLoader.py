@@ -20,10 +20,6 @@ def loadAllCircles(numberOfPlayers):
         allCircles.append(circle)
     for circle in loadAllTeams():
         allCircles.append(circle)
-    # for circle in Homefield_horizontal():
-    #     allCircles.append(circle)
-    # for circle in Homefield_vertikal():
-    #     allCircles.append(circle)
 
     return allCircles
 
@@ -38,8 +34,6 @@ def loadCentralFields():
 
     for i in range(0, 4):
         secondColor = 0 if i == 3 else i + 1
-        print(i)
-        print(secondColor)
         position, resCircles = loadQuarter(
             position,
             firstDirections[i],
@@ -99,56 +93,6 @@ def evalPosition(direction, position):
         posY += Settings.CIRCLE_DIFFERENCE
 
     return (posX, posY)
-
-
-def Homefield_horizontal():
-    circles = []
-    start_X = 223
-    start_Y = 509
-    blue = 3
-    red = 0
-    for i in range(9):
-        start_X += 83
-        if i < 4:
-            circles.append(
-                Circle(
-                    Settings.listPlayers[0].color, (start_X, start_Y), "house-0", red
-                )
-            )
-            red += 1
-        if i > 4:
-            circles.append(
-                Circle(
-                    Settings.listPlayers[2].color, (start_X, start_Y), "house-2", blue
-                )
-            )
-            blue -= 1
-    return circles
-
-
-def Homefield_vertikal():
-    circles = []
-    start_X = 638
-    start_Y = 94
-    yellow = 0
-    green = 3
-    for i in range(9):
-        start_Y += 83
-        if i < 4:
-            circles.append(
-                Circle(
-                    Settings.listPlayers[1].color, (start_X, start_Y), "house-1", yellow
-                )
-            )
-            yellow += 1
-        if i > 4:
-            circles.append(
-                Circle(
-                    Settings.listPlayers[3].color, (start_X, start_Y), "house-3", green
-                )
-            )
-            green -= 1
-    return circles
 
 
 def loadAllTeams():
