@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import colorchooser
 from .Game import Game
+from .settings import Settings
 
 
 class Window:
@@ -40,31 +41,34 @@ class Window:
         buttonStart.place(x=45, y=250, width=50, height=50)
 
         # Dropdown Menü
-        OPTIONS = ["Mensch", "KI"]
+        #OPTIONS = ["Mensch", "KI"]
+        self.KI_Check_dict ={"Mensch": False, "KI":True}
+        OPTIONS = list(self.KI_Check_dict.keys())
+         
 
-        player_1 = StringVar(tkFenster)
-        player_1.set(OPTIONS[0])  # default value
+        self.player_1 = StringVar(tkFenster)
+        self.player_1.set(OPTIONS[0])  # default value
 
-        player_2 = StringVar(tkFenster)
-        player_2.set(OPTIONS[0])  # default value
+        self.player_2 = StringVar(tkFenster)
+        self.player_2.set(OPTIONS[0])  # default value
 
-        player_3 = StringVar(tkFenster)
-        player_3.set(OPTIONS[0])  # default value
+        self.player_3 = StringVar(tkFenster)
+        self.player_3.set(OPTIONS[0])  # default value
 
-        player_4 = StringVar(tkFenster)
-        player_4.set(OPTIONS[0])  # default value
+        self.player_4 = StringVar(tkFenster)
+        self.player_4.set(OPTIONS[0])  # default value
 
-        drop0 = OptionMenu(tkFenster, player_1, *OPTIONS)
-        drop1 = OptionMenu(tkFenster, player_2, *OPTIONS)
-        drop2 = OptionMenu(tkFenster, player_3, *OPTIONS)
-        drop3 = OptionMenu(tkFenster, player_4, *OPTIONS)
+        drop0 = OptionMenu(tkFenster, self.player_1, *OPTIONS)
+        drop1 = OptionMenu(tkFenster, self.player_2, *OPTIONS)
+        drop2 = OptionMenu(tkFenster, self.player_3, *OPTIONS)
+        drop3 = OptionMenu(tkFenster, self.player_4, *OPTIONS)
         drop0.pack()
         drop1.pack()
         drop2.pack()
         drop3.pack()
 
-        def ok():
-            print("value is:" + player_1.get())
+        #def ok():
+            #print("value is:" + player_1.get())
 
         # button = Button(tkFenster, text="OK", command=ok)
         # button.pack()
@@ -77,45 +81,100 @@ class Window:
 
         # Farbraster
 
-        def color():
-            the_color = colorchooser.askcolor()
-            print(the_color)
+        def color(button_id):
+            the_color = colorchooser.askcolor()[0]
+
+            # Switch Cases um zu erkennen, welcher Button betätigt wurde
+            
+            match button_id:
+                case 1:
+                    Settings.listPlayers[0].color= the_color
+                    SquareColor(button_id,the_color)
+                
+                case 2:
+                    Settings.listPlayers[1].color= the_color
+                    SquareColor(button_id,the_color)
+                
+                case 3:
+                    Settings.listPlayers[2].color= the_color
+                    SquareColor(button_id,the_color)
+
+                case 4:
+                    Settings.listPlayers[3].color= the_color
+                    SquareColor(button_id,the_color)
+            
 
         collor_button_player1 = Button(
-            tkFenster, text="Wähle deine Farbe", command=color
+            tkFenster, text="Wähle deine Farbe", command=lambda: color(1)
         )
         collor_button_player1.pack()
         collor_button_player1.place(x=230, y=80)
 
         collor_button_player2 = Button(
-            tkFenster, text="Wähle deine Farbe", command=color
+            tkFenster, text="Wähle deine Farbe", command=lambda: color(2)
         )
         collor_button_player2.pack()
         collor_button_player2.place(x=230, y=120)
 
         collor_button_player3 = Button(
-            tkFenster, text="Wähle deine Farbe", command=color
+            tkFenster, text="Wähle deine Farbe", command=lambda: color(3)
         )
         collor_button_player3.pack()
         collor_button_player3.place(x=230, y=160)
 
         collor_button_player4 = Button(
-            tkFenster, text="Wähle deine Farbe", command=color
+            tkFenster, text="Wähle deine Farbe", command=lambda: color(4)
         )
         collor_button_player4.pack()
         collor_button_player4.place(x=230, y=200)
 
+
+        # Farbraster kleines Vorschau Quadrat
+        def SquareColor(id,the_color):
+            square = Canvas(tkFenster, width=20, height=20)
+            square.pack()
+            player_color = "#%02x%02x%02x" % (the_color)
+
+            x1, y1 = 0, 0
+            x2, y2 = x1 + 20, y1+ 20
+            square.create_rectangle(x1, y1, x2, y2, fill= player_color)
+
+            match id:
+                case 1:
+                    square.place(x=340, y=80)
+                
+                case 2:
+                    square.place(x=340, y=120)
+
+                case 3:
+                    square.place(x=340, y=160)
+
+                case 4:
+                    square.place(x=340, y=200)
+        
+        for j,k in zip(range(1,5), range(4)):
+            SquareColor(j,Settings.listPlayers[k].color)
+                
+
         # Namen input Filed
-        # Label(tkFenster, text="Name")
-        # Label(tkFenster, text="Name")
-
-        e1 = Entry(tkFenster, width=15)
-        e2 = Entry(tkFenster, width=15)
-
-        e1.pack()
-        e2.pack()
-        e1.place(x=320, y=80)
-        e1.place(x=320, y=120)
+        NameLabel = Label(tkFenster, text="Name:")
+        NameLabel2 = Label(tkFenster, text="Name:")
+        NameLabel3 = Label(tkFenster, text="Name:")
+        NameLabel4 = Label(tkFenster, text="Name:")
+        NameLabel.place(x=380,y = 80)
+        NameLabel2.place(x=380,y = 120)
+        NameLabel3.place(x=380,y = 160)
+        NameLabel4.place(x=380,y = 200)
+       
+        self.Namefield = Entry(tkFenster, borderwidth=2, relief="solid")
+        self.Namefield2 = Entry(tkFenster, borderwidth=2, relief="solid")
+        self.Namefield3 = Entry(tkFenster, borderwidth=2, relief="solid")
+        self.Namefield4 = Entry(tkFenster, borderwidth=2, relief="solid")
+        #self.Namefield.insert(0,"text")
+        self.Namefield.place(x = 440, y= 80)
+        self.Namefield2.place(x = 440, y= 120)
+        self.Namefield3.place(x = 440, y= 160)
+        self.Namefield4.place(x = 440, y= 200)
 
         # Aktivierung des Fensters
         tkFenster.mainloop()
@@ -123,6 +182,20 @@ class Window:
         # Spielstarten
 
     def startGame(self, tkfenster):
+
+        #KI Boolean-Werte holen
+
+        Settings.listPlayers[0].isKi=self.KI_Check_dict[self.player_1.get()]
+        Settings.listPlayers[1].isKi=self.KI_Check_dict[self.player_2.get()]
+        Settings.listPlayers[2].isKi=self.KI_Check_dict[self.player_3.get()]
+        Settings.listPlayers[3].isKi=self.KI_Check_dict[self.player_4.get()]
+
+        # Spielernamen holen
+        Settings.listPlayers[0].name= self.Namefield.get()
+        Settings.listPlayers[1].name= self.Namefield2.get()
+        Settings.listPlayers[2].name= self.Namefield3.get()
+        Settings.listPlayers[3].name= self.Namefield4.get()
+
         tkfenster.destroy()
 
         game = Game()
