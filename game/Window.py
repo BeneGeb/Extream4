@@ -1,5 +1,7 @@
 from tkinter import *
 from tkinter import colorchooser
+from tkinter import messagebox
+import math
 from .Game import Game
 from .settings import Settings
 
@@ -81,27 +83,36 @@ class Window:
 
         # Farbraster
 
+        self.color_list=[]
+
         def color(button_id):
             the_color = colorchooser.askcolor()[0]
 
-            # Switch Cases um zu erkennen, welcher Button betätigt wurde
+            # Switch Cases um zu erkennen, welcher Button betätigt wurde und die Farben der Spieler zu bestimmen
+
+            
             
             match button_id:
                 case 1:
                     Settings.listPlayers[0].color= the_color
                     SquareColor(button_id,the_color)
+                    self.color_list.insert(0,(the_color))
                 
                 case 2:
                     Settings.listPlayers[1].color= the_color
                     SquareColor(button_id,the_color)
+                    self.color_list.insert(1,(the_color))
+                    
                 
                 case 3:
                     Settings.listPlayers[2].color= the_color
                     SquareColor(button_id,the_color)
+                    self.color_list.insert(2,(the_color))
 
                 case 4:
                     Settings.listPlayers[3].color= the_color
                     SquareColor(button_id,the_color)
+                    self.color_list.insert(3,(the_color))
             
 
         collor_button_player1 = Button(
@@ -152,8 +163,17 @@ class Window:
                 case 4:
                     square.place(x=340, y=200)
         
+        # Vorschau Quadrate
         for j,k in zip(range(1,5), range(4)):
             SquareColor(j,Settings.listPlayers[k].color)
+
+        
+
+       
+
+
+            
+
                 
 
         # Namen input Filed
@@ -191,11 +211,50 @@ class Window:
         Settings.listPlayers[3].isKi=self.KI_Check_dict[self.player_4.get()]
 
         # Spielernamen holen
-        Settings.listPlayers[0].name= self.Namefield.get()
-        Settings.listPlayers[1].name= self.Namefield2.get()
-        Settings.listPlayers[2].name= self.Namefield3.get()
-        Settings.listPlayers[3].name= self.Namefield4.get()
 
+        PlayerName1= self.Namefield.get()
+        PlayerName2= self.Namefield2.get()
+        PlayerName3= self.Namefield3.get()
+        PlayerName4= self.Namefield4.get()
+
+        # Überprüfung leeren Namen
+
+        if PlayerName1 != '':
+            Settings.listPlayers[0].name= PlayerName1
+        if PlayerName2 != '':
+            Settings.listPlayers[1].name= PlayerName2
+        if PlayerName3 != '':
+            Settings.listPlayers[2].name= PlayerName3
+        if PlayerName4 != '':
+            Settings.listPlayers[3].name= PlayerName4
+        
+        # Kontrolle der Farben Gleichheit
+
+        
+        def colormath(rgb, rgb2):
+            r1, g1, b1 = rgb
+            r2, g2, b2 = rgb2
+            return math.sqrt((r1 - r2)**2 + (g1 - g2)**2 + (b1 - b2)**2)
+        
+
+        for i in range(len(self.color_list)):
+            for j in range(i+1, len(self.color_list)):
+                distanz =colormath(self.color_list[i], self.color_list[j])
+                if distanz < 50: #Schwellenwert
+                    print(self.color_list[i], self.color_list[j], "sind ähnlich.")
+        
+        print(self.color_list)
+
+
+
+        #Settings.listPlayers[0].name= self.Namefield.get()
+        #Settings.listPlayers[1].name= self.Namefield2.get()
+        #Settings.listPlayers[2].name= self.Namefield3.get()
+        #Settings.listPlayers[3].name= self.Namefield4.get()
+
+        
+
+        
         tkfenster.destroy()
 
         game = Game()
