@@ -13,6 +13,7 @@ class Window:
         tkFenster.title("Mensch ärgere dich nicht")
         tkFenster.geometry("673x366")
         tkFenster["background"] = "white"
+        tkFenster.eval("tk::PlaceWindow . center")
         # Beschriftung
         labelMenue = Label(
             master=tkFenster, text="Menü", bg="white", font=("Arial", 18, "bold")
