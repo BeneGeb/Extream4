@@ -83,7 +83,7 @@ class Window:
 
         # Farbraster
 
-        self.color_list=[]
+        #self.color_list=[]
 
         def color(button_id):
             the_color = colorchooser.askcolor()[0]
@@ -96,23 +96,23 @@ class Window:
                 case 1:
                     Settings.listPlayers[0].color= the_color
                     SquareColor(button_id,the_color)
-                    self.color_list.insert(0,(the_color))
+                    #self.color_list.insert(0,(the_color))
                 
                 case 2:
                     Settings.listPlayers[1].color= the_color
                     SquareColor(button_id,the_color)
-                    self.color_list.insert(1,(the_color))
+                    #self.color_list.insert(1,(the_color))
                     
                 
                 case 3:
                     Settings.listPlayers[2].color= the_color
                     SquareColor(button_id,the_color)
-                    self.color_list.insert(2,(the_color))
+                    #self.color_list.insert(2,(the_color))
 
                 case 4:
                     Settings.listPlayers[3].color= the_color
                     SquareColor(button_id,the_color)
-                    self.color_list.insert(3,(the_color))
+                    #self.color_list.insert(3,(the_color))
             
 
         collor_button_player1 = Button(
@@ -166,15 +166,7 @@ class Window:
         # Vorschau Quadrate
         for j,k in zip(range(1,5), range(4)):
             SquareColor(j,Settings.listPlayers[k].color)
-
-        
-
-       
-
-
-            
-
-                
+   
 
         # Namen input Filed
         NameLabel = Label(tkFenster, text="Name:")
@@ -230,20 +222,33 @@ class Window:
         
         # Kontrolle der Farben Gleichheit
 
-        
+        # hier wird die Differenz bestimmt
         def colormath(rgb, rgb2):
             r1, g1, b1 = rgb
             r2, g2, b2 = rgb2
+
             return math.sqrt((r1 - r2)**2 + (g1 - g2)**2 + (b1 - b2)**2)
         
+        # hier geht die Suche mit den Farben ähnlichkeit los
+        stop = False
+        for i in range(len(Settings.listPlayers)):
+            if stop:
+                break
+            for j in range(i+1, len(Settings.listPlayers)):
+                distanz =colormath(Settings.listPlayers[i].color, Settings.listPlayers[j].color)
+                if distanz < 200: #Schwellenwert: Je höher, desto strenger
+                    messagebox.showinfo("Farben Heck-Meck",f"Die Farben von {Settings.listPlayers[i].name} und {Settings.listPlayers[j].name}, ähneln sich zu sehr.")
+                    stop = True
 
-        for i in range(len(self.color_list)):
-            for j in range(i+1, len(self.color_list)):
-                distanz =colormath(self.color_list[i], self.color_list[j])
-                if distanz < 50: #Schwellenwert
-                    print(self.color_list[i], self.color_list[j], "sind ähnlich.")
+                    break
+                else:
+                    tkfenster.destroy()
+
+                    game = Game()
+                    game.runGame()
+
         
-        print(self.color_list)
+        #print(self.color_list)
 
 
 
@@ -255,7 +260,7 @@ class Window:
         
 
         
-        tkfenster.destroy()
+        #tkfenster.destroy()
 
-        game = Game()
-        game.runGame()
+        #game = Game()
+        #game.runGame()
