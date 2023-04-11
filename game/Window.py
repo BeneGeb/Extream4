@@ -13,6 +13,22 @@ class Window:
         tkFenster.title("Mensch ärgere dich nicht")
         tkFenster.geometry("673x366")
         tkFenster["background"] = "white"
+
+        window_width = 673
+        window_height = 366
+
+        # Breite und Höhe des Bildschirms
+        screen_width = tkFenster.winfo_screenwidth()
+        screen_height = tkFenster.winfo_screenheight()
+
+        # x- und y-Position für das Fenster
+        x = (screen_width / 2) - (window_width / 2)
+        y = (screen_height / 2) - (window_height / 2)
+
+        # Setzen der Größe und Position des Fensters
+        tkFenster.geometry('%dx%d+%d+%d' % (window_width, window_height, x, y))
+
+
         # Beschriftung
         labelMenue = Label(
             master=tkFenster, text="Menü", bg="white", font=("Arial", 18, "bold")
@@ -224,6 +240,7 @@ class Window:
 
         # hier geht die Suche mit den Farben ähnlichkeit los
         stop = False
+        startgame = False
         for i in range(len(Settings.listPlayers)):
             if stop:
                 break
@@ -239,13 +256,15 @@ class Window:
                         f"Die Farben von {Settings.listPlayers[i].name} und {Settings.listPlayers[j].name}, ähneln sich zu sehr.",
                     )
                     stop = True
+                    startgame = False
 
                     break
                 else:
-                    tkfenster.destroy()
+                    startgame = True
+                    #tkfenster.destroy()
 
-                    game = Game()
-                    game.runGame()
+                    #game = Game()
+                    #game.runGame()
 
         # print(self.color_list)
 
@@ -253,8 +272,8 @@ class Window:
         # Settings.listPlayers[1].name= self.Namefield2.get()
         # Settings.listPlayers[2].name= self.Namefield3.get()
         # Settings.listPlayers[3].name= self.Namefield4.get()
+        if startgame:
+         tkfenster.destroy()
 
-        # tkfenster.destroy()
-
-        # game = Game()
-        # game.runGame()
+         game = Game()
+         game.runGame()
