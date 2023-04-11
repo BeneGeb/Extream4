@@ -28,9 +28,12 @@ def loadCentralFields():
     circles = []
     firstDirections = ["right", "down", "left", "up"]
     secondDirections = ["up", "right", "down", "left"]
-    settingX, settingY = Settings.GAMEFIELD_POSITION
-    settingY += 4 * Settings.CIRCLE_DIFFERENCE
-    position = (settingX, settingY)
+    startX, startY = Settings.GAMEFIELD_POSITION
+
+    startX -= 5 * Settings.CIRCLE_DIFFERENCE
+    startY -= Settings.CIRCLE_DIFFERENCE
+
+    position = (startX, startY)
 
     for i in range(0, 4):
         secondColor = 0 if i == 3 else i + 1
@@ -97,7 +100,10 @@ def evalPosition(direction, position):
 
 def loadAllTeams():
     allTeams = []
-    position = Settings.GAMEFIELD_POSITION
+    startX, startY = Settings.GAMEFIELD_POSITION
+    startX -= 5 * Settings.CIRCLE_DIFFERENCE
+    startY -= 5 * Settings.CIRCLE_DIFFERENCE
+    position = (startX, startY)
     for i in range(0, 4):
         for circle in loadTeam(position, Settings.listPlayers[i].color, i):
             allTeams.append(circle)

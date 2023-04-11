@@ -8,7 +8,7 @@ from .settings import Settings
 
 def setUpPygame():
     pygame.display.set_caption("Pacheesi")
-    icon = pygame.image.load("Würfel_1.png")
+    icon = pygame.image.load("Extream4.png")
     pygame.display.set_icon(icon)
 
 
@@ -18,10 +18,8 @@ pygame.init()
 
 class Game:
     def __init__(self):
-        self.width = Settings.WINDOW_WIDTH
-        self.height = Settings.WINDOW_HEIGHT
         self.screen = pygame.display.set_mode(
-            (self.width, self.height), pygame.RESIZABLE
+            (Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT), pygame.RESIZABLE
         )
         self.dice = Dice(Settings.DICE_POSITION, Settings.DICE_SIZE)
 
@@ -130,7 +128,7 @@ class Game:
                             )
                             currentStage = 1
                 elif event.type == VIDEORESIZE:
-                    Settings.ChangeSettings(event.dict["size"])
+                    Settings.adjustSettings(event.dict["size"])
             # Gamelogic
 
             # Draw Structures and Figures

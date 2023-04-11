@@ -26,8 +26,7 @@ class Window:
         y = (screen_height / 2) - (window_height / 2)
 
         # Setzen der Größe und Position des Fensters
-        tkFenster.geometry('%dx%d+%d+%d' % (window_width, window_height, x, y))
-
+        tkFenster.geometry("%dx%d+%d+%d" % (window_width, window_height, x, y))
 
         # Beschriftung
         labelMenue = Label(
@@ -252,8 +251,8 @@ class Window:
                     distanz < Settings.COLOR_DISTANCE
                 ):  # Schwellenwert: Je höher, desto strenger
                     messagebox.showinfo(
-                        "Farben Heck-Meck",
-                        f"Die Farben von {Settings.listPlayers[i].name} und {Settings.listPlayers[j].name}, ähneln sich zu sehr.",
+                        "Info",
+                        f"Die Farben von {Settings.listPlayers[i].name} und {Settings.listPlayers[j].name} sind zu ähnlich.",
                     )
                     stop = True
                     startgame = False
@@ -261,10 +260,10 @@ class Window:
                     break
                 else:
                     startgame = True
-                    #tkfenster.destroy()
+                    # tkfenster.destroy()
 
-                    #game = Game()
-                    #game.runGame()
+                    # game = Game()
+                    # game.runGame()
 
         # print(self.color_list)
 
@@ -273,7 +272,7 @@ class Window:
         # Settings.listPlayers[2].name= self.Namefield3.get()
         # Settings.listPlayers[3].name= self.Namefield4.get()
         if startgame:
-         tkfenster.destroy()
+            tkfenster.destroy()
 
-         game = Game()
-         game.runGame()
+            game = Game()
+            game.runGame()

@@ -1,4 +1,5 @@
 from .Player import Player
+from screeninfo import get_monitors
 
 
 class Settings:
@@ -15,7 +16,7 @@ class Settings:
 
     FIGURE_SIZE = 28
 
-    GAMEFIELD_POSITION = (223, 85)
+    GAMEFIELD_POSITION = (970, 500)
 
     UNSELECTED_CIRCLE_COLOR = WHITE
     SELECTED_CIRCLE_COLOR = BLACK
@@ -38,5 +39,21 @@ class Settings:
     DICE_POSITION = (10, 10)
     DICE_SIZE = 130
 
-    def ChangeSettings(c):
-        print(c)
+    def setUpSettings():
+        monitor = [monitor for monitor in get_monitors() if monitor.is_primary]
+        Settings.WINDOW_WIDTH = monitor[0].width
+        Settings.WINDOW_HEIGHT = monitor[0].height - 63
+
+        Settings.GAMEFIELD_POSITION = (
+            monitor[0].width // 2,
+            (monitor[0].height - 63) // 2,
+        )
+
+    def adjustSettings(size):
+        Settings.WINDOW_WIDTH = size[0]
+        Settings.WINDOW_HEIGHT = size[1]
+
+        Settings.GAMEFIELD_POSITION = (
+            size[0] // 2,
+            (size[1] - 63) // 2,
+        )
