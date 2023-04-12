@@ -5,9 +5,9 @@ from ..settings import Settings
 
 
 class GameField:
-    def __init__(self, numberOfPlayers):
+    def __init__(self):
         gfLoader = GameFieldLoader()
-        self.allCircles = gfLoader.loadAllCircles(numberOfPlayers)
+        self.allCircles = gfLoader.loadAllCircles(4)
         self.allFigures = gfLoader.placeStartFigures(self.allCircles)
         self.lastClickedFigure = None
         self.lastClickedCircle = None
@@ -18,7 +18,7 @@ class GameField:
         for figure in self.allFigures:
             figure.draw(screen)
 
-    def waitClickFigureToMove(self, clickedPos, playerNumber, rolledNumber):
+    def waitClickFigureToMove(self, clickedPos, playerNumber):
         clickedFigure = self.getClickedFigure(clickedPos)
         clickedCircle = None
         clicked = False
@@ -116,8 +116,4 @@ class GameField:
     def devHelper(self, clickedPos):
         for circle in self.allCircles:
             if circle.handleClick(clickedPos):
-                print(circle.type)
-                print(circle.position)
-                print(circle.number)
-                print("")
                 return circle

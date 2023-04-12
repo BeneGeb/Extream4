@@ -6,10 +6,10 @@ pygame.init()
 
 
 class Dice:
-    def __init__(self, position, size):
-        self.position = position
+    def __init__(self):
+        self.position = Settings.DICE_POSITION
         self.currentValue = 6
-        self.size = size
+        self.size = Settings.DICE_SIZE
         self.loadImages()
         self.animationValue = 4
 
@@ -23,7 +23,7 @@ class Dice:
         self.all_dice = all_dice
 
     def rollDice(self):
-        self.currentValue = random.randint(1, 6)
+        self.currentValue = random.randint(5, 6)
         return self.currentValue
 
     def drawRectAroundDice(self, screen, currentPlayerNumber):
@@ -63,7 +63,8 @@ class Dice:
             diceX <= clickedX <= diceX + self.size
             and diceY <= clickedY <= diceY + self.size
         ):
-            return self.rollDice()
+            return True
+        return False
 
     def getDiceValue(self):
         return self.currentValue
