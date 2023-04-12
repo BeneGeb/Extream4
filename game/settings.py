@@ -40,14 +40,14 @@ class Settings:
     DICE_SIZE = 130
 
     def setUpSettings():
-        monitor = [monitor for monitor in get_monitors() if monitor.is_primary]
-        Settings.WINDOW_WIDTH = monitor[0].width
-        Settings.WINDOW_HEIGHT = monitor[0].height - 63
+         monitor = [monitor for monitor in get_monitors() if monitor.is_primary]
+         Settings.WINDOW_WIDTH = monitor[0].width
+         Settings.WINDOW_HEIGHT = monitor[0].height - 63
 
-        Settings.GAMEFIELD_POSITION = (
-            monitor[0].width // 2,
-            (monitor[0].height - 63) // 2,
-        )
+         Settings.GAMEFIELD_POSITION = (
+             monitor[0].width // 2,
+             (monitor[0].height - 63) // 2,
+         )
 
     def adjustSettings(size):
         Settings.WINDOW_WIDTH = size[0]

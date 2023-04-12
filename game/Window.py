@@ -13,6 +13,9 @@ class Window:
         tkFenster.title("Mensch ärgere dich nicht")
         tkFenster.geometry("673x366")
         tkFenster["background"] = "white"
+        p1 = PhotoImage(file = 'Extream4.png')
+
+        tkFenster.iconphoto(True, p1)
 
         window_width = 673
         window_height = 366
@@ -101,6 +104,8 @@ class Window:
 
         def color(button_id):
             the_color = colorchooser.askcolor()[0]
+            if the_color == None:
+                return
 
             # Switch Cases um zu erkennen, welcher Button betätigt wurde und die Farben der Spieler zu bestimmen
 
