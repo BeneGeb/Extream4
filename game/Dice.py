@@ -1,8 +1,18 @@
 import pygame
 import random
 from .settings import Settings
+from pygame import mixer
 
 pygame.init()
+
+#Instantiate mixer
+mixer.init()
+
+#Load audio file
+mixer.music.load('Dice_Sound1.mp3')
+
+#Set preferred volume
+mixer.music.set_volume(0.2)
 
 
 class Dice:
@@ -63,8 +73,9 @@ class Dice:
             diceX <= clickedX <= diceX + self.size
             and diceY <= clickedY <= diceY + self.size
         ):
-            return True
-        return False
+            #Play the music
+            mixer.music.play()
+            return self.rollDice()
 
     def getDiceValue(self):
         return self.currentValue
