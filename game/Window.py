@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import colorchooser
 from tkinter import messagebox
 import math
+import pygame
 from .Game import Game
 from .settings import Settings
 
@@ -10,11 +11,11 @@ class Window:
     def __init__(self):
         # Erzeugung des Fensters
         tkFenster = Tk()
+        pygame.mixer.init()
         tkFenster.title("Mensch ärgere dich nicht")
         tkFenster.geometry("673x366")
         tkFenster["background"] = "white"
         p1 = PhotoImage(file = 'Extream4.png')
-
         tkFenster.iconphoto(True, p1)
 
         window_width = 673
@@ -49,6 +50,12 @@ class Window:
 
         # Button
         v = IntVar()
+
+        # Sound Play
+        pygame.mixer.music.load("Menü_Sound.mp3")
+        pygame.mixer.music.play(loops=0)
+        pygame.mixer.music.set_volume(0.8)
+
         # Hier ist der Startbutton/ mit der Funktion command beschreibt man die aktion, die ausgeführt werden soll.
         # im Command wird die Aktion aufgerufen
         buttonStart = Button(
