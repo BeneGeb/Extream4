@@ -99,7 +99,7 @@ class Game:
                 self.changePlayer()
         else:
             self.gamefield.waitClickFigureToMove(
-                mousePosition, self.currentPlayerNumber, self.dice.getDiceValue
+                mousePosition, self.currentPlayerNumber, self.dice.currentValue
             )
 
     def runGame(self):
