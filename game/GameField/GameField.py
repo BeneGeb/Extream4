@@ -37,12 +37,14 @@ class GameField:
 
         return clicked
 
-    def waitClickCircleToMoveTo(self, clickedPos, playerNumber):
+    def waitClickCircleToMoveTo(self, clickedPos, playerNumber, diceValue):
         clickedCircle = self.getClickedCircle(clickedPos)
         clickedFigure = None
         moved = False
 
         if clickedCircle:
+            if "base" in self.lastClickedCircle.type and diceValue != 6:
+                return False
             clickedFigure = self.getClickedFigure(clickedPos)
 
             if clickedFigure:

@@ -15,7 +15,7 @@ def setUpPygame():
 setUpPygame()
 pygame.init()
 
-#Nur bei 6 darf eine Figure aus der Base raus gehen
+# Nur bei 6 darf eine Figure aus der Base raus gehen
 class Game:
     def __init__(self):
         self.screen = pygame.display.set_mode(
@@ -46,15 +46,16 @@ class Game:
 
     def handleWaitingForDice(self, mouseposition):
         diceClicked = self.dice.handleClick(mouseposition)
-        #If Dice not Clicked
+        # If Dice not Clicked
         if diceClicked == False:
             return
-        
+
         self.currentStage = "rollingDice"
-         
 
     def evalDiceRolling(self):
-        allFiguresInBase = self.gamefield.checkAllFiguresInBase(self.currentPlayerNumber)
+        allFiguresInBase = self.gamefield.checkAllFiguresInBase(
+            self.currentPlayerNumber
+        )
         if allFiguresInBase:
             if self.dice.currentValue == 6:
                 self.currentStage = "waitForChoosingFigure"
@@ -65,22 +66,21 @@ class Game:
             elif self.diceTries == 2:
                 self.changePlayer()
                 self.diceTries = 0
-                self.currentStage = "waitingForDice"   
+                self.currentStage = "waitingForDice"
         else:
             self.currentStage = "waitForChoosingFigure"
-            
+
     def handleRollingDice(self):
-        print(self.rollingProgress)
         if self.rollingProgress == 0:
             self.dice.rollDice()
             self.rollingProgress += 1
             return
-        
+
         if self.rollingProgress < 100:
             self.rollingProgress += 1
             return
-        
-        self.evalDiceRolling()        
+
+        self.evalDiceRolling()
         self.rollingProgress = 0
 
     def handleWaitChooseFigure(self, mousePosition):
@@ -91,18 +91,17 @@ class Game:
 
     def handleWaitForPlacingFigure(self, mousePosition):
         waitClickResult = self.gamefield.waitClickCircleToMoveTo(
-                            mousePosition, self.currentPlayerNumber
-                        )
+            mousePosition, self.currentPlayerNumber, self.dice.currentValue
+        )
         if waitClickResult:
             self.currentStage = "waitingForDice"
             if self.dice.currentValue != 6:
                 self.changePlayer()
-        else: 
+        else:
             self.gamefield.waitClickFigureToMove(
-                                mousePosition,
-                                self.currentPlayerNumber,
-                            )
-            
+                mousePosition, self.currentPlayerNumber
+            )
+
     def runGame(self):
         gameActive = True
 
@@ -122,17 +121,19 @@ class Game:
                     if self.currentStage == "waitingForPlacingFigure":
                         self.handleWaitForPlacingFigure(mousePosition)
 
-            #Gamelogic
+            # Gamelogic
             if self.currentStage == "rollingDice":
                 self.handleRollingDice()
 
             # Draw Background
             self.screen.fill(Settings.BACKGROUNDCOLOR)
 
-            # Draw Dice 
+            # Draw Dice
             if self.currentStage == "rollingDice":
-                self.dice.drawAnimation(self.screen, self.currentPlayerNumber, self.rollingProgress)
-            else: 
+                self.dice.drawAnimation(
+                    self.screen, self.currentPlayerNumber, self.rollingProgress
+                )
+            else:
                 self.dice.draw(self.screen, self.currentPlayerNumber)
 
             # Draw GameField
@@ -147,7 +148,3 @@ class Game:
             clock.tick(60)
 
         pygame.quit()
-
-
-
-
