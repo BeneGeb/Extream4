@@ -15,7 +15,7 @@ class Window:
         tkFenster.title("Mensch ärgere dich nicht")
         tkFenster.geometry("673x366")
         tkFenster["background"] = "white"
-        p1 = PhotoImage(file = 'Extream4.png')
+        p1 = PhotoImage(file='Extream4.png')
         tkFenster.iconphoto(True, p1)
 
         window_width = 673
@@ -51,10 +51,10 @@ class Window:
         # Button
         v = IntVar()
 
-        # Sound Play
+        # Hintergrund Musik
         pygame.mixer.music.load("Menü_Sound.mp3")
-        pygame.mixer.music.play(loops=0)
-        pygame.mixer.music.set_volume(0.8)
+        pygame.mixer.music.play()
+        pygame.mixer.music.set_volume(0.5)
 
         # Hier ist der Startbutton/ mit der Funktion command beschreibt man die aktion, die ausgeführt werden soll.
         # im Command wird die Aktion aufgerufen
@@ -214,6 +214,9 @@ class Window:
         # Spielstarten
 
     def startGame(self, tkfenster):
+
+        # Musik beenden
+        pygame.mixer.music.stop()
 
         # KI Boolean-Werte holen
 
