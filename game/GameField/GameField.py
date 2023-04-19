@@ -48,7 +48,10 @@ class GameField:
             clickedFigure = self.getClickedFigure(clickedPos)
 
             if clickedFigure:
-                if int(clickedFigure.player) != playerNumber:
+                if (
+                    int(clickedFigure.player) != playerNumber
+                    and clickedCircle == self.markedCircle
+                ):
                     emptyBaseField = self.getEmptyBaseField(clickedFigure.player)
                     self.kickFigure(clickedFigure, emptyBaseField)
                     self.moveFigure(clickedCircle.position)
@@ -56,8 +59,9 @@ class GameField:
                 else:
                     moved = False
             else:
-                self.moveFigure(clickedCircle.position)
-                moved = True
+                if clickedCircle == self.markedCircle[0]:
+                    self.moveFigure(clickedCircle.position)
+                    moved = True
 
         if moved:
             circleBefore, beforeColor = self.markedCircle
