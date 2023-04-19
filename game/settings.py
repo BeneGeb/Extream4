@@ -9,7 +9,7 @@ class Settings:
     GREEN = (0, 255, 0)
     BLUE = (0, 0, 255)
     BLACK = (0, 0, 0)
-    ORANGE = (255,165,0)
+    ORANGE = (255, 165, 0)
     BACKGROUNDCOLOR = (155, 155, 155)
 
     CIRCLE_DIFFERENCE = 80
@@ -34,7 +34,7 @@ class Settings:
     WINDOW_WIDTH = 1142
     WINDOW_HEIGHT = 1008
 
-    COLOR_DISTANCE = 150
+    COLOR_DISTANCE = 100
 
     CURRENT_PLAYER_POSITION = (25, 150)
 
@@ -42,14 +42,14 @@ class Settings:
     DICE_SIZE = 130
 
     def setUpSettings():
-         monitor = [monitor for monitor in get_monitors() if monitor.is_primary]
-         Settings.WINDOW_WIDTH = monitor[0].width
-         Settings.WINDOW_HEIGHT = monitor[0].height - 63
+        monitor = [monitor for monitor in get_monitors() if monitor.is_primary]
+        Settings.WINDOW_WIDTH = monitor[0].width
+        Settings.WINDOW_HEIGHT = monitor[0].height - 63
 
-         Settings.GAMEFIELD_POSITION = (
-             monitor[0].width // 2,
-             (monitor[0].height - 63) // 2,
-         )
+        Settings.GAMEFIELD_POSITION = (
+            monitor[0].width // 2,
+            (monitor[0].height - 63) // 2,
+        )
 
     def adjustSettings(size):
         Settings.WINDOW_WIDTH = size[0]

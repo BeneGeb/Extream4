@@ -123,6 +123,8 @@ class GameField:
         else:
             currentFieldNumber = figureCircle.number
             possibleNumber = currentFieldNumber + diceValue
+            if possibleNumber >= 40:
+                possibleNumber = possibleNumber - 40
             markedCircle = [
                 circle for circle in self.allCircles if circle.number == possibleNumber
             ]
