@@ -23,7 +23,6 @@ class Circle:
         sqx = (clickedX - x) ** 2
         sqy = (clickedY - y) ** 2
 
-        print(self.type)
         if math.sqrt(sqx + sqy) < Settings.CIRCLE_SIZE:
             return self
         else:

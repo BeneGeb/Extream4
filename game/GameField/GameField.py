@@ -18,7 +18,7 @@ class GameField:
         for figure in self.allFigures:
             figure.draw(screen)
 
-    def waitClickFigureToMove(self, clickedPos, playerNumber):
+    def waitClickFigureToMove(self, clickedPos, playerNumber, diceValue):
         clickedFigure = self.getClickedFigure(clickedPos)
         clickedCircle = None
         clicked = False
@@ -33,7 +33,7 @@ class GameField:
                 clickedFigure.innerColor = Settings.SELECTED_CIRCLE_COLOR
             self.lastClickedFigure = clickedFigure
             self.lastClickedCircle = clickedCircle
-            # self.showPossibleMove(clickedFigure, clickedCircle, rolledNumber)
+            self.markPossibleFields(playerNumber, diceValue)
 
         return clicked
 
@@ -58,6 +58,10 @@ class GameField:
             else:
                 self.moveFigure(clickedCircle.position)
                 moved = True
+
+        if moved:
+            circleBefore, beforeColor =  self.markedCircle
+            circleBefore.color = beforeColor
 
         return moved
 
@@ -102,18 +106,21 @@ class GameField:
         else:
             return False
 
-    def showPossibleMove(self, figure, circle, rolledNumber):
-        currentNumber = circle.number
-        newNumber = currentNumber + rolledNumber
+    def markPossibleFields(self, playerNumber, diceValue):
+        figureCircle =  self.lastClickedCircle
+        markedCircle = []
+        if 'base' in figureCircle.type:
+            markedCircle = [circle for circle in self.allCircles if 'startField-'+str(playerNumber) in circle.type]
+        else:
+            currentFieldNumber = figureCircle.number
+            possibleNumber = currentFieldNumber + diceValue
+            markedCircle = [circle for circle in self.allCircles if circle.number == possibleNumber]          
+        self.markedCircle = (markedCircle[0], markedCircle[0].color)
+        markedCircle[0].color = Settings.MARKED_FIELD_COLOR
 
-        if "base" in circle:
-            possibleField = [
-                field
-                for field in self.allCircles
-                if field.number == newNumber
-                and "base" not in field.type
-                and "house" not in field.type
-            ]
+    
+       
+        
 
     def devHelper(self, clickedPos):
         for circle in self.allCircles:

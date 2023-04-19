@@ -43,7 +43,8 @@ def loadCentralFields():
             secondDirections[i],
             Settings.listPlayers[i].color,
             Settings.listPlayers[secondColor].color,
-            0,
+            i*10,
+            i
         )
         for circle in resCircles:
             circles.append(circle)
@@ -53,14 +54,14 @@ def loadCentralFields():
 
 
 def loadQuarter(
-    startPosition, firstDirection, secondDirection, startColor, secondColor, startNumber
+    startPosition, firstDirection, secondDirection, startColor, secondColor, startNumber, startTeam
 ):
     circles = []
     position = startPosition
 
     for i in range(startNumber, startNumber + 5):
-        if i == 0:
-            circles.append(Circle(startColor, position, "neutral", i))
+        if i == startNumber:
+            circles.append(Circle(startColor, position, "startField-" + str(startTeam), i))
         else:
             position = evalPosition(firstDirection, position)
             circles.append(Circle(Settings.NEUTRAL_FIELD_COLOR, position, "neutral", i))

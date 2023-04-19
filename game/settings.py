@@ -9,6 +9,7 @@ class Settings:
     GREEN = (0, 255, 0)
     BLUE = (0, 0, 255)
     BLACK = (0, 0, 0)
+    ORANGE = (255,165,0)
     BACKGROUNDCOLOR = (155, 155, 155)
 
     CIRCLE_DIFFERENCE = 80
@@ -28,6 +29,7 @@ class Settings:
         Player(GREEN, "Player 4", False),
     ]
     NEUTRAL_FIELD_COLOR = WHITE
+    MARKED_FIELD_COLOR = ORANGE
 
     WINDOW_WIDTH = 1142
     WINDOW_HEIGHT = 1008

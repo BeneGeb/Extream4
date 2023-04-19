@@ -7,7 +7,7 @@ from game.settings import Settings
 Settings.setUpSettings()
 
 
-#game = Game()
-#game.runGame()
-Window()
+game = Game()
+game.runGame()
+#Window()
 #Window_Finished()

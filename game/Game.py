@@ -85,7 +85,7 @@ class Game:
 
     def handleWaitChooseFigure(self, mousePosition):
         if self.gamefield.waitClickFigureToMove(
-            mousePosition, self.currentPlayerNumber
+            mousePosition, self.currentPlayerNumber, self.dice.currentValue
         ):
             self.currentStage = "waitingForPlacingFigure"
 
@@ -99,7 +99,7 @@ class Game:
                 self.changePlayer()
         else:
             self.gamefield.waitClickFigureToMove(
-                mousePosition, self.currentPlayerNumber
+                mousePosition, self.currentPlayerNumber, self.dice.getDiceValue
             )
 
     def runGame(self):
@@ -116,9 +116,9 @@ class Game:
                     mousePosition = pygame.mouse.get_pos()
                     if self.currentStage == "waitingForDice":
                         self.handleWaitingForDice(mousePosition)
-                    if self.currentStage == "waitForChoosingFigure":
+                    elif self.currentStage == "waitForChoosingFigure":
                         self.handleWaitChooseFigure(mousePosition)
-                    if self.currentStage == "waitingForPlacingFigure":
+                    elif self.currentStage == "waitingForPlacingFigure":
                         self.handleWaitForPlacingFigure(mousePosition)
 
             # Gamelogic
