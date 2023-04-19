@@ -7,7 +7,7 @@ from ..settings import Settings
 class GameField:
     def __init__(self):
         gfLoader = GameFieldLoader()
-        self.allCircles = gfLoader.loadAllCircles(4)
+        self.allCircles = gfLoader.loadAllCircles()
         self.allFigures = gfLoader.placeStartFigures(self.allCircles)
         self.lastClickedFigure = None
         self.lastClickedCircle = None
@@ -60,7 +60,7 @@ class GameField:
                 moved = True
 
         if moved:
-            circleBefore, beforeColor =  self.markedCircle
+            circleBefore, beforeColor = self.markedCircle
             circleBefore.color = beforeColor
 
         return moved
@@ -107,20 +107,27 @@ class GameField:
             return False
 
     def markPossibleFields(self, playerNumber, diceValue):
-        figureCircle =  self.lastClickedCircle
+        figureCircle = self.lastClickedCircle
+        try:
+            circleBefore, beforeColor = self.markedCircle
+            circleBefore.color = beforeColor
+        except:
+            dummy = 1
         markedCircle = []
-        if 'base' in figureCircle.type:
-            markedCircle = [circle for circle in self.allCircles if 'startField-'+str(playerNumber) in circle.type]
+        if "base" in figureCircle.type:
+            markedCircle = [
+                circle
+                for circle in self.allCircles
+                if "startField-" + str(playerNumber) in circle.type
+            ]
         else:
             currentFieldNumber = figureCircle.number
             possibleNumber = currentFieldNumber + diceValue
-            markedCircle = [circle for circle in self.allCircles if circle.number == possibleNumber]          
+            markedCircle = [
+                circle for circle in self.allCircles if circle.number == possibleNumber
+            ]
         self.markedCircle = (markedCircle[0], markedCircle[0].color)
         markedCircle[0].color = Settings.MARKED_FIELD_COLOR
-
-    
-       
-        
 
     def devHelper(self, clickedPos):
         for circle in self.allCircles:
