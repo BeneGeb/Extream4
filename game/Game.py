@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from .Dice import Dice
 from .GameField.GameField import GameField
-
+from .Window_End import Window_Finished
 from .settings import Settings
 
 
@@ -47,7 +47,6 @@ class Game:
     def handleWaitingForDice(self, mouseposition):
         diceClicked = self.dice.handleClick(mouseposition)
         # If Dice not Clicked
-        print(diceClicked)
         if diceClicked == None:
             return
 
@@ -96,7 +95,11 @@ class Game:
         )
         if waitClickResult:
             self.currentStage = "waitingForDice"
-            if self.dice.currentValue != 6:
+            if self.gamefield.checkWin(self.currentPlayerNumber):
+                self.gameActive = False
+                Window_Finished()
+
+            if self.dice.currentValue < 5:
                 self.changePlayer()
         else:
             self.gamefield.waitClickFigureToMove(
@@ -104,15 +107,18 @@ class Game:
             )
 
     def runGame(self):
-        gameActive = True
+        self.gameActive = True
 
         # Set up timer
         clock = pygame.time.Clock()
 
-        while gameActive:
+        while self.gameActive:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    gameActive = False
+                    self.gameActive = False
+                # if ki
+                # currentStage = ki.nextStage(currentStage)
+
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mousePosition = pygame.mouse.get_pos()
                     if self.currentStage == "waitingForDice":

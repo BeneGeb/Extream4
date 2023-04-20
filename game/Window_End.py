@@ -1,5 +1,6 @@
 from tkinter import *
-from .Window import Window
+from Window import Window
+
 
 class Window_Finished:
     def __init__(self):
@@ -7,7 +8,7 @@ class Window_Finished:
         tkFenster.title("Mensch ärgere dich nicht")
         tkFenster.geometry("673x366")
         tkFenster["background"] = "white"
-        p1 = PhotoImage(file = 'Extream4.png')
+        p1 = PhotoImage(file="Extream4.png")
 
         tkFenster.iconphoto(True, p1)
 
@@ -25,10 +26,12 @@ class Window_Finished:
         # Setzen der Größe und Position des Fensters
         tkFenster.geometry("%dx%d+%d+%d" % (window_width, window_height, x, y))
 
-
-        #Beschriftung
+        # Beschriftung
         labelMenue = Label(
-            master=tkFenster, text=f"Glückwünsch ___", bg="white", font=("Arial", 18, "bold")
+            master=tkFenster,
+            text=f"Glückwünsch ___",
+            bg="white",
+            font=("Arial", 18, "bold"),
         )
         labelMenue.place(x=45, y=30)
 
@@ -37,7 +40,7 @@ class Window_Finished:
 
             labelplayer = Label(
                 master=tkFenster,
-                text=str(i)+"." + " " + "Player " + str(i),
+                text=str(i) + "." + " " + "Player " + str(i),
                 bg="white",
                 font=("Arial", 10),
             )
@@ -49,10 +52,8 @@ class Window_Finished:
             bg="white",
             font=("Arial", 14),
             command=lambda: self.Restart(tkFenster),
-            
         )
         buttonStart.place(x=45, y=250, width=100, height=50)
-
 
         buttonEnd = Button(
             tkFenster,
@@ -60,22 +61,17 @@ class Window_Finished:
             bg="white",
             font=("Arial", 14),
             command=lambda: self.Quit(tkFenster),
-            
         )
         buttonEnd.place(x=165, y=250, width=100, height=50)
 
         # Aktivierung des Fensters
         tkFenster.mainloop()
-    
 
     def Restart(self, tkfenster):
 
         tkfenster.destroy()
         Window()
 
-    def Quit(self,tkfenster):
+    def Quit(self, tkfenster):
 
         tkfenster.destroy()
-
-
-

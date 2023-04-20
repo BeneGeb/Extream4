@@ -8,7 +8,7 @@ def placeStartFigures(allCircles):
     baseFields = [field for field in allCircles if "base-" in field.type]
     for baseField in baseFields:
         allFigures.append(
-            Figure(baseField.color, baseField.type[5:], baseField.position)
+            Figure(baseField.color, int(baseField.type[5:]), baseField.position)
         )
 
     return allFigures
@@ -76,8 +76,11 @@ def loadQuarter(
     startNumber += 5
 
     basePosition = evalPosition(firstDirection, position)
-    for i in range(0, 4):
-        circles.append(Circle(secondColor, basePosition, "house-" + str(i), i))
+    houseTeam = startTeam + 1
+    if houseTeam == 4:
+        houseTeam = 0
+    for i in range(3, -1, -1):
+        circles.append(Circle(secondColor, basePosition, "house-" + str(houseTeam), i))
         basePosition = evalPosition(secondDirection, basePosition)
 
     for i in range(startNumber, startNumber + 4):
