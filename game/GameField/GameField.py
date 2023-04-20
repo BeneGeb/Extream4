@@ -33,7 +33,9 @@ class GameField:
                 clickedFigure.innerColor = Settings.SELECTED_CIRCLE_COLOR
             self.lastClickedFigure = clickedFigure
             self.lastClickedCircle = clickedCircle
-            self.markPossibleFields(playerNumber, diceValue)
+            # wenn circle ein base circle ist und die gewürfelte nummer 1= 6 ist -> nicht anzeigen
+            if "base" not in clickedCircle.type or diceValue == 6:
+                self.markPossibleFields(playerNumber, diceValue)
 
         return clicked
 
