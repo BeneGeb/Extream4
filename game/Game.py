@@ -47,7 +47,8 @@ class Game:
     def handleWaitingForDice(self, mouseposition):
         diceClicked = self.dice.handleClick(mouseposition)
         # If Dice not Clicked
-        if diceClicked == False:
+        print(diceClicked)
+        if diceClicked == None:
             return
 
         self.currentStage = "rollingDice"
