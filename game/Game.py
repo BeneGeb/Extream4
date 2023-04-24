@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from .Dice import Dice
 from .GameField.GameField import GameField
-from .Window_End import Window_Finished
+
 from .settings import Settings
 
 
@@ -17,7 +17,7 @@ pygame.init()
 
 # Nur bei 6 darf eine Figure aus der Base raus gehen
 class Game:
-    def __init__(self):
+    def __init__(self, callBackStartEndWindow):
         self.screen = pygame.display.set_mode(
             (Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT), pygame.RESIZABLE
         )
@@ -28,6 +28,10 @@ class Game:
         self.rollingProgress = 0
         self.diceTries = 0
         self.currentPlayerNumber = 0
+
+        self.callBackStartEndWindow = callBackStartEndWindow
+
+        self.runGame()
 
     def changePlayer(self):
         if self.currentPlayerNumber < 4 - 1:
@@ -97,7 +101,7 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                Window_Finished()
+                self.callBackStartEndWindow()
 
             if self.dice.currentValue < 5:
                 self.changePlayer()

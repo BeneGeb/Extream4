@@ -1,9 +1,9 @@
 from tkinter import *
-from Window import Window
 
 
 class Window_Finished:
-    def __init__(self):
+    def __init__(self, callBackStartWindow):
+        self.callBackStartWindow = callBackStartWindow
         tkFenster = Tk()
         tkFenster.title("Mensch ärgere dich nicht")
         tkFenster.geometry("673x366")
@@ -70,7 +70,7 @@ class Window_Finished:
     def Restart(self, tkfenster):
 
         tkfenster.destroy()
-        Window()
+        self.callBackStartWindow()
 
     def Quit(self, tkfenster):
 

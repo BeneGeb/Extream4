@@ -3,20 +3,21 @@ from tkinter import colorchooser
 from tkinter import messagebox
 import math
 import pygame
-from .Game import Game
 from .settings import Settings
 
 
 class Window:
-    def __init__(self):
+    def __init__(self, callBackStartGame):
         # Erzeugung des Fensters
         tkFenster = Tk()
         pygame.mixer.init()
         tkFenster.title("Mensch ärgere dich nicht")
         tkFenster.geometry("673x366")
         tkFenster["background"] = "white"
-        p1 = PhotoImage(file='Extream4.png')
+        p1 = PhotoImage(file="Extream4.png")
         tkFenster.iconphoto(True, p1)
+
+        self.callBackStartGame = callBackStartGame
 
         window_width = 673
         window_height = 366
@@ -289,5 +290,4 @@ class Window:
         if startgame:
             tkfenster.destroy()
 
-            game = Game()
-            game.runGame()
+            self.callBackStartGame()
