@@ -244,6 +244,11 @@ class Window:
         if PlayerName4 != "":
             Settings.listPlayers[3].name = PlayerName4
 
+        # Ki_Namen
+        for i in range(4):
+            if Settings.listPlayers[i].isKi:
+                Settings.listPlayers[i].name = f"KI_{i+1}"
+
         # Kontrolle der Farben Gleichheit
 
         # hier wird die Differenz bestimmt
