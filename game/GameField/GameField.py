@@ -3,6 +3,8 @@ from .Figure import Figure
 from ..Helper.GameFieldLoader import GameFieldLoader
 from ..settings import Settings
 
+# Überprüfung für Base, ob dort noch welche davor stehen
+
 
 class GameField:
     def __init__(self):
@@ -53,8 +55,7 @@ class GameField:
 
             if clickedFigure:
                 if (
-                    int(clickedFigure.player)
-                    != playerNumber
+                    int(clickedFigure.player) != playerNumber
                     and clickedCircle == self.markedCircle
                 ):
                     emptyBaseField = self.getEmptyBaseField(clickedFigure.player)
