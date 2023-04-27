@@ -18,11 +18,12 @@ class GameField:
         self.houseStartFields = [40, 10, 20, 30]
 
     def draw(self, screen):
-        pygame.draw.rect(screen,(128, 128, 128), [480, 30, 960, 960], border_radius=25, width=10)
-        pygame.draw.rect(screen, (128, 128, 128), [515, 63, 170, 170], border_radius=30, width=5)
-        pygame.draw.rect(screen, (128, 128, 128), [1235, 63, 170, 170], border_radius=30, width=5)
-        pygame.draw.rect(screen, (128, 128, 128), [515, 780, 170, 170], border_radius=30, width=5)
-        pygame.draw.rect(screen, (128, 128, 128), [1235, 780, 170, 170], border_radius=30, width=5)
+        pygame.draw.rect(screen,(89, 89, 89), [475, 25, 970, 970], border_radius=30, width = 5)
+        pygame.draw.rect(screen,(128, 128, 128), [480, 30, 960, 960], border_radius=25)
+        pygame.draw.rect(screen, (89, 89, 89), [515, 63, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, (89, 89, 89), [1235, 63, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, (89, 89, 89), [515, 780, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, (89, 89, 89), [1235, 780, 170, 170], border_radius=30)
 
         
         for circle in self.allCircles:
