@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import colorchooser
 from tkinter import messagebox
+from tkinter import Canvas
 import math
 import pygame
 from .settings import Settings
@@ -21,8 +22,7 @@ class Window:
 
         window_width = 673
         window_height = 366
-
-        # Breite und Höhe des Bildschirms
+        
         screen_width = tkFenster.winfo_screenwidth()
         screen_height = tkFenster.winfo_screenheight()
 
@@ -47,7 +47,7 @@ class Window:
                 bg="white",
                 font=("Arial", 10),
             )
-            labelplayer.place(x=45, y=40 + (i * 40))
+            labelplayer.place(x=45, y=45 + (i * 45))
 
         # Button
         v = IntVar()
@@ -63,10 +63,11 @@ class Window:
             tkFenster,
             text="Start",
             bg="white",
+            bd = 2,
             font=("Arial", 14),
             command=lambda: self.startGame(tkFenster),
         )
-        buttonStart.place(x=45, y=250, width=50, height=50)
+        buttonStart.place(x=300, y=280, width=70, height=50)
 
         # Dropdown Menü
         # OPTIONS = ["Mensch", "KI"]
@@ -101,10 +102,10 @@ class Window:
         # button.pack()
         # button.place(x=175, y=180)
 
-        drop0.place(x=130, y=80)
-        drop1.place(x=130, y=120)
-        drop2.place(x=130, y=160)
-        drop3.place(x=130, y=200)
+        drop0.place(x=140, y=85)
+        drop1.place(x=140, y=130)
+        drop2.place(x=140, y=175)
+        drop3.place(x=140, y=220)
 
         # Farbraster
 
@@ -139,28 +140,28 @@ class Window:
                     # self.color_list.insert(3,(the_color))
 
         collor_button_player1 = Button(
-            tkFenster, text="Wähle deine Farbe", command=lambda: color(1)
+            tkFenster, text="Farbe", command=lambda: color(1)
         )
         collor_button_player1.pack()
-        collor_button_player1.place(x=230, y=80)
+        collor_button_player1.place(x=275, y=85)
 
         collor_button_player2 = Button(
-            tkFenster, text="Wähle deine Farbe", command=lambda: color(2)
+            tkFenster, text="Farbe", command=lambda: color(2)
         )
         collor_button_player2.pack()
-        collor_button_player2.place(x=230, y=120)
+        collor_button_player2.place(x=275, y=130)
 
         collor_button_player3 = Button(
-            tkFenster, text="Wähle deine Farbe", command=lambda: color(3)
+            tkFenster, text="Farbe", command=lambda: color(3)
         )
         collor_button_player3.pack()
-        collor_button_player3.place(x=230, y=160)
+        collor_button_player3.place(x=275, y=175)
 
         collor_button_player4 = Button(
-            tkFenster, text="Wähle deine Farbe", command=lambda: color(4)
+            tkFenster, text="Farbe", command=lambda: color(4)
         )
         collor_button_player4.pack()
-        collor_button_player4.place(x=230, y=200)
+        collor_button_player4.place(x=275, y=220)
 
         # Farbraster kleines Vorschau Quadrat
         def SquareColor(id, the_color):
@@ -174,16 +175,16 @@ class Window:
 
             match id:
                 case 1:
-                    square.place(x=340, y=80)
+                    square.place(x=340, y=90)
 
                 case 2:
-                    square.place(x=340, y=120)
+                    square.place(x=340, y=135)
 
                 case 3:
-                    square.place(x=340, y=160)
+                    square.place(x=340, y=180)
 
                 case 4:
-                    square.place(x=340, y=200)
+                    square.place(x=340, y=225)
 
         # Vorschau Quadrate
         for j, k in zip(range(1, 5), range(4)):
@@ -194,20 +195,20 @@ class Window:
         NameLabel2 = Label(tkFenster, text="Name:")
         NameLabel3 = Label(tkFenster, text="Name:")
         NameLabel4 = Label(tkFenster, text="Name:")
-        NameLabel.place(x=380, y=80)
-        NameLabel2.place(x=380, y=120)
-        NameLabel3.place(x=380, y=160)
-        NameLabel4.place(x=380, y=200)
+        NameLabel.place(x=380, y=85)
+        NameLabel2.place(x=380, y=130)
+        NameLabel3.place(x=380, y=175)
+        NameLabel4.place(x=380, y=220)
 
         self.Namefield = Entry(tkFenster, borderwidth=2, relief="solid")
         self.Namefield2 = Entry(tkFenster, borderwidth=2, relief="solid")
         self.Namefield3 = Entry(tkFenster, borderwidth=2, relief="solid")
         self.Namefield4 = Entry(tkFenster, borderwidth=2, relief="solid")
         # self.Namefield.insert(0,"text")
-        self.Namefield.place(x=440, y=80)
-        self.Namefield2.place(x=440, y=120)
-        self.Namefield3.place(x=440, y=160)
-        self.Namefield4.place(x=440, y=200)
+        self.Namefield.place(x=440, y=85)
+        self.Namefield2.place(x=440, y=130)
+        self.Namefield3.place(x=440, y=175)
+        self.Namefield4.place(x=440, y=220)
 
         # Aktivierung des Fensters
         tkFenster.mainloop()
