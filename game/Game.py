@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import *
 from .Dice import Dice
+from .Computer import Computer
 from .GameField.GameField import GameField
 
 from .settings import Settings
@@ -28,10 +29,41 @@ class Game:
         self.rollingProgress = 0
         self.diceTries = 0
         self.currentPlayerNumber = 0
+        self.computers = self.createKi()
 
         self.callBackStartEndWindow = callBackStartEndWindow
 
         self.runGame()
+
+    def createKi(self):
+        computers = []
+        for num, player in enumerate(Settings.listPlayers):
+            if player.isKi:
+                computers.append(Computer(num, self.gamefield))
+            else:
+                computers.append(None)
+        return computers
+
+    def kiDiceRolling(self):
+        self.dice.handleClick((0, 0), True)
+        self.currentStage = "rollingDice"
+
+    def kiEvalDiceRolling(self):
+        if not self.gamefield.checkIsMovePossible(
+            self.currentPlayerNumber, self.dice.currentValue
+        ):
+            if self.dice.currentValue == 6:
+                self.currentStage = "waitForChoosingFigure"
+                self.diceTries = 0
+            elif self.diceTries < 2:
+                self.currentStage = "waitingForDice"
+                self.diceTries += 1
+            elif self.diceTries == 2:
+                self.changePlayer()
+                self.diceTries = 0
+                self.currentStage = "waitingForDice"
+        else:
+            self.currentStage = "waitForChoosingFigure"
 
     def changePlayer(self):
         if self.currentPlayerNumber < 4 - 1:
@@ -49,7 +81,7 @@ class Game:
         screen.blit(font_surface, Settings.CURRENT_PLAYER_POSITION)
 
     def handleWaitingForDice(self, mouseposition):
-        diceClicked = self.dice.handleClick(mouseposition)
+        diceClicked = self.dice.handleClick(mouseposition, False)
         # If Dice not Clicked
         if diceClicked == None:
             return
@@ -83,7 +115,10 @@ class Game:
             self.rollingProgress += 1
             return
 
-        self.evalDiceRolling()
+        if Settings.listPlayers[self.currentPlayerNumber].isKi:
+            self.kiEvalDiceRolling()
+        else:
+            self.evalDiceRolling()
         self.rollingProgress = 0
 
     def handleWaitChooseFigure(self, mousePosition):
@@ -119,14 +154,10 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.gameActive = False
-                # if ki
-                # currentStage = ki.nextStage(currentStage)
-
                 elif (
                     event.type == pygame.MOUSEBUTTONDOWN
                     and not Settings.listPlayers[self.currentPlayerNumber].isKi
                 ):
-                    print(Settings.listPlayers[0].isKi)
                     mousePosition = pygame.mouse.get_pos()
                     if self.currentStage == "waitingForDice":
                         self.handleWaitingForDice(mousePosition)
@@ -136,11 +167,15 @@ class Game:
                         self.handleWaitForPlacingFigure(mousePosition)
                 elif Settings.listPlayers[self.currentPlayerNumber].isKi:
                     if self.currentStage == "waitingForDice":
-                        self.handleWaitingForDice(mousePosition)
+                        self.kiDiceRolling()
                     elif self.currentStage == "waitForChoosingFigure":
-                        self.handleWaitChooseFigure(mousePosition)
+                        self.computers[self.currentPlayerNumber].evalNextMove(
+                            self.gamefield, self.dice.currentValue
+                        )
+                        self.currentStage = "waitingForPlacingFigure"
                     elif self.currentStage == "waitingForPlacingFigure":
-                        self.handleWaitForPlacingFigure(mousePosition)
+                        print("lol")
+                        # self.handleWaitForPlacingFigure(mousePosition)
 
             # Gamelogic
             if self.currentStage == "rollingDice":

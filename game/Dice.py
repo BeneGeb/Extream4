@@ -60,14 +60,14 @@ class Dice:
         screen.blit(self.all_dice[self.animationValue], self.position)
         Dice.drawRectAroundDice(self, screen, currentPlayerNumber)
 
-    def handleClick(self, clickedPos):
+    def handleClick(self, clickedPos, isKi):
         diceX, diceY = self.position
         clickedX, clickedY = clickedPos
 
         if (
             diceX <= clickedX <= diceX + self.size
             and diceY <= clickedY <= diceY + self.size
-        ):
+        ) or isKi:
             # Play the music
 
             Dice_Sound = mixer.Sound("Dice_Sound1.mp3")
