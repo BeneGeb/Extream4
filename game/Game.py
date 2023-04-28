@@ -102,8 +102,8 @@ class Game:
                 self.gameActive = False
                 self.callBackStartEndWindow()
 
-            if self.dice.currentValue <= 5:
-                self.changePlayer()
+            # if self.dice.currentValue <= 5:
+            #     #self.changePlayer()
         else:
             self.gamefield.waitClickFigureToMove(
                 mousePosition, self.currentPlayerNumber, self.dice.currentValue
