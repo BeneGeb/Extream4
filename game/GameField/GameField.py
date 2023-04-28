@@ -33,6 +33,33 @@ class GameField:
         for figure in self.allFigures:
             figure.draw(screen)
 
+    # region clickHandler
+    def getClickedFigure(self, clickedPos):
+        for figure in self.allFigures:
+            if figure.handleClick(clickedPos):
+                return figure
+
+    def getClickedCircle(self, clickedPos):
+        for circle in self.allCircles:
+            if circle.handleClick(clickedPos):
+                return circle
+
+    # endregion
+    # region FigureMoving
+    def kickFigure(self, clickedFigure, emptyBaseField):
+        clickedFigure.move(emptyBaseField.position)
+        emptyBaseField.manned = True
+
+    def moveFigure(self, newPosition):
+        self.lastClickedFigure.move(newPosition)
+        self.lastClickedCircle.manned = False
+        self.lastClickedFigure.innerColor = Settings.UNSELECTED_CIRCLE_COLOR
+
+        self.lastClickedFigure = None
+        self.lastClickedFigure = None
+
+    # endregion
+    # region Functions for Round system
     def waitClickFigureToMove(self, clickedPos, playerNumber, diceValue):
         clickedFigure = self.getClickedFigure(clickedPos)
         clickedCircle = None
@@ -48,9 +75,8 @@ class GameField:
                 clickedFigure.innerColor = Settings.SELECTED_CIRCLE_COLOR
             self.lastClickedFigure = clickedFigure
             self.lastClickedCircle = clickedCircle
-            # wenn circle ein base circle ist und die gewürfelte nummer 1= 6 ist -> nicht anzeigen
-            if "base" not in clickedCircle.type or diceValue == 6:
-                self.markPossibleFields(playerNumber, diceValue)
+
+            self.markPossibleCircle(clickedCircle, playerNumber, diceValue)
 
         return clicked
 
@@ -81,7 +107,8 @@ class GameField:
                     moved = True
 
         if moved:
-            self.markedCircle.marked = False
+            if self.markedCircle:
+                self.markedCircle.marked = False
 
         return moved
 
@@ -93,28 +120,7 @@ class GameField:
         ]
         return emptyBaseCircle[0]
 
-    def kickFigure(self, clickedFigure, emptyBaseField):
-        clickedFigure.move(emptyBaseField.position)
-        emptyBaseField.manned = True
-
-    def moveFigure(self, newPosition):
-        self.lastClickedFigure.move(newPosition)
-        self.lastClickedCircle.manned = False
-        self.lastClickedFigure.innerColor = Settings.UNSELECTED_CIRCLE_COLOR
-
-        self.lastClickedFigure = None
-        self.lastClickedFigure = None
-
-    def getClickedFigure(self, clickedPos):
-        for figure in self.allFigures:
-            if figure.handleClick(clickedPos):
-                return figure
-
-    def getClickedCircle(self, clickedPos):
-        for circle in self.allCircles:
-            if circle.handleClick(clickedPos):
-                return circle
-
+    # endregion
     def checkAllFiguresInBase(self, player):
         baseFields = [
             field
@@ -126,51 +132,13 @@ class GameField:
         else:
             return False
 
-    def markPossibleFields(self, playerNumber, diceValue):
-        self.checkIsMovePossible(playerNumber, diceValue)
-        figureCircle = self.lastClickedCircle
-        if self.markedCircle:
-            self.markedCircle.marked = False
-        markedCircle = []
-        if "base" in figureCircle.type:
-            markedCircle = [
-                circle
-                for circle in self.allCircles
-                if "startField-" + str(playerNumber) in circle.type
-            ]
-        elif "house" in figureCircle.type:
-            print("house")
-        else:
-            currentFieldNumber = figureCircle.number
-            possibleNumber = currentFieldNumber + diceValue
-            if possibleNumber >= 40 and playerNumber != 0:
-                possibleNumber = possibleNumber - 40
-            if (
-                possibleNumber >= self.houseStartFields[playerNumber]
-                and currentFieldNumber < self.houseStartFields[playerNumber]
-            ):
-                possibleNumber = possibleNumber - self.houseStartFields[playerNumber]
-                if possibleNumber <= 3:
-                    markedCircle = [
-                        circle
-                        for circle in self.allCircles
-                        if circle.number == possibleNumber
-                        and "house-" + str(playerNumber) in circle.type
-                    ]
-            else:
-                markedCircle = [
-                    circle
-                    for circle in self.allCircles
-                    if circle.number == possibleNumber
-                ]
-        self.markedCircle = markedCircle[0]
-        markedCircle[0].marked = True
+    def markPossibleCircle(self, circle, playerNumber, diceValue):
+        markedCircle = self.evalPossibleMove(circle, playerNumber, diceValue)
+        if markedCircle:
+            markedCircle.marked = True
+            self.markedCircle = markedCircle
 
-    def devHelper(self, clickedPos):
-        for circle in self.allCircles:
-            if circle.handleClick(clickedPos):
-                return circle
-
+    # region CheckPossibleMoves
     def checkIsMovePossible(self, player, diceValue):
         allTeamFigures = [
             figure for figure in self.allFigures if figure.player == player
@@ -183,46 +151,72 @@ class GameField:
             ][0]
             if self.evalPossibleMove(circle, player, diceValue) != None:
                 return True
+        return False
 
     def evalPossibleMove(self, circle, team, diceValue):
         if "base" in circle.type and diceValue != 6:
             return None
         elif "base" in circle.type and diceValue == 6:
-            return [
-                circle
-                for circle in self.allCircles
-                if "startField-" + str(team) in circle.type
-            ][0]
-        elif "house" in circle.type and (circle.number + diceValue) <= 3:
-            return [
-                circle
-                for circle in self.allCircles
-                if circle.number == (circle.number + diceValue)
-                and "house-" + str(team) in circle.type
-            ][0]
-        else:
-            possibleNumber = circle.number + diceValue
-            if possibleNumber >= 40 and team != 0:
-                possibleNumber = possibleNumber - 40
-            if (
-                possibleNumber >= self.houseStartFields[team]
-                and circle.number < self.houseStartFields[team]
-            ):
-                possibleNumber = possibleNumber - self.houseStartFields[team]
-                if possibleNumber <= 3:
-                    return [
-                        circle
-                        for circle in self.allCircles
-                        if circle.number == possibleNumber
-                        and "house-" + str(team) in circle.type
-                    ][0]
+            return self.findFieldOnType("startField-" + str(team))
+        elif "startField" in circle.type:
+            return self.findFieldOnNumber(circle.number + diceValue)
+        elif (
+            "neutral" in circle.type
+            and (circle.number + diceValue) < self.houseStartFields[team]
+        ):
+            return self.findFieldOnNumber(circle.number + diceValue)
+        elif (
+            "neutral" in circle.type
+            and (circle.number + diceValue) >= self.houseStartFields[team]
+        ):
+            houseFieldNumber = circle.number + diceValue - self.houseStartFields[team]
+            if houseFieldNumber > 3:
                 return None
-            else:
-                return [
-                    circle
-                    for circle in self.allCircles
-                    if circle.number == possibleNumber
-                ][0]
+            elif houseFieldNumber <= 3:
+                if self.checkHouseFigures(team, houseFieldNumber):
+                    return self.findField(houseFieldNumber, "house-" + str(team))
+                else:
+                    return None
+        elif "house" in circle.type:
+            houseFieldNumber = circle.number + diceValue
+            if houseFieldNumber > 3:
+                return None
+            elif houseFieldNumber <= 3:
+                if self.checkHouseFigures(team, houseFieldNumber):
+                    return self.findField(houseFieldNumber, "house-" + str(team))
+                else:
+                    return None
+
+    def checkHouseFigures(self, team, newNumber):
+        teamFigures = [figure for figure in self.allFigures if figure.player == team]
+        circlesToCheck = [
+            circle
+            for circle in self.allCircles
+            if "house-" + str(team) in circle.type and circle.number <= newNumber
+        ]
+
+        for circle in circlesToCheck:
+            matchingFigure = [
+                figure for figure in teamFigures if figure.position == circle.position
+            ]
+            if len(matchingFigure):
+                return False
+        return True
+
+    def findField(self, number, type):
+        return [
+            circle
+            for circle in self.allCircles
+            if circle.number == number and type in circle.type
+        ][0]
+
+    def findFieldOnType(self, type):
+        return [circle for circle in self.allCircles if type in circle.type][0]
+
+    def findFieldOnNumber(self, number):
+        return [circle for circle in self.allCircles if circle.number == number][0]
+
+    # endregion
 
     def checkWin(self, playerNumber):
         teamBaseFields = [
