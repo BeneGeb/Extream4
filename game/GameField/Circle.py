@@ -15,6 +15,7 @@ class Circle:
             self.manned = True
         else:
             self.manned = False
+        self.marked = False
 
     def handleClick(self, clickedPos):
         clickedX, clickedY = clickedPos
@@ -30,4 +31,10 @@ class Circle:
 
     def draw(self, screen):
         x, y = self.position
-        pygame.draw.circle(screen, self.color, (x, y), Settings.CIRCLE_SIZE, 0)
+        if self.marked:
+            pygame.draw.circle(
+                screen, Settings.BLACK, (x, y), Settings.CIRCLE_SIZE + 3, 0
+            )
+            pygame.draw.circle(screen, self.color, (x, y), Settings.CIRCLE_SIZE - 2, 0)
+        else:
+            pygame.draw.circle(screen, self.color, (x, y), Settings.CIRCLE_SIZE, 0)

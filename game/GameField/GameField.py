@@ -14,18 +14,20 @@ class GameField:
         self.allFigures = gfLoader.placeStartFigures(self.allCircles)
         self.lastClickedFigure = None
         self.lastClickedCircle = None
+        self.markedCircle = None
 
         self.houseStartFields = [40, 10, 20, 30]
 
     def draw(self, screen):
-        pygame.draw.rect(screen,(89, 89, 89), [475, 25, 970, 970], border_radius=30, width = 5)
-        pygame.draw.rect(screen,(128, 128, 128), [480, 30, 960, 960], border_radius=25)
+        pygame.draw.rect(
+            screen, (89, 89, 89), [475, 25, 970, 970], border_radius=30, width=5
+        )
+        pygame.draw.rect(screen, (128, 128, 128), [480, 30, 960, 960], border_radius=25)
         pygame.draw.rect(screen, (89, 89, 89), [515, 63, 170, 170], border_radius=30)
         pygame.draw.rect(screen, (89, 89, 89), [1235, 63, 170, 170], border_radius=30)
         pygame.draw.rect(screen, (89, 89, 89), [515, 780, 170, 170], border_radius=30)
         pygame.draw.rect(screen, (89, 89, 89), [1235, 780, 170, 170], border_radius=30)
 
-        
         for circle in self.allCircles:
             circle.draw(screen)
         for figure in self.allFigures:
@@ -74,13 +76,12 @@ class GameField:
                 else:
                     moved = False
             else:
-                if clickedCircle == self.markedCircle[0]:
+                if clickedCircle == self.markedCircle:
                     self.moveFigure(clickedCircle.position)
                     moved = True
 
         if moved:
-            circleBefore, beforeColor = self.markedCircle
-            circleBefore.color = beforeColor
+            self.markedCircle.marked = False
 
         return moved
 
@@ -128,11 +129,8 @@ class GameField:
     def markPossibleFields(self, playerNumber, diceValue):
         self.checkIsMovePossible(playerNumber, diceValue)
         figureCircle = self.lastClickedCircle
-        try:
-            circleBefore, beforeColor = self.markedCircle
-            circleBefore.color = beforeColor
-        except:
-            dummy = 1
+        if self.markedCircle:
+            self.markedCircle.marked = False
         markedCircle = []
         if "base" in figureCircle.type:
             markedCircle = [
@@ -165,8 +163,8 @@ class GameField:
                     for circle in self.allCircles
                     if circle.number == possibleNumber
                 ]
-        self.markedCircle = (markedCircle[0], markedCircle[0].color)
-        markedCircle[0].color = Settings.MARKED_FIELD_COLOR
+        self.markedCircle = markedCircle[0]
+        markedCircle[0].marked = True
 
     def devHelper(self, clickedPos):
         for circle in self.allCircles:
