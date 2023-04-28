@@ -22,7 +22,7 @@ class Window:
 
         window_width = 673
         window_height = 366
-        
+
         screen_width = tkFenster.winfo_screenwidth()
         screen_height = tkFenster.winfo_screenheight()
 
@@ -63,7 +63,7 @@ class Window:
             tkFenster,
             text="Start",
             bg="white",
-            bd = 2,
+            bd=2,
             font=("Arial", 14),
             command=lambda: self.startGame(tkFenster),
         )

@@ -122,8 +122,19 @@ class Game:
                 # if ki
                 # currentStage = ki.nextStage(currentStage)
 
-                elif event.type == pygame.MOUSEBUTTONDOWN:
+                elif (
+                    event.type == pygame.MOUSEBUTTONDOWN
+                    and not Settings.listPlayers[self.currentPlayerNumber].isKi
+                ):
+                    print(Settings.listPlayers[0].isKi)
                     mousePosition = pygame.mouse.get_pos()
+                    if self.currentStage == "waitingForDice":
+                        self.handleWaitingForDice(mousePosition)
+                    elif self.currentStage == "waitForChoosingFigure":
+                        self.handleWaitChooseFigure(mousePosition)
+                    elif self.currentStage == "waitingForPlacingFigure":
+                        self.handleWaitForPlacingFigure(mousePosition)
+                elif Settings.listPlayers[self.currentPlayerNumber].isKi:
                     if self.currentStage == "waitingForDice":
                         self.handleWaitingForDice(mousePosition)
                     elif self.currentStage == "waitForChoosingFigure":
