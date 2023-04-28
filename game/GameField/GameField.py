@@ -2,6 +2,13 @@ from .Circle import Circle
 from .Figure import Figure
 from ..Helper.GameFieldLoader import GameFieldLoader
 from ..settings import Settings
+import pygame
+from pygame import mixer
+
+pygame.init()
+
+# Instantiate mixer
+mixer.init()
 
 # Überprüfung für Base, ob dort noch welche davor stehen
 
@@ -58,7 +65,8 @@ class GameField:
                     int(clickedFigure.player) != playerNumber
                     and clickedCircle == self.markedCircle
                 ):
-                    emptyBaseField = self.getEmptyBaseField(clickedFigure.player)
+                    emptyBaseField = self.getEmptyBaseField(
+                        clickedFigure.player)
                     self.kickFigure(clickedFigure, emptyBaseField)
                     self.moveFigure(clickedCircle.position)
                     moved = True
@@ -94,6 +102,10 @@ class GameField:
 
         self.lastClickedFigure = None
         self.lastClickedFigure = None
+
+        # Sound move
+        Move_Sound = mixer.Sound("Aufzeichnungen.mp3")
+        Move_Sound.play()
 
     def getClickedFigure(self, clickedPos):
         for figure in self.allFigures:
@@ -142,7 +154,8 @@ class GameField:
                 possibleNumber >= self.houseStartFields[playerNumber]
                 and currentFieldNumber < self.houseStartFields[playerNumber]
             ):
-                possibleNumber = possibleNumber - self.houseStartFields[playerNumber]
+                possibleNumber = possibleNumber - \
+                    self.houseStartFields[playerNumber]
                 if possibleNumber <= 3:
                     markedCircle = [
                         circle
