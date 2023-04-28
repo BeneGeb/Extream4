@@ -27,11 +27,16 @@ class GameField:
         pygame.draw.rect(
             screen, (89, 89, 89), [475, 25, 970, 970], border_radius=30, width=5
         )
-        pygame.draw.rect(screen, (128, 128, 128), [480, 30, 960, 960], border_radius=25)
-        pygame.draw.rect(screen, (89, 89, 89), [515, 63, 170, 170], border_radius=30)
-        pygame.draw.rect(screen, (89, 89, 89), [1235, 63, 170, 170], border_radius=30)
-        pygame.draw.rect(screen, (89, 89, 89), [515, 780, 170, 170], border_radius=30)
-        pygame.draw.rect(screen, (89, 89, 89), [1235, 780, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, (128, 128, 128), [
+                         480, 30, 960, 960], border_radius=25)
+        pygame.draw.rect(screen, (89, 89, 89), [
+                         515, 63, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, (89, 89, 89), [
+                         1235, 63, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, (89, 89, 89), [
+                         515, 780, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, (89, 89, 89), [
+                         1235, 780, 170, 170], border_radius=30)
 
         for circle in self.allCircles:
             circle.draw(screen)
@@ -58,7 +63,7 @@ class GameField:
         Explo_Sound.play()
 
     def moveFigure(self, newPosition):
-        Move_Sound = mixer.Sound("Aufzeichnungen.mp3")
+        Move_Sound = mixer.Sound("Move.mp3")
         Move_Sound.play()
         self.lastClickedFigure.move(newPosition)
         self.lastClickedCircle.manned = False
@@ -105,7 +110,8 @@ class GameField:
                     != playerNumber
                     # and clickedCircle == self.markedCircle
                 ):
-                    emptyBaseField = self.getEmptyBaseField(clickedFigure.player)
+                    emptyBaseField = self.getEmptyBaseField(
+                        clickedFigure.player)
                     self.kickFigure(clickedFigure, emptyBaseField)
                     self.moveFigure(clickedCircle.position)
                     moved = True
@@ -202,7 +208,8 @@ class GameField:
                     return None
 
     def checkHouseFigures(self, team, newNumber):
-        teamFigures = [figure for figure in self.allFigures if figure.player == team]
+        teamFigures = [
+            figure for figure in self.allFigures if figure.player == team]
         circlesToCheck = [
             circle
             for circle in self.allCircles
