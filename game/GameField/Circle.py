@@ -35,6 +35,6 @@ class Circle:
             pygame.draw.circle(
                 screen, Settings.BLACK, (x, y), Settings.CIRCLE_SIZE + 3, 0
             )
-            pygame.draw.circle(screen, self.color, (x, y), Settings.CIRCLE_SIZE - 2, 0)
+            pygame.draw.circle(screen, self.color, (x, y), Settings.CIRCLE_SIZE - 3, 0)
         else:
             pygame.draw.circle(screen, self.color, (x, y), Settings.CIRCLE_SIZE, 0)
