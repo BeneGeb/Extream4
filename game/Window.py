@@ -217,6 +217,9 @@ class Window:
 
     def startGame(self, tkfenster):
 
+        # Musik beenden
+        pygame.mixer.music.stop()
+
         # KI Boolean-Werte holen
 
         Settings.listPlayers[0].isKi = self.KI_Check_dict[self.player_1.get()]
@@ -278,8 +281,6 @@ class Window:
 
                     break
                 else:
-                    # Musik beenden
-                    pygame.mixer.music.stop()
                     startgame = True
                     # tkfenster.destroy()
 
