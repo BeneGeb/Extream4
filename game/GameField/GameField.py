@@ -154,22 +154,26 @@ class GameField:
         return False
 
     def evalPossibleMove(self, circle, team, diceValue):
+        possibleNumber = circle.number + diceValue
+        if possibleNumber > 39:
+            possibleNumber = possibleNumber - 40
         if "base" in circle.type and diceValue != 6:
             return None
         elif "base" in circle.type and diceValue == 6:
             return self.findFieldOnType("startField-" + str(team))
         elif "startField" in circle.type:
-            return self.findFieldOnNumber(circle.number + diceValue)
+            return self.findFieldOnNumber(possibleNumber)
+        elif "neutral" in circle.type and (
+            (circle.number + diceValue) < self.houseStartFields[team]
+            or circle.number > self.houseStartFields[team]
+        ):
+            return self.findFieldOnNumber(possibleNumber)
         elif (
             "neutral" in circle.type
-            and (circle.number + diceValue) < self.houseStartFields[team]
+            and (possibleNumber) >= self.houseStartFields[team]
+            and circle.number < self.houseStartFields[team]
         ):
-            return self.findFieldOnNumber(circle.number + diceValue)
-        elif (
-            "neutral" in circle.type
-            and (circle.number + diceValue) >= self.houseStartFields[team]
-        ):
-            houseFieldNumber = circle.number + diceValue - self.houseStartFields[team]
+            houseFieldNumber = possibleNumber - self.houseStartFields[team]
             if houseFieldNumber > 3:
                 return None
             elif houseFieldNumber <= 3:
@@ -178,7 +182,7 @@ class GameField:
                 else:
                     return None
         elif "house" in circle.type:
-            houseFieldNumber = circle.number + diceValue
+            houseFieldNumber = possibleNumber
             if houseFieldNumber > 3:
                 return None
             elif houseFieldNumber <= 3:
@@ -214,6 +218,7 @@ class GameField:
         return [circle for circle in self.allCircles if type in circle.type][0]
 
     def findFieldOnNumber(self, number):
+        print(number)
         return [circle for circle in self.allCircles if circle.number == number][0]
 
     # endregion
