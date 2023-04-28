@@ -92,6 +92,8 @@ class GameField:
         return emptyBaseCircle[0]
 
     def kickFigure(self, clickedFigure, emptyBaseField):
+        Explo_Sound = mixer.Sound("Explosion.mp3")
+        Explo_Sound.play()
         clickedFigure.move(emptyBaseField.position)
         emptyBaseField.manned = True
 
