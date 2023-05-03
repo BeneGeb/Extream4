@@ -165,17 +165,18 @@ class Game:
                         self.handleWaitChooseFigure(mousePosition)
                     elif self.currentStage == "waitingForPlacingFigure":
                         self.handleWaitForPlacingFigure(mousePosition)
-                elif Settings.listPlayers[self.currentPlayerNumber].isKi:
-                    if self.currentStage == "waitingForDice":
-                        self.kiDiceRolling()
-                    elif self.currentStage == "waitForChoosingFigure":
-                        self.computers[self.currentPlayerNumber].evalNextMove(
-                            self.gamefield, self.dice.currentValue
-                        )
-                        self.currentStage = "waitingForPlacingFigure"
-                    elif self.currentStage == "waitingForPlacingFigure":
-                        print("lol")
-                        # self.handleWaitForPlacingFigure(mousePosition)
+            if Settings.listPlayers[self.currentPlayerNumber].isKi:
+                if self.currentStage == "waitingForDice":
+                    self.kiDiceRolling()
+                elif self.currentStage == "waitForChoosingFigure":
+                    self.computers[self.currentPlayerNumber].evalNextMove(
+                        self.gamefield, self.dice.currentValue
+                    )
+                    # entweder nächster Spieler, oder spieler nochmal
+                    self.currentStage = "waitingForPlacingFigure"
+                elif self.currentStage == "waitingForPlacingFigure":
+                    print("lol")
+                    # self.handleWaitForPlacingFigure(mousePosition)
 
             # Gamelogic
             if self.currentStage == "rollingDice":

@@ -19,6 +19,14 @@ class Computer:
             mannedCircles.append((circle, figure))
         return mannedCircles
 
+    def getFigureFromFieldNumber(self, fieldNumber, allMannedCirclesAndFigures):
+        matchingField = [
+            figure
+            for circle, figure in allMannedCirclesAndFigures
+            if circle.number == fieldNumber and "house" not in circle.type
+        ]
+        return matchingField[0]
+
     def evalNextMove(self, gameField, diceValue):
         allTeamFigures = self.getAllFigures(gameField.allFigures)
         allMannedCirclesAndFigures = self.getMannedCircles(
@@ -30,12 +38,16 @@ class Computer:
             for circle, figure in allMannedCirclesAndFigures
             if "base" in circle.type
         ]
-        print(figureInBase)
         if len(figureInBase) > 1 and not self.isFieldManned(
             allMannedCirclesAndFigures, self.startField.position
         ):
-            print("move")
             gameField.moveFigure(figureInBase[0], self.startField.position)
+        elif self.isFieldManned(allMannedCirclesAndFigures, self.startField.position):
+            figure = self.getFigureFromFieldNumber(
+                self.startField.position, allMannedCirclesAndFigures
+            )
+            print(figure)
+            # gameField.moveFigure()
 
     def isFieldManned(self, allMannedCircles, position):
         matchingField = [
