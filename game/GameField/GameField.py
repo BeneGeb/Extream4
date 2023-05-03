@@ -143,6 +143,8 @@ class GameField:
             return False
 
     def markPossibleCircle(self, circle, playerNumber, diceValue):
+        if self.markedCircle != None:
+            self.markedCircle.marked = False
         markedCircle = self.evalPossibleMove(circle, playerNumber, diceValue)
         if markedCircle:
             markedCircle.marked = True
