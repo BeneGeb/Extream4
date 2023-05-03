@@ -53,7 +53,6 @@ class GameField:
     # region FigureMoving
     def kickFigure(self, clickedFigure, emptyBaseField):
         clickedFigure.move(emptyBaseField.position)
-        emptyBaseField.manned = True
         Explo_Sound = mixer.Sound("Explosion.mp3")
         Explo_Sound.play()
 
@@ -61,7 +60,6 @@ class GameField:
         Move_Sound = mixer.Sound("Move.mp3")
         Move_Sound.play()
         figure.move(newPosition)
-        # self.lastClickedCircle.manned = False
         figure.innerColor = Settings.UNSELECTED_CIRCLE_COLOR
 
         self.lastClickedFigure = None
@@ -123,24 +121,34 @@ class GameField:
         return moved
 
     def getEmptyBaseField(self, playerNumber):
-        emptyBaseCircle = [
-            field
-            for field in self.allCircles
-            if "base-" + str(playerNumber) in field.type and field.manned == False
+        print("playerNumber")
+        print(playerNumber)
+        teamFiguresPositions = [
+            figure.position
+            for figure in self.allFigures
+            if figure.player == playerNumber
         ]
-        return emptyBaseCircle[0]
+        for field in self.allCircles:
+            if (
+                "base-" + str(playerNumber) in field.type
+                and field.position not in teamFiguresPositions
+            ):
+                return field
 
     # endregion
-    def checkAllFiguresInBase(self, player):
-        baseFields = [
-            field
-            for field in self.allCircles
-            if "base-" + str(player) in field.type and field.manned == True
+    def checkAllFiguresInBase(self, playerNumber):
+        teamFiguresPositions = [
+            figure.position
+            for figure in self.allFigures
+            if figure.player == playerNumber
         ]
-        if len(baseFields) == 4:
-            return True
-        else:
-            return False
+        for field in self.allCircles:
+            if (
+                "base-" + str(playerNumber) in field.type
+                and field.position not in teamFiguresPositions
+            ):
+                return False
+        return True
 
     def markPossibleCircle(self, circle, playerNumber, diceValue):
         if self.markedCircle != None:
