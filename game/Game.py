@@ -53,7 +53,7 @@ class Game:
             self.currentPlayerNumber, self.dice.currentValue
         ):
             if self.dice.currentValue == 6:
-                self.currentStage = "waitForChoosingFigure"
+                self.currentStage = "waitForComputer"
                 self.diceTries = 0
             elif self.diceTries < 2:
                 self.currentStage = "waitingForDice"
@@ -63,7 +63,19 @@ class Game:
                 self.diceTries = 0
                 self.currentStage = "waitingForDice"
         else:
-            self.currentStage = "waitForChoosingFigure"
+            self.currentStage = "waitForComputer"
+
+    def kiHandlewWaitingForComputer(self):
+        self.computers[self.currentPlayerNumber].evalNextMove(
+            self.gamefield, self.dice.currentValue
+        )
+        self.currentStage = "waitingForDice"
+        if self.gamefield.checkWin(self.currentPlayerNumber):
+            self.gameActive = False
+            self.callBackStartEndWindow(self.currentPlayerNumber)
+
+        if self.dice.currentValue <= 5:
+            self.changePlayer()
 
     def changePlayer(self):
         if self.currentPlayerNumber < 4 - 1:
@@ -135,7 +147,7 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow()
+                self.callBackStartEndWindow(self.currentPlayerNumber)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
@@ -159,6 +171,7 @@ class Game:
                     and not Settings.listPlayers[self.currentPlayerNumber].isKi
                 ):
                     mousePosition = pygame.mouse.get_pos()
+                    self.gamefield.getClickedCircle(mousePosition)
                     if self.currentStage == "waitingForDice":
                         self.handleWaitingForDice(mousePosition)
                     elif self.currentStage == "waitForChoosingFigure":
@@ -168,15 +181,8 @@ class Game:
             if Settings.listPlayers[self.currentPlayerNumber].isKi:
                 if self.currentStage == "waitingForDice":
                     self.kiDiceRolling()
-                elif self.currentStage == "waitForChoosingFigure":
-                    self.computers[self.currentPlayerNumber].evalNextMove(
-                        self.gamefield, self.dice.currentValue
-                    )
-                    # entweder nächster Spieler, oder spieler nochmal
-                    self.currentStage = "waitingForPlacingFigure"
-                elif self.currentStage == "waitingForPlacingFigure":
-                    print("lol")
-                    # self.handleWaitForPlacingFigure(mousePosition)
+                elif self.currentStage == "waitForComputer":
+                    self.kiHandlewWaitingForComputer()
 
             # Gamelogic
             if self.currentStage == "rollingDice":

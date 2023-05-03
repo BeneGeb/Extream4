@@ -12,8 +12,8 @@ def startGame():
     Game(startEndWindow)
 
 
-def startEndWindow():
-    Window_Finished(startWindow)
+def startEndWindow(placement):
+    Window_Finished(startWindow, placement)
 
 
 if __name__ == "__main__":

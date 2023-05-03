@@ -65,6 +65,16 @@ class GameField:
         self.lastClickedFigure = None
         self.lastClickedFigure = None
 
+    def kiMoveFigure(self, figure, newPosition, playerNumber):
+        matchingFigure = [
+            figure for figure in self.allFigures if figure.position == newPosition
+        ]
+        if len(matchingFigure) > 0:
+            self.kickFigure(
+                matchingFigure[0], self.getEmptyBaseField(matchingFigure[0].player)
+            )
+        self.moveFigure(figure, newPosition)
+
     # endregion
     # region Functions for Round system
     def waitClickFigureToMove(self, clickedPos, playerNumber, diceValue):
@@ -121,8 +131,6 @@ class GameField:
         return moved
 
     def getEmptyBaseField(self, playerNumber):
-        print("playerNumber")
-        print(playerNumber)
         teamFiguresPositions = [
             figure.position
             for figure in self.allFigures
@@ -169,8 +177,10 @@ class GameField:
                 for circle in self.allCircles
                 if circle.position == figure.position
             ][0]
-            if self.evalPossibleMove(circle, player, diceValue) != None:
-                return True
+            newField = self.evalPossibleMove(circle, player, diceValue)
+            if newField != None:
+                if not self.isFieldManned(newField.position, player):
+                    return True
         return False
 
     def evalPossibleMove(self, circle, team, diceValue):
@@ -211,6 +221,19 @@ class GameField:
                 else:
                     return None
 
+    def isFieldManned(self, position, playerNumber):
+        allTeamFiguresPositions = [
+            figure.position
+            for figure in self.allFigures
+            if figure.player == playerNumber
+        ]
+        matchingField = [
+            circle for circle in self.allCircles if circle.position == position
+        ]
+        if matchingField[0].position in allTeamFiguresPositions:
+            return True
+        return False
+
     def checkHouseFigures(self, team, newNumber):
         teamFigures = [figure for figure in self.allFigures if figure.player == team]
         circlesToCheck = [
@@ -238,24 +261,24 @@ class GameField:
         return [circle for circle in self.allCircles if type in circle.type][0]
 
     def findFieldOnNumber(self, number):
-        print(number)
         return [circle for circle in self.allCircles if circle.number == number][0]
 
     # endregion
 
     def checkWin(self, playerNumber):
-        teamBaseFields = [
-            circle
-            for circle in self.allCircles
-            if "house-" + str(playerNumber) in circle.type
-        ]
-        teamFigures = [
-            figure for figure in self.allFigures if figure.player == playerNumber
-        ]
-        for circle in teamBaseFields:
-            matchingField = [
-                figure for figure in teamFigures if circle.position == figure.position
-            ]
-            if len(matchingField) == 0:
-                return False
-        return True
+        # teamBaseFields = [
+        #     circle
+        #     for circle in self.allCirclesmove
+        #     if "house-" + str(playerNumber) in circle.type
+        # ]
+        # teamFigures = [
+        #     figure for figure in self.allFigures if figure.player == playerNumber
+        # ]
+        # for circle in teamBaseFields:
+        #     matchingField = [
+        #         figure for figure in teamFigures if circle.position == figure.position
+        #     ]
+        #     if len(matchingField) == 0:
+        #         return False
+        # return True
+        return False

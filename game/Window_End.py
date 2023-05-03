@@ -1,8 +1,9 @@
 from tkinter import *
+from .settings import Settings
 
 
 class Window_Finished:
-    def __init__(self, callBackStartWindow):
+    def __init__(self, callBackStartWindow, placement):
         self.callBackStartWindow = callBackStartWindow
         tkFenster = Tk()
         tkFenster.title("Mensch ärgere dich nicht")
@@ -29,7 +30,7 @@ class Window_Finished:
         # Beschriftung
         labelMenue = Label(
             master=tkFenster,
-            text=f"Glückwünsch ___",
+            text=f"Glückwünsch {Settings.listPlayers[placement].name}",
             bg="white",
             font=("Arial", 18, "bold"),
         )
@@ -40,7 +41,8 @@ class Window_Finished:
 
             labelplayer = Label(
                 master=tkFenster,
-                text=str(i) + "." + " " + "Player " + str(i),
+                # text=str(i) + "." + " " + "Player " + str(i),
+                text=str(i) + "." + Settings.listPlayers[i - 1].name,
                 bg="white",
                 font=("Arial", 10),
             )
