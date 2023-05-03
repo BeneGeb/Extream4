@@ -238,7 +238,6 @@ class GameField:
         return [circle for circle in self.allCircles if type in circle.type][0]
 
     def findFieldOnNumber(self, number):
-        print(number)
         return [circle for circle in self.allCircles if circle.number == number][0]
 
     # endregion
