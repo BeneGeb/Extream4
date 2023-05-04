@@ -1,3 +1,6 @@
+import time
+
+
 class Computer:
     def __init__(self, playerNumber, gameField):
         self.playerNumber = playerNumber
@@ -67,8 +70,10 @@ class Computer:
                 gameField.kiMoveFigure(
                     figureToMove, newField.position, self.playerNumber
                 )
+                return
+
         # Ist eine Figur in der Base und ein Startfeld frei
-        elif (
+        if (
             len(figureInBase) > 1
             and not self.isFieldManned(
                 allMannedCirclesAndFigures, self.startField.position
@@ -78,12 +83,14 @@ class Computer:
             gameField.kiMoveFigure(
                 figureInBase[0], self.startField.position, self.playerNumber
             )
+            return
         # Es wird wenn möglich die vorderste Figur bewegt
         # Fehlt noch die Berechnung des nächsten Feldes
-        else:
-            currCircle, currFigure = allMannedCirclesAndFigures[0]
-            newField = self.getNextField(currCircle, diceValue, gameField.allCircles)
-            gameField.kiMoveFigure(currFigure, newField.position, self.playerNumber)
+
+        currCircle, currFigure = allMannedCirclesAndFigures[0]
+        newField = self.getNextField(currCircle, diceValue, gameField.allCircles)
+        gameField.kiMoveFigure(currFigure, newField.position, self.playerNumber)
+        return
 
     def getNextField(self, currCircle, diceValue, allCircles):
         if currCircle.number + diceValue > 39:
