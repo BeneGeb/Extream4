@@ -34,3 +34,14 @@ class Circle:
             pygame.draw.circle(screen, self.color, (x, y), Settings.CIRCLE_SIZE - 3, 0)
         else:
             pygame.draw.circle(screen, self.color, (x, y), Settings.CIRCLE_SIZE, 0)
+
+    def getProgess(self):
+        if "base" in self.type:
+            return 0
+        if "house" in self.type:
+            return self.number + 40 + 1
+        else:
+            progress = self.number - 30 + 1
+            if progress <= 0:
+                return 40 - 30 + self.number + 1
+            return progress

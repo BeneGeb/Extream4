@@ -20,7 +20,6 @@ class GameField:
         self.lastClickedFigure = None
         self.lastClickedCircle = None
         self.markedCircle = None
-        self.placementlist = []
 
         self.houseStartFields = [40, 10, 20, 30]
 
@@ -28,16 +27,11 @@ class GameField:
         pygame.draw.rect(
             screen, (89, 89, 89), [475, 25, 970, 970], border_radius=30, width=5
         )
-        pygame.draw.rect(screen, (128, 128, 128), [
-                         480, 30, 960, 960], border_radius=25)
-        pygame.draw.rect(screen, (89, 89, 89), [
-                         515, 63, 170, 170], border_radius=30)
-        pygame.draw.rect(screen, (89, 89, 89), [
-                         1235, 63, 170, 170], border_radius=30)
-        pygame.draw.rect(screen, (89, 89, 89), [
-                         515, 780, 170, 170], border_radius=30)
-        pygame.draw.rect(screen, (89, 89, 89), [
-                         1235, 780, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, (128, 128, 128), [480, 30, 960, 960], border_radius=25)
+        pygame.draw.rect(screen, (89, 89, 89), [515, 63, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, (89, 89, 89), [1235, 63, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, (89, 89, 89), [515, 780, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, (89, 89, 89), [1235, 780, 170, 170], border_radius=30)
 
         for circle in self.allCircles:
             circle.draw(screen)
@@ -70,6 +64,16 @@ class GameField:
 
         self.lastClickedFigure = None
         self.lastClickedFigure = None
+
+    def kiMoveFigure(self, figure, newPosition, playerNumber):
+        matchingFigure = [
+            figure for figure in self.allFigures if figure.position == newPosition
+        ]
+        if len(matchingFigure) > 0:
+            self.kickFigure(
+                matchingFigure[0], self.getEmptyBaseField(matchingFigure[0].player)
+            )
+        self.moveFigure(figure, newPosition)
 
     # endregion
     # region Functions for Round system
@@ -109,11 +113,9 @@ class GameField:
                     != playerNumber
                     # and clickedCircle == self.markedCircle
                 ):
-                    emptyBaseField = self.getEmptyBaseField(
-                        clickedFigure.player)
+                    emptyBaseField = self.getEmptyBaseField(clickedFigure.player)
                     self.kickFigure(clickedFigure, emptyBaseField)
-                    self.moveFigure(self.lastClickedFigure,
-                                    clickedCircle.position)
+                    self.moveFigure(self.lastClickedFigure, clickedCircle.position)
                     moved = True
                 else:
                     moved = False
@@ -129,8 +131,6 @@ class GameField:
         return moved
 
     def getEmptyBaseField(self, playerNumber):
-        print("playerNumber")
-        print(playerNumber)
         teamFiguresPositions = [
             figure.position
             for figure in self.allFigures
@@ -177,8 +177,10 @@ class GameField:
                 for circle in self.allCircles
                 if circle.position == figure.position
             ][0]
-            if self.evalPossibleMove(circle, player, diceValue) != None:
-                return True
+            newField = self.evalPossibleMove(circle, player, diceValue)
+            if newField != None:
+                if not self.isFieldManned(newField.position, player):
+                    return True
         return False
 
     def evalPossibleMove(self, circle, team, diceValue):
@@ -219,9 +221,21 @@ class GameField:
                 else:
                     return None
 
+    def isFieldManned(self, position, playerNumber):
+        allTeamFiguresPositions = [
+            figure.position
+            for figure in self.allFigures
+            if figure.player == playerNumber
+        ]
+        matchingField = [
+            circle for circle in self.allCircles if circle.position == position
+        ]
+        if matchingField[0].position in allTeamFiguresPositions:
+            return True
+        return False
+
     def checkHouseFigures(self, team, newNumber):
-        teamFigures = [
-            figure for figure in self.allFigures if figure.player == team]
+        teamFigures = [figure for figure in self.allFigures if figure.player == team]
         circlesToCheck = [
             circle
             for circle in self.allCircles
@@ -252,44 +266,19 @@ class GameField:
     # endregion
 
     def checkWin(self, playerNumber):
-        teamBaseFields = [
-            circle
-            for circle in self.allCircles
-            if "house-" + str(playerNumber) in circle.type
-        ]
-        teamFigures = [
-            figure for figure in self.allFigures if figure.player == playerNumber
-        ]
-        for circle in teamBaseFields:
-            matchingField = [
-                figure for figure in teamFigures if circle.position == figure.position
-            ]
-            if len(matchingField) == 0:
-                return False
-        # self.playerNumberCheckCounter(playerNumber)
-        self.placementlist = self.placement()
-        return True
-
-    def playerNumberCheckCounter(self, playernumber):
-        teamBaseFields = [
-            circle.position
-            for circle in self.allCircles
-            if "house-" + str(playernumber) in circle.type
-
-        ]
-        teamFigures = [
-            figure.position for figure in self.allFigures if figure.player == playernumber
-        ]
-        counter = 0
-        for entry in teamBaseFields:
-            if entry in teamFigures:
-                counter += 1
-        return counter
-
-    def placement(self):
-        placementList = []
-        for i in range(4):
-            x = self.playerNumberCheckCounter(i)
-
-            placementList.append(x)
-        return placementList
+        # teamBaseFields = [
+        #     circle
+        #     for circle in self.allCirclesmove
+        #     if "house-" + str(playerNumber) in circle.type
+        # ]
+        # teamFigures = [
+        #     figure for figure in self.allFigures if figure.player == playerNumber
+        # ]
+        # for circle in teamBaseFields:
+        #     matchingField = [
+        #         figure for figure in teamFigures if circle.position == figure.position
+        #     ]
+        #     if len(matchingField) == 0:
+        #         return False
+        # return True
+        return False
