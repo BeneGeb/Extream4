@@ -1,4 +1,5 @@
 import pygame
+import time
 from pygame.locals import *
 from .Dice import Dice
 from .Computer import Computer
@@ -114,6 +115,7 @@ class Game:
                 self.changePlayer()
                 self.diceTries = 0
                 self.currentStage = "waitingForDice"
+                time.sleep(1)
         else:
             self.currentStage = "waitForChoosingFigure"
 
@@ -181,8 +183,10 @@ class Game:
             if Settings.listPlayers[self.currentPlayerNumber].isKi:
                 if self.currentStage == "waitingForDice":
                     self.kiDiceRolling()
+                    time.sleep(1)
                 elif self.currentStage == "waitForComputer":
                     self.kiHandlewWaitingForComputer()
+                    time.sleep(1)
 
             # Gamelogic
             if self.currentStage == "rollingDice":
