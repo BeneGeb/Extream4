@@ -17,6 +17,8 @@ setUpPygame()
 pygame.init()
 
 # Nur bei 6 darf eine Figure aus der Base raus gehen
+
+
 class Game:
     def __init__(self, callBackStartEndWindow):
         self.screen = pygame.display.set_mode(
@@ -70,7 +72,6 @@ class Game:
             self.currentPlayerNumber += 1
         else:
             self.currentPlayerNumber = 0
-        self.currentPlayerNumber = 0
 
     def drawCurrentPlayer(self, currentPlayerNumber, screen):
         font = pygame.font.Font(None, 40)
@@ -136,7 +137,8 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(self.currentPlayerNumber)
+                self.callBackStartEndWindow(
+                    self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()

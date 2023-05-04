@@ -1,9 +1,10 @@
 from tkinter import *
 from .settings import Settings
+from .GameField import GameField
 
 
 class Window_Finished:
-    def __init__(self, callBackStartWindow, placement):
+    def __init__(self, callBackStartWindow, placement, gameField):
         self.callBackStartWindow = callBackStartWindow
         tkFenster = Tk()
         tkFenster.title("Mensch ärgere dich nicht")
@@ -37,12 +38,41 @@ class Window_Finished:
         labelMenue.place(x=45, y=30)
 
         # Liste der Spieler
-        for i in range(1, 5):
+        playerSortedPlacementDict = {}
+
+        for i in range(len(Settings.listPlayers)):
+            playerSortedPlacementDict[Settings.listPlayers[i]
+                                      .name] = gameField.placementlist[i]
+        # sorted_placement = sorted(playerSortedPlacementDict.items())
+
+        # sorted_dict = {}
+        # for x in sorted_placement:
+        #   sorted_dict[x[0]] = x[1]
+        # sorted_dict = {k: v for k, v in sorted(
+        #    sorted_placement.items(), key=lambda item: item[1])}
+        sorted_dict = dict(
+            sorted(playerSortedPlacementDict.items(), key=lambda x: x[0]))
+
+        # Dict_Keys in Liste
+        key_list = list(sorted_dict.keys())
+
+        # Values in Liste
+        values_list = list(sorted_dict.values())
+
+        # ListeSpieler Output
+        # Platzierung Heckmeck
+        for i, j in zip(range(1, 5), range(4)):
+            place = i
+            if values_list[j] == values_list[j-1]:
+                place = 2
+                if values_list[j] == values_list[j-2]:
+                    place = 2
 
             labelplayer = Label(
                 master=tkFenster,
                 # text=str(i) + "." + " " + "Player " + str(i),
-                text=str(i) + "." + Settings.listPlayers[i - 1].name,
+                text=f"{str(place)}.Platz: {key_list[j]}" + " " + ":" +
+                f"{values_list[j]} Spieler im Hausfeld",
                 bg="white",
                 font=("Arial", 10),
             )
