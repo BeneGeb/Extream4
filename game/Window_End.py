@@ -1,6 +1,5 @@
 from tkinter import *
 from .settings import Settings
-from .GameField import GameField
 
 
 class Window_Finished:
@@ -43,15 +42,10 @@ class Window_Finished:
         for i in range(len(Settings.listPlayers)):
             playerSortedPlacementDict[Settings.listPlayers[i]
                                       .name] = gameField.placementlist[i]
-        # sorted_placement = sorted(playerSortedPlacementDict.items())
 
-        # sorted_dict = {}
-        # for x in sorted_placement:
-        #   sorted_dict[x[0]] = x[1]
-        # sorted_dict = {k: v for k, v in sorted(
-        #    sorted_placement.items(), key=lambda item: item[1])}
         sorted_dict = dict(
-            sorted(playerSortedPlacementDict.items(), key=lambda x: x[0]))
+            sorted(playerSortedPlacementDict.items(), key=lambda x: x[1], reverse=True))
+        print(sorted_dict)
 
         # Dict_Keys in Liste
         key_list = list(sorted_dict.keys())
@@ -59,19 +53,28 @@ class Window_Finished:
         # Values in Liste
         values_list = list(sorted_dict.values())
 
+        # Liste der Platzierung
+        place_list = []
+        previous_value = None
+        previous_place = None
+        for i, value in enumerate(values_list):
+            if value != previous_value:
+                place = i + 1
+                previous_place = place
+                place_list.append(previous_place)
+            else:
+                place = previous_place
+                place_list.append(place)
+            previous_value = value
+        print("hier", place_list)
+
         # ListeSpieler Output
         # Platzierung Heckmeck
         for i, j in zip(range(1, 5), range(4)):
-            place = i
-            if values_list[j] == values_list[j-1]:
-                place = 2
-                if values_list[j] == values_list[j-2]:
-                    place = 2
-
             labelplayer = Label(
                 master=tkFenster,
                 # text=str(i) + "." + " " + "Player " + str(i),
-                text=f"{str(place)}.Platz: {key_list[j]}" + " " + ":" +
+                text=f"{place_list[j]}.Platz: {key_list[j]}" + " " + ":" +
                 f"{values_list[j]} Spieler im Hausfeld",
                 bg="white",
                 font=("Arial", 10),
