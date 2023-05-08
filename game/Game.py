@@ -4,7 +4,7 @@ from pygame.locals import *
 from .Dice import Dice
 from .Computer import Computer
 from .GameField.GameField import GameField
-
+from .Helper.JSON_Helper import *
 from .settings import Settings
 
 
@@ -31,7 +31,6 @@ class Game:
         self.currentStage = "waitingForDice"
         self.rollingProgress = 0
         self.diceTries = 0
-        self.currentPlayerNumber = 0
         self.computers = self.createKi()
 
         self.callBackStartEndWindow = callBackStartEndWindow
@@ -153,7 +152,8 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(
+                    self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
@@ -172,6 +172,13 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.gameActive = False
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        saveGameState(self.gamefield, self.currentPlayerNumber)
+                    if event.key == pygame.K_RIGHT:
+                        print("Mensch")
+                        loadGameState()
+
                 elif (
                     event.type == pygame.MOUSEBUTTONDOWN
                     and not Settings.listPlayers[self.currentPlayerNumber].isKi
