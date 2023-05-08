@@ -67,6 +67,7 @@ class Game:
                 self.currentStage = "waitingForDice"
         else:
             self.currentStage = "waitForComputer"
+            self.diceTries = 0
 
     def kiHandlewWaitingForComputer(self):
         self.computers[self.currentPlayerNumber].evalNextMove(
@@ -120,6 +121,7 @@ class Game:
                 time.sleep(1)
         else:
             self.currentStage = "waitForChoosingFigure"
+            self.diceTries = 0
 
     def handleRollingDice(self):
         if self.rollingProgress == 0:
@@ -151,8 +153,7 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(
-                    self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
