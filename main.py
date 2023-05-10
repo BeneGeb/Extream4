@@ -13,7 +13,6 @@ def startGame():
 
 
 def startEndWindow(placement, gameField):
-    print(gameField.placementlist)
     Window_Finished(startWindow, placement, gameField)
 
 

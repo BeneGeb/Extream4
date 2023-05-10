@@ -193,24 +193,25 @@ class GameField:
             return self.findFieldOnType("startField-" + str(team))
         elif "startField" in circle.type:
             return self.findFieldOnNumber(possibleNumber)
+        # Wenn man sich ganz normal bewegt
         elif "neutral" in circle.type and (
             (circle.number + diceValue) < self.houseStartFields[team]
             or circle.number > self.houseStartFields[team]
         ):
             return self.findFieldOnNumber(possibleNumber)
+        # Wenn man auf ienem normalen Feld ist aber in ein Haus Feld rein muss
         elif (
             "neutral" in circle.type
-            and (possibleNumber) >= self.houseStartFields[team]
+            and (circle.number + diceValue) >= self.houseStartFields[team]
             and circle.number < self.houseStartFields[team]
         ):
-            houseFieldNumber = possibleNumber - self.houseStartFields[team]
-            if houseFieldNumber > 3:
-                return None
-            elif houseFieldNumber <= 3:
+            houseFieldNumber = (circle.number + diceValue) - self.houseStartFields[team]
+            if houseFieldNumber <= 3:
                 if self.checkHouseFigures(team, houseFieldNumber):
                     return self.findField(houseFieldNumber, "house-" + str(team))
                 else:
                     return None
+            return None
         elif "house" in circle.type:
             houseFieldNumber = possibleNumber
             if houseFieldNumber > 3:
@@ -251,6 +252,7 @@ class GameField:
         return True
 
     def findField(self, number, type):
+        print(number)
         return [
             circle
             for circle in self.allCircles

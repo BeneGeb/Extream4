@@ -39,10 +39,11 @@ class Game:
         self.runGame()
 
     def createKi(self):
+        startFields = [40, 10, 20, 30]
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(Computer(num, self.gamefield))
+                computers.append(Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -74,9 +75,9 @@ class Game:
             self.gamefield, self.dice.currentValue
         )
         self.currentStage = "waitingForDice"
-        if self.gamefield.checkWin(self.currentPlayerNumber):
-            self.gameActive = False
-            self.callBackStartEndWindow(self.currentPlayerNumber)
+        # if self.gamefield.checkWin(self.currentPlayerNumber):
+        #     self.gameActive = False
+        #     self.callBackStartEndWindow(self.currentPlayerNumber)
 
         if self.dice.currentValue <= 5:
             self.changePlayer()
