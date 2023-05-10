@@ -28,8 +28,8 @@ class Dice:
         self.all_dice = all_dice
 
     def rollDice(self):
-        # self.currentValue = random.randint(5, 6)
-        self.currentValue = 6
+        self.currentValue = random.randint(4, 6)
+        #self.currentValue = 6
         return self.currentValue
 
     def drawRectAroundDice(self, screen, currentPlayerNumber):
