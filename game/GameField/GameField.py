@@ -26,16 +26,20 @@ class GameField:
         self.houseStartFields = [40, 10, 20, 30]
 
         self.explosion_images = [pygame.image.load(os.path.join(f"frame_{i}.png")) for i in range(23)]
-        self.explosion_cycle = cycle(self.explosion_images)
         self.explosion_frame_count = 0
+        self.explosion_update_count = 0
+        self.explosion_update_rate = 3  # Adjust this value to control the animation speed
         self.explosion_running = False
 
     def update_explosion(self):
         if self.explosion_running:
-            self.explosion_frame_count += 1
-            if self.explosion_frame_count >= len(self.explosion_images):
-                self.explosion_running = False
-                self.explosion_frame_count = 0
+            self.explosion_update_count += 1
+            if self.explosion_update_count >= self.explosion_update_rate:
+                self.explosion_frame_count += 1
+                self.explosion_update_count = 0
+                if self.explosion_frame_count >= len(self.explosion_images):
+                    self.explosion_running = False
+                    self.explosion_frame_count = 0
         else:
             self.explosion = None
 
@@ -55,7 +59,7 @@ class GameField:
             figure.draw(screen)
         
         if self.explosion_running:
-            screen.blit(next(self.explosion_cycle), ((480 + 960) // 2, (30 + 960) // 2))
+            screen.blit(self.explosion_images[self.explosion_frame_count], ((480 + 960) // 2, (30 + 960) // 2))
             self.update_explosion()
 
     # region clickHandler
