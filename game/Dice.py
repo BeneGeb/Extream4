@@ -22,8 +22,7 @@ class Dice:
         all_dice.append(None)
         for i in range(1, 7):
             nextImage = pygame.image.load("Würfel_" + str(i) + ".png")
-            nextImage = pygame.transform.scale(
-                nextImage, (self.size, self.size))
+            nextImage = pygame.transform.scale(nextImage, (self.size, self.size))
             all_dice.append(nextImage)
         self.all_dice = all_dice
 

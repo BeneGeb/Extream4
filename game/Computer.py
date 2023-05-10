@@ -2,13 +2,19 @@ import time
 
 
 class Computer:
-    def __init__(self, playerNumber, gameField):
+    def __init__(self, playerNumber, gameField, startHouseField):
         self.playerNumber = playerNumber
         self.startField = [
             circle
             for circle in gameField.allCircles
             if "startField-" + str(playerNumber) in circle.type
         ][0]
+        self.houseFields = [
+            circle
+            for circle in gameField.allCircles
+            if "house-" + str(playerNumber) in circle.type
+        ]
+        self.startOfHouseField = startHouseField
 
     def getAllFigures(self, allFigures):
         return [figure for figure in allFigures if figure.player == self.playerNumber]
@@ -57,7 +63,6 @@ class Computer:
             for circle, figure in allMannedCirclesAndFigures
             if "base" in circle.type
         ]
-
         # Ist eine eigene Figur auf dem Startfield
         if self.isFieldManned(allMannedCirclesAndFigures, self.startField.position):
             figureToMove = self.getFigureFromFieldNumber(
@@ -71,10 +76,9 @@ class Computer:
                     figureToMove, newField.position, self.playerNumber
                 )
                 return
-
         # Ist eine Figur in der Base und ein Startfeld frei
         if (
-            len(figureInBase) > 1
+            len(figureInBase) > 0
             and not self.isFieldManned(
                 allMannedCirclesAndFigures, self.startField.position
             )
@@ -85,18 +89,45 @@ class Computer:
             )
             return
         # Es wird wenn möglich die vorderste Figur bewegt
-        # Fehlt noch die Berechnung des nächsten Feldes
 
-        currCircle, currFigure = allMannedCirclesAndFigures[0]
-        newField = self.getNextField(currCircle, diceValue, gameField.allCircles)
-        gameField.kiMoveFigure(currFigure, newField.position, self.playerNumber)
-        return
+        for i in range(0, 4):
+            currCircle, currFigure = allMannedCirclesAndFigures[i]
+            newField = self.getNextField(currCircle, diceValue, gameField.allCircles)
+            if newField != None and "base" not in currCircle.type:
+                if not self.isFieldManned(
+                    allMannedCirclesAndFigures, newField.position
+                ):
+                    gameField.kiMoveFigure(
+                        currFigure, newField.position, self.playerNumber
+                    )
+                    return None
 
     def getNextField(self, currCircle, diceValue, allCircles):
-        if currCircle.number + diceValue > 39:
-            number = currCircle.number + diceValue - 39
-            return self.getFieldFromNumber(number, allCircles)
-        return self.getFieldFromNumber(currCircle.number + diceValue, allCircles)
+        # Wenn die Figur schon im Ziel ist
+        if "house" in currCircle.type:
+            number = currCircle.number + diceValue
+            if number <= 3:
+                return [
+                    circle for circle in self.houseFields if circle.number == number
+                ][0]
+            return None
+        if (
+            currCircle.number + diceValue < self.startOfHouseField
+            or currCircle.number <= self.startOfHouseField
+        ):
+            return self.getFieldFromNumber(currCircle.number + diceValue, allCircles)
+        # Wenn die Figur noch nicht im Ziel ist, allerdings dort rein muss
+        if (
+            currCircle.number + diceValue >= self.startOfHouseField
+            and currCircle.number < self.startOfHouseField
+        ):
+            number = currCircle.number + diceValue - self.startOfHouseField
+            if number <= 3:
+                return [
+                    circle for circle in self.houseFields if circle.number == number
+                ][0]
+            return None
+        return None
 
     def sortFigures(self, allMannedCirclesAndFigures):
         allMannedCirclesAndFigures.sort(

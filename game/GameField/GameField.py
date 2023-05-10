@@ -4,6 +4,8 @@ import pygame
 from ..Helper.GameFieldLoader import GameFieldLoader
 from ..settings import Settings
 from pygame import mixer
+import os
+from itertools import cycle
 
 pygame.init()
 
@@ -22,6 +24,24 @@ class GameField:
         self.markedCircle = None
 
         self.houseStartFields = [40, 10, 20, 30]
+
+        self.explosion_images = [pygame.image.load(os.path.join(f"frame_{i}.png")) for i in range(23)]
+        self.explosion_frame_count = 0
+        self.explosion_update_count = 0
+        self.explosion_update_rate = 3  # Adjust this value to control the animation speed
+        self.explosion_running = False
+
+    def update_explosion(self):
+        if self.explosion_running:
+            self.explosion_update_count += 1
+            if self.explosion_update_count >= self.explosion_update_rate:
+                self.explosion_frame_count += 1
+                self.explosion_update_count = 0
+                if self.explosion_frame_count >= len(self.explosion_images):
+                    self.explosion_running = False
+                    self.explosion_frame_count = 0
+        else:
+            self.explosion = None
 
     def draw(self, screen):
         pygame.draw.rect(
@@ -56,6 +76,10 @@ class GameField:
             circle.draw(screen)
         for figure in self.allFigures:
             figure.draw(screen)
+        
+        if self.explosion_running:
+            screen.blit(self.explosion_images[self.explosion_frame_count], ((480 + 960) // 2, (30 + 960) // 2))
+            self.update_explosion()
 
     # region clickHandler
     def getClickedFigure(self, clickedPos):
@@ -74,6 +98,9 @@ class GameField:
         clickedFigure.move(emptyBaseField.position)
         Explo_Sound = mixer.Sound("Explosion.mp3")
         Explo_Sound.play()
+
+        self.explosion_running = True
+        self.explosion_frame_count = 0
 
     def moveFigure(self, figure, newPosition):
         Move_Sound = mixer.Sound("Move.mp3")
@@ -215,24 +242,25 @@ class GameField:
             return self.findFieldOnType("startField-" + str(team))
         elif "startField" in circle.type:
             return self.findFieldOnNumber(possibleNumber)
+        # Wenn man sich ganz normal bewegt
         elif "neutral" in circle.type and (
             (circle.number + diceValue) < self.houseStartFields[team]
             or circle.number > self.houseStartFields[team]
         ):
             return self.findFieldOnNumber(possibleNumber)
+        # Wenn man auf ienem normalen Feld ist aber in ein Haus Feld rein muss
         elif (
             "neutral" in circle.type
-            and (possibleNumber) >= self.houseStartFields[team]
+            and (circle.number + diceValue) >= self.houseStartFields[team]
             and circle.number < self.houseStartFields[team]
         ):
-            houseFieldNumber = possibleNumber - self.houseStartFields[team]
-            if houseFieldNumber > 3:
-                return None
-            elif houseFieldNumber <= 3:
+            houseFieldNumber = (circle.number + diceValue) - self.houseStartFields[team]
+            if houseFieldNumber <= 3:
                 if self.checkHouseFigures(team, houseFieldNumber):
                     return self.findField(houseFieldNumber, "house-" + str(team))
                 else:
                     return None
+            return None
         elif "house" in circle.type:
             houseFieldNumber = possibleNumber
             if houseFieldNumber > 3:
@@ -274,6 +302,7 @@ class GameField:
         return True
 
     def findField(self, number, type):
+        print(number)
         return [
             circle
             for circle in self.allCircles
