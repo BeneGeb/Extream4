@@ -5,6 +5,8 @@ from tkinter import Canvas
 import math
 import pygame
 from .settings import Settings
+from .Helper.GameState import *
+from .Game import *
 
 
 class Window:
@@ -65,7 +67,7 @@ class Window:
             bg="white",
             bd=2,
             font=("Arial", 14),
-            command=lambda: self.startGame(tkFenster),
+            command=lambda: self.startGame(tkFenster, 1),
         )
         buttonStart.place(x=300, y=280, width=70, height=50)
 
@@ -163,7 +165,22 @@ class Window:
         collor_button_player4.pack()
         collor_button_player4.place(x=275, y=220)
 
+        LastGameButton = Button(tkFenster, text="Fortsetzen",
+                                command=lambda: LoadPreviousGame())
+        LastGameButton.pack()
+        LastGameButton.place(x=275, y=265)
+
+        # Letztes Spiel Starten:
+
+        def LoadPreviousGame():
+            self.gameState = GameState()
+            loadedState = self.gameState.loadGameState()
+            Settings.listPlayers = loadedState.listPlayers
+
+            self.startGame(tkFenster, 2)
+
         # Farbraster kleines Vorschau Quadrat
+
         def SquareColor(id, the_color):
             square = Canvas(tkFenster, width=20, height=20)
             square.pack()
@@ -215,7 +232,7 @@ class Window:
 
         # Spielstarten
 
-    def startGame(self, tkfenster):
+    def startGame(self, tkfenster, New_Previous_Game):
 
         # KI Boolean-Werte holen
 
@@ -294,5 +311,8 @@ class Window:
         # Settings.listPlayers[3].name= self.Namefield4.get()
         if startgame:
             tkfenster.destroy()
-
-            self.callBackStartGame()
+            if New_Previous_Game == 2:
+                loadedState = self.gameState.loadGameState()
+                self.callBackStartGame(loadedState)
+            else:
+                self.callBackStartGame()

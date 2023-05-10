@@ -8,12 +8,11 @@ def startWindow():
     Window(startGame)
 
 
-def startGame():
-    Game(startEndWindow)
+def startGame(loadedState=None):
+    Game(startEndWindow, loadedState)
 
 
 def startEndWindow(placement, gameField):
-    print(gameField.placementlist)
     Window_Finished(startWindow, placement, gameField)
 
 

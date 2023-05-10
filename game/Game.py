@@ -4,7 +4,7 @@ from pygame.locals import *
 from .Dice import Dice
 from .Computer import Computer
 from .GameField.GameField import GameField
-from .Helper.JSON_Helper import *
+from .Helper.GameState import *
 from .settings import Settings
 
 
@@ -21,13 +21,18 @@ pygame.init()
 
 
 class Game:
-    def __init__(self, callBackStartEndWindow):
+    def __init__(self, callBackStartEndWindow, loadedState=None):
         self.screen = pygame.display.set_mode(
             (Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT), pygame.RESIZABLE
         )
         self.dice = Dice()
-        self.gamefield = GameField()
-        self.currentPlayerNumber = 0
+        if loadedState == None:
+            self.gamefield = GameField()
+            self.currentPlayerNumber = 0
+        else:
+            self.gamefield = loadedState.gameField
+            self.currentPlayerNumber = loadedState.currentPlayer
+        self.gameState = GameState()
         self.currentStage = "waitingForDice"
         self.rollingProgress = 0
         self.diceTries = 0
@@ -174,10 +179,11 @@ class Game:
                     self.gameActive = False
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT:
-                        saveGameState(self.gamefield, self.currentPlayerNumber)
+
+                        self.gameState.saveGameState(
+                            self.gamefield, self.currentPlayerNumber, Settings.listPlayers)
                     if event.key == pygame.K_RIGHT:
-                        print("Mensch")
-                        loadGameState()
+                        self.gameState.loadGameState()
 
                 elif (
                     event.type == pygame.MOUSEBUTTONDOWN

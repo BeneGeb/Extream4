@@ -10,6 +10,7 @@ class Settings:
     BLUE = (0, 0, 255)
     BLACK = (0, 0, 0)
     ORANGE = (255, 165, 0)
+    GRAY = (128, 128, 128)
     BACKGROUNDCOLOR = (155, 155, 155)
 
     CIRCLE_DIFFERENCE = 80
