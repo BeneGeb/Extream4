@@ -47,7 +47,8 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(Computer(num, self.gamefield, startFields[num]))
+                computers.append(
+                    Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -178,19 +179,13 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.gameActive = False
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-
-                        self.gameState.saveGameState(
-                            self.gamefield, self.currentPlayerNumber, Settings.listPlayers)
-                    if event.key == pygame.K_RIGHT:
-                        self.gameState.loadGameState()
-
                 elif (
                     event.type == pygame.MOUSEBUTTONDOWN
                     and not Settings.listPlayers[self.currentPlayerNumber].isKi
                 ):
                     mousePosition = pygame.mouse.get_pos()
+                    self.gamefield.clickSaveButton(
+                        mousePosition, self.gamefield, self.currentPlayerNumber, Settings.listPlayers)
                     self.gamefield.getClickedCircle(mousePosition)
                     if self.currentStage == "waitingForDice":
                         self.handleWaitingForDice(mousePosition)

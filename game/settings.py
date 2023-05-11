@@ -42,6 +42,11 @@ class Settings:
     DICE_POSITION = (10, 10)
     DICE_SIZE = 130
 
+    RECT_x_Position = 10
+    RECT_y_Position = 200
+    RECT_x_Width = 200
+    RECT_y_Height = 100
+
     def setUpSettings():
         monitor = [monitor for monitor in get_monitors() if monitor.is_primary]
         Settings.WINDOW_WIDTH = monitor[0].width

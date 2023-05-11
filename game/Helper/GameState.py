@@ -7,6 +7,7 @@ class GameState:
     def saveGameState(self, gameField, currentPlayer, listPlayers):
         dateiname = "Save"
         self.gameField = gameField
+        self.gameField.explosion_images = None
         self.currentPlayer = currentPlayer
         self.listPlayers = listPlayers
 

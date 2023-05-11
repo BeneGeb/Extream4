@@ -6,6 +6,7 @@ from ..settings import Settings
 from pygame import mixer
 import os
 from itertools import cycle
+from ..Helper.GameState import *
 
 pygame.init()
 
@@ -17,6 +18,7 @@ mixer.init()
 class GameField:
     def __init__(self):
         gfLoader = GameFieldLoader()
+        self.gameState = GameState()
         self.allCircles = gfLoader.loadAllCircles()
         self.allFigures = gfLoader.placeStartFigures(self.allCircles)
         self.lastClickedFigure = None
@@ -24,14 +26,16 @@ class GameField:
         self.markedCircle = None
 
         self.houseStartFields = [40, 10, 20, 30]
-
-        self.explosion_images = [pygame.image.load(os.path.join(f"frame_{i}.png")) for i in range(23)]
+        self.explosion_images = [pygame.image.load(
+            os.path.join(f"frame_{i}.png")) for i in range(23)]
         self.explosion_frame_count = 0
         self.explosion_update_count = 0
         self.explosion_update_rate = 3  # Adjust this value to control the animation speed
         self.explosion_running = False
 
     def update_explosion(self):
+        self.explosion_images = [pygame.image.load(
+            os.path.join(f"frame_{i}.png")) for i in range(23)]
         if self.explosion_running:
             self.explosion_update_count += 1
             if self.explosion_update_count >= self.explosion_update_rate:
@@ -44,6 +48,8 @@ class GameField:
             self.explosion = None
 
     def draw(self, screen):
+        self.explosion_images = [pygame.image.load(
+            os.path.join(f"frame_{i}.png")) for i in range(23)]
         pygame.draw.rect(
             screen, (89, 89, 89), [475, 25, 970, 970], border_radius=30, width=5
         )
@@ -58,30 +64,37 @@ class GameField:
         pygame.draw.rect(screen, (89, 89, 89), [
                          1235, 780, 170, 170], border_radius=30)
         # Speichern Button
-        x_Position = 10
-        y_Position = 200
-        x_Width = 200
-        y_Height = 100
         pygame.draw.rect(screen, Settings.RED,
-                         (x_Position, y_Position, x_Width, y_Height))
+                         (Settings.RECT_x_Position, Settings.RECT_y_Position, Settings.RECT_x_Width, Settings.RECT_y_Height))
 
         small_font = pygame.font.SysFont("comicsansms", 25)
         text = small_font.render("Speichern", True, Settings.BLACK)
         text_rect = text.get_rect()
-        text_rect.center = ((x_Position+(x_Width/2)),
-                            (y_Position+(y_Height/2)))
+        text_rect.center = ((Settings.RECT_x_Position+(Settings.RECT_x_Width/2)),
+                            (Settings.RECT_y_Position+(Settings.RECT_y_Height/2)))
         screen.blit(text, text_rect)
+        #
 
         for circle in self.allCircles:
             circle.draw(screen)
         for figure in self.allFigures:
             figure.draw(screen)
-        
+
         if self.explosion_running:
-            screen.blit(self.explosion_images[self.explosion_frame_count], ((480 + 960) // 2, (30 + 960) // 2))
+            screen.blit(self.explosion_images[self.explosion_frame_count], ((
+                480 + 960) // 2, (30 + 960) // 2))
             self.update_explosion()
 
+    def clickSaveButton(self, mouse, gamefield, currentPlayerNumber, listPlayers):
+
+        if Settings.RECT_x_Position + Settings.RECT_x_Width > mouse[0] > Settings.RECT_x_Position and Settings.RECT_y_Position + Settings.RECT_y_Height > mouse[1] > Settings.RECT_y_Position:
+
+            self.gameState.saveGameState(
+                gamefield, currentPlayerNumber, listPlayers)
+            print("hier")
+
     # region clickHandler
+
     def getClickedFigure(self, clickedPos):
         for figure in self.allFigures:
             if figure.handleClick(clickedPos):
@@ -254,7 +267,8 @@ class GameField:
             and (circle.number + diceValue) >= self.houseStartFields[team]
             and circle.number < self.houseStartFields[team]
         ):
-            houseFieldNumber = (circle.number + diceValue) - self.houseStartFields[team]
+            houseFieldNumber = (circle.number + diceValue) - \
+                self.houseStartFields[team]
             if houseFieldNumber <= 3:
                 if self.checkHouseFigures(team, houseFieldNumber):
                     return self.findField(houseFieldNumber, "house-" + str(team))
