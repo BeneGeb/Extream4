@@ -11,6 +11,7 @@ class Settings:
     BLACK = (0, 0, 0)
     ORANGE = (255, 165, 0)
     GRAY = (128, 128, 128)
+    DARKGRAY = (89, 89, 89)
     BACKGROUNDCOLOR = (155, 155, 155)
 
     CIRCLE_DIFFERENCE = 80
@@ -37,15 +38,15 @@ class Settings:
 
     COLOR_DISTANCE = 100
 
-    CURRENT_PLAYER_POSITION = (25, 150)
+    CURRENT_PLAYER_POSITION = (90, 210)
 
-    DICE_POSITION = (10, 10)
+    DICE_POSITION = (80, 60)
     DICE_SIZE = 130
 
-    RECT_x_Position = 10
-    RECT_y_Position = 200
+    RECT_x_Position = 45
+    RECT_y_Position = 300
     RECT_x_Width = 200
-    RECT_y_Height = 100
+    RECT_y_Height = 60
 
     def setUpSettings():
         monitor = [monitor for monitor in get_monitors() if monitor.is_primary]

@@ -208,7 +208,11 @@ class Game:
             # Draw Background
             self.screen.fill(Settings.BACKGROUNDCOLOR)
 
-            # Draw Dice
+            # Draw dice background
+            pygame.draw.rect(self.screen, Settings.GRAY, [
+                         20, 20, 250, 235], border_radius=30)
+        
+            # Draw dice 
             if self.currentStage == "rollingDice":
                 self.dice.drawAnimation(
                     self.screen, self.currentPlayerNumber, self.rollingProgress

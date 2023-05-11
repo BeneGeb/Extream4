@@ -53,19 +53,21 @@ class GameField:
         pygame.draw.rect(
             screen, (89, 89, 89), [475, 25, 970, 970], border_radius=30, width=5
         )
-        pygame.draw.rect(screen, (128, 128, 128), [
+        pygame.draw.rect(screen, Settings.GRAY, [
                          480, 30, 960, 960], border_radius=25)
-        pygame.draw.rect(screen, (89, 89, 89), [
+        pygame.draw.rect(screen, Settings.DARKGRAY, [
                          515, 63, 170, 170], border_radius=30)
-        pygame.draw.rect(screen, (89, 89, 89), [
+        pygame.draw.rect(screen, Settings.DARKGRAY, [
                          1235, 63, 170, 170], border_radius=30)
-        pygame.draw.rect(screen, (89, 89, 89), [
+        pygame.draw.rect(screen, Settings.DARKGRAY, [
                          515, 780, 170, 170], border_radius=30)
-        pygame.draw.rect(screen, (89, 89, 89), [
+        pygame.draw.rect(screen, Settings.DARKGRAY, [
                          1235, 780, 170, 170], border_radius=30)
+        pygame.draw.rect(screen, Settings.GRAY, [
+                         20, 275, 250, 600], border_radius=30)
         # Speichern Button
-        pygame.draw.rect(screen, Settings.RED,
-                         (Settings.RECT_x_Position, Settings.RECT_y_Position, Settings.RECT_x_Width, Settings.RECT_y_Height))
+        pygame.draw.rect(screen, Settings.DARKGRAY,
+                         (Settings.RECT_x_Position, Settings.RECT_y_Position, Settings.RECT_x_Width, Settings.RECT_y_Height),border_radius=20)
 
         small_font = pygame.font.SysFont("comicsansms", 25)
         text = small_font.render("Speichern", True, Settings.BLACK)
