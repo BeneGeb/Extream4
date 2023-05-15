@@ -186,6 +186,7 @@ class Game:
                     mousePosition = pygame.mouse.get_pos()
                     self.gamefield.clickSaveButton(
                         mousePosition, self.gamefield, self.currentPlayerNumber, Settings.listPlayers)
+                    self.gamefield.clickRageButton(mousePosition)
                     self.gamefield.getClickedCircle(mousePosition)
                     if self.currentStage == "waitingForDice":
                         self.handleWaitingForDice(mousePosition)
@@ -210,9 +211,9 @@ class Game:
 
             # Draw dice background
             pygame.draw.rect(self.screen, Settings.GRAY, [
-                         20, 20, 250, 235], border_radius=30)
-        
-            # Draw dice 
+                20, 20, 250, 235], border_radius=30)
+
+            # Draw dice
             if self.currentStage == "rollingDice":
                 self.dice.drawAnimation(
                     self.screen, self.currentPlayerNumber, self.rollingProgress

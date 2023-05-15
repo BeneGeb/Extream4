@@ -58,7 +58,8 @@ class GameField:
         pygame.draw.rect(
             screen, (89, 89, 89), [475, 25, 970, 970], border_radius=30, width=5
         )
-        pygame.draw.rect(screen, Settings.GRAY, [480, 30, 960, 960], border_radius=25)
+        pygame.draw.rect(screen, Settings.GRAY, [
+                         480, 30, 960, 960], border_radius=25)
         pygame.draw.rect(
             screen, Settings.DARKGRAY, [515, 63, 170, 170], border_radius=30
         )
@@ -71,7 +72,8 @@ class GameField:
         pygame.draw.rect(
             screen, Settings.DARKGRAY, [1235, 780, 170, 170], border_radius=30
         )
-        pygame.draw.rect(screen, Settings.GRAY, [20, 275, 250, 600], border_radius=30)
+        pygame.draw.rect(screen, Settings.GRAY, [
+                         20, 275, 250, 600], border_radius=30)
         # Speichern Button
         pygame.draw.rect(
             screen,
@@ -93,7 +95,28 @@ class GameField:
             (Settings.RECT_y_Position + (Settings.RECT_y_Height / 2)),
         )
         screen.blit(text, text_rect)
-        #
+        # Ragequit
+
+        pygame.draw.rect(
+            screen,
+            Settings.RED,
+            (
+                Settings.RECT_x_Position,
+                Settings.RECT_y_Position*2.6,
+                Settings.RECT_x_Width,
+                Settings.RECT_y_Height,
+            ),
+            border_radius=20,
+        )
+
+        small_font = pygame.font.SysFont("comicsansms", 25)
+        text = small_font.render("RAGEQUIT", True, Settings.BLACK)
+        text_rect = text.get_rect()
+        text_rect.center = (
+            (Settings.RECT_x_Position + (Settings.RECT_x_Width / 2)),
+            (Settings.RECT_y_Position*2.6 + (Settings.RECT_y_Height / 2)),
+        )
+        screen.blit(text, text_rect)
 
         for circle in self.allCircles:
             circle.draw(screen)
@@ -118,8 +141,19 @@ class GameField:
             > Settings.RECT_y_Position
         ):
 
-            self.gameState.saveGameState(gamefield, currentPlayerNumber, listPlayers)
-            print("hier")
+            self.gameState.saveGameState(
+                gamefield, currentPlayerNumber, listPlayers)
+
+    def clickRageButton(self, mouse):
+        if (
+            Settings.RECT_x_Position + Settings.RECT_x_Width
+            > mouse[0]
+            > Settings.RECT_x_Position
+            and Settings.RECT_y_Position*2.6 + Settings.RECT_y_Height
+            > mouse[1]
+            > Settings.RECT_y_Position*2.6
+        ):
+            print("BOOOM")
 
     # region clickHandler
 
@@ -158,7 +192,8 @@ class GameField:
         ]
         if len(matchingFigure) > 0:
             self.kickFigure(
-                matchingFigure[0], self.getEmptyBaseField(matchingFigure[0].player)
+                matchingFigure[0], self.getEmptyBaseField(
+                    matchingFigure[0].player)
             )
         self.moveFigure(figure, newPosition)
 
@@ -200,9 +235,11 @@ class GameField:
                     != playerNumber
                     # and clickedCircle == self.markedCircle
                 ):
-                    emptyBaseField = self.getEmptyBaseField(clickedFigure.player)
+                    emptyBaseField = self.getEmptyBaseField(
+                        clickedFigure.player)
                     self.kickFigure(clickedFigure, emptyBaseField)
-                    self.moveFigure(self.lastClickedFigure, clickedCircle.position)
+                    self.moveFigure(self.lastClickedFigure,
+                                    clickedCircle.position)
                     moved = True
                 else:
                     moved = False
@@ -292,7 +329,8 @@ class GameField:
             and (circle.number + diceValue) >= self.houseStartFields[team]
             and circle.number < self.houseStartFields[team]
         ):
-            houseFieldNumber = (circle.number + diceValue) - self.houseStartFields[team]
+            houseFieldNumber = (circle.number + diceValue) - \
+                self.houseStartFields[team]
             if houseFieldNumber <= 3:
                 if self.checkHouseFigures(team, houseFieldNumber):
                     return self.findField(houseFieldNumber, "house-" + str(team))
@@ -323,7 +361,8 @@ class GameField:
         return False
 
     def checkHouseFigures(self, team, newNumber):
-        teamFigures = [figure for figure in self.allFigures if figure.player == team]
+        teamFigures = [
+            figure for figure in self.allFigures if figure.player == team]
         circlesToCheck = [
             circle
             for circle in self.allCircles
