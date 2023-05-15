@@ -97,13 +97,6 @@ class Window:
         drop2.pack()
         drop3.pack()
 
-        # def ok():
-        # print("value is:" + player_1.get())
-
-        # button = Button(tkFenster, text="OK", command=ok)
-        # button.pack()
-        # button.place(x=175, y=180)
-
         drop0.place(x=140, y=85)
         drop1.place(x=140, y=130)
         drop2.place(x=140, y=175)
@@ -166,9 +159,20 @@ class Window:
         collor_button_player4.place(x=275, y=220)
 
         LastGameButton = Button(tkFenster, text="Fortsetzen",
+                                bg="white",
+                                bd=2,
+                                font=("Arial", 14),
                                 command=lambda: LoadPreviousGame())
         LastGameButton.pack()
-        LastGameButton.place(x=275, y=265)
+        LastGameButton.place(x=150, y=280, width=100, height=50)
+
+        RuleButton = Button(tkFenster, text="Regeln",
+                            bg="white",
+                            bd=2,
+                            font=("Arial", 14),
+                            command=lambda: Showrule())
+        RuleButton.pack()
+        RuleButton.place(x=420, y=280, width=80, height=50)
 
         # Letztes Spiel Starten:
 
@@ -178,6 +182,12 @@ class Window:
             Settings.listPlayers = loadedState.listPlayers
 
             self.startGame(tkFenster, 2)
+
+        def Showrule():
+            messagebox.showinfo(
+                "Info",
+                "Bla Bla Bla Regeln Bla Bla \netc",
+            )
 
         # Farbraster kleines Vorschau Quadrat
 
