@@ -8,8 +8,8 @@ def startWindow():
     Window(startGame)
 
 
-def startGame(loadedState=None):
-    Game(startEndWindow, loadedState)
+def startGame(loadedState=None, sameColorMode=None):
+    Game(startEndWindow, loadedState, sameColorMode)
 
 
 def startEndWindow(placement, gameField):

@@ -21,7 +21,7 @@ pygame.init()
 
 
 class Game:
-    def __init__(self, callBackStartEndWindow, loadedState=None):
+    def __init__(self, callBackStartEndWindow, loadedState=None, sameColorMode=None):
         self.screen = pygame.display.set_mode(
             (Settings.WINDOW_WIDTH, Settings.WINDOW_HEIGHT), pygame.RESIZABLE
         )
@@ -32,6 +32,7 @@ class Game:
         else:
             self.gamefield = loadedState.gameField
             self.currentPlayerNumber = loadedState.currentPlayer
+        self.sameColorMode = sameColorMode
         self.gameState = GameState()
         self.currentStage = "waitingForDice"
         self.rollingProgress = 0

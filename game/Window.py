@@ -174,6 +174,14 @@ class Window:
         RuleButton.pack()
         RuleButton.place(x=420, y=280, width=80, height=50)
 
+        SameColorModusButton = Button(tkFenster, text="E-Modus",
+                                      bg="white",
+                                      bd=2,
+                                      font=("Arial", 14),
+                                      command=lambda: SameColorModus())
+        SameColorModusButton.pack()
+        SameColorModusButton.place(x=10, y=280, width=80, height=50)
+
         # Letztes Spiel Starten:
 
         def LoadPreviousGame():
@@ -188,6 +196,9 @@ class Window:
                 "Info",
                 "Bla Bla Bla Regeln Bla Bla \netc",
             )
+
+        def SameColorModus():
+            self.startGame(tkFenster, 3)
 
         # Farbraster kleines Vorschau Quadrat
 
@@ -242,7 +253,7 @@ class Window:
 
         # Spielstarten
 
-    def startGame(self, tkfenster, New_Previous_Game):
+    def startGame(self, tkfenster, GameVersion):
 
         # KI Boolean-Werte holen
 
@@ -321,8 +332,15 @@ class Window:
         # Settings.listPlayers[3].name= self.Namefield4.get()
         if startgame:
             tkfenster.destroy()
-            if New_Previous_Game == 2:
+            if GameVersion == 2:
                 loadedState = self.gameState.loadGameState()
                 self.callBackStartGame(loadedState)
+            if GameVersion == 3:
+                sameColorMode = True
+
+                for i in range(4):
+                    Settings.listPlayers[i].color = Settings.RED
+
+                self.callBackStartGame(None, sameColorMode)
             else:
                 self.callBackStartGame()
