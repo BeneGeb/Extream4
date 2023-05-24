@@ -47,6 +47,7 @@ class Game:
         pygame.mixer.music.play(loops=-1)
         pygame.mixer.music.set_volume(0.2)
         self.musicOn = True
+        self.soundOn = True
 
         self.callBackStartEndWindow = callBackStartEndWindow
 
@@ -70,7 +71,12 @@ class Game:
             self.musicOn = True
 
     def clickMuteGameSounds(self):
-        print("mute")
+        if self.soundOn:
+            self.soundOn = False
+            self.gamefield.changeGameSound(self.soundOn)
+        else:
+            self.soundOn = True
+            self.gamefield.changeGameSound(self.soundOn)
 
     def createButtons(self):
         allButtons = []
@@ -119,13 +125,14 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(Computer(num, self.gamefield, startFields[num]))
+                computers.append(
+                    Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
 
     def kiDiceRolling(self):
-        self.dice.handleClick((0, 0), True)
+        self.dice.handleClick((0, 0), True, self.soundOn)
         self.currentStage = "rollingDice"
 
     def kiEvalDiceRolling(self):
@@ -175,7 +182,7 @@ class Game:
 
     # region PlayerFunctions
     def handleWaitingForDice(self, mouseposition):
-        diceClicked = self.dice.handleClick(mouseposition, False)
+        diceClicked = self.dice.handleClick(mouseposition, False, self.soundOn)
         # If Dice not Clicked
         if diceClicked == None:
             return
@@ -231,7 +238,8 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(
+                    self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()

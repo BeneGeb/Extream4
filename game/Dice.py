@@ -24,7 +24,8 @@ class Dice:
             nextImage = pygame.image.load(
                 "./Images/DiceImages/Würfel_" + str(i) + ".png"
             )
-            nextImage = pygame.transform.scale(nextImage, (self.size, self.size))
+            nextImage = pygame.transform.scale(
+                nextImage, (self.size, self.size))
             all_dice.append(nextImage)
         self.all_dice = all_dice
 
@@ -62,7 +63,7 @@ class Dice:
         screen.blit(self.all_dice[self.animationValue], self.position)
         Dice.drawRectAroundDice(self, screen, currentPlayerNumber)
 
-    def handleClick(self, clickedPos, isKi):
+    def handleClick(self, clickedPos, isKi, soundOn):
         diceX, diceY = self.position
         clickedX, clickedY = clickedPos
 
@@ -71,9 +72,9 @@ class Dice:
             and diceY <= clickedY <= diceY + self.size
         ) or isKi:
             # Play the music
-
-            Dice_Sound = mixer.Sound("./Sounds/Dice_Sound1.mp3")
-            Dice_Sound.play()
+            if soundOn:
+                Dice_Sound = mixer.Sound("./Sounds/Dice_Sound1.mp3")
+                Dice_Sound.play()
             return self.rollDice()
 
     def getDiceValue(self):

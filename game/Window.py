@@ -55,9 +55,9 @@ class Window:
         v = IntVar()
 
         # Hintergrund Musik
-        pygame.mixer.music.load("./Sounds/Menü_Sound.mp3")
+        pygame.mixer.music.load("Menü_Sound.mp3")
         pygame.mixer.music.play()
-        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.set_volume(0.3)
 
         # Hier ist der Startbutton/ mit der Funktion command beschreibt man die aktion, die ausgeführt werden soll.
         # im Command wird die Aktion aufgerufen
@@ -158,36 +158,27 @@ class Window:
         collor_button_player4.pack()
         collor_button_player4.place(x=275, y=220)
 
-        LastGameButton = Button(
-            tkFenster,
-            text="Fortsetzen",
-            bg="white",
-            bd=2,
-            font=("Arial", 14),
-            command=lambda: LoadPreviousGame(),
-        )
+        LastGameButton = Button(tkFenster, text="Fortsetzen",
+                                bg="white",
+                                bd=2,
+                                font=("Arial", 14),
+                                command=lambda: LoadPreviousGame())
         LastGameButton.pack()
         LastGameButton.place(x=150, y=280, width=100, height=50)
 
-        RuleButton = Button(
-            tkFenster,
-            text="Regeln",
-            bg="white",
-            bd=2,
-            font=("Arial", 14),
-            command=lambda: Showrule(),
-        )
+        RuleButton = Button(tkFenster, text="Regeln",
+                            bg="white",
+                            bd=2,
+                            font=("Arial", 14),
+                            command=lambda: Showrule())
         RuleButton.pack()
         RuleButton.place(x=420, y=280, width=80, height=50)
 
-        SameColorModusButton = Button(
-            tkFenster,
-            text="E-Modus",
-            bg="white",
-            bd=2,
-            font=("Arial", 14),
-            command=lambda: SameColorModus(),
-        )
+        SameColorModusButton = Button(tkFenster, text="E-Modus",
+                                      bg="white",
+                                      bd=2,
+                                      font=("Arial", 14),
+                                      command=lambda: SameColorModus())
         SameColorModusButton.pack()
         SameColorModusButton.place(x=10, y=280, width=80, height=50)
 

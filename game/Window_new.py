@@ -12,6 +12,7 @@ from .Game import *
 class Window:
     def __init__(self, callBackStartGame):
         self.callBackStartGame = callBackStartGame
+        pygame.mixer.init()
 
         window = customtkinter.CTk()
         window.title("Mensch ärgere dich nicht")
@@ -38,9 +39,16 @@ class Window:
         frame.grid_columnconfigure((0, 1, 2, 3), weight=1)
         frame.grid_rowconfigure((0, 1, 2, 3, 4, 5), weight=1)
         frame1 = customtkinter.CTkFrame(master=frame)
-        frame1.grid(row=1, column=3, rowspan=4, padx=10, pady=10, sticky="nsew")
+        frame1.grid(row=1, column=3, rowspan=4,
+                    padx=10, pady=10, sticky="nsew")
         frame1.grid_columnconfigure(0, weight=1)
         frame1.grid_rowconfigure((0, 1, 2, 3), weight=1)
+
+        # Menü-Sound background
+
+        pygame.mixer.music.load("./Sounds/Menü_Sound.mp3")
+        pygame.mixer.music.play()
+        pygame.mixer.music.set_volume(0.1)
 
         label1 = customtkinter.CTkLabel(
             master=frame,
@@ -110,7 +118,7 @@ class Window:
         def hex_to_rgb(value):
             value = value.lstrip("#")
             lv = len(value)
-            return tuple(int(value[i : i + lv // 3], 16) for i in range(0, lv, lv // 3))
+            return tuple(int(value[i: i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
         def ask_color1():
             pick_color = AskColor()  # open the color picker
@@ -178,10 +186,14 @@ class Window:
         button_color3.grid(row=3, column=2, padx=35, pady=12, sticky="nsew")
         button_color4.grid(row=4, column=2, padx=35, pady=12, sticky="nsew")
 
-        self.entry1 = customtkinter.CTkEntry(master=frame1, placeholder_text="Name")
-        self.entry2 = customtkinter.CTkEntry(master=frame1, placeholder_text="Name")
-        self.entry3 = customtkinter.CTkEntry(master=frame1, placeholder_text="Name")
-        self.entry4 = customtkinter.CTkEntry(master=frame1, placeholder_text="Name")
+        self.entry1 = customtkinter.CTkEntry(
+            master=frame1, placeholder_text="Name")
+        self.entry2 = customtkinter.CTkEntry(
+            master=frame1, placeholder_text="Name")
+        self.entry3 = customtkinter.CTkEntry(
+            master=frame1, placeholder_text="Name")
+        self.entry4 = customtkinter.CTkEntry(
+            master=frame1, placeholder_text="Name")
 
         self.entry1.grid(row=0, column=0, padx=12, pady=12, sticky="nsew")
         self.entry2.grid(row=1, column=0, padx=12, pady=12, sticky="nsew")
@@ -271,7 +283,7 @@ class Window:
         def hex_to_rgb(value):
             value = value.lstrip("#")
             lv = len(value)
-            return tuple(int(value[i : i + lv // 3], 16) for i in range(0, lv, lv // 3))
+            return tuple(int(value[i: i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
         # Kontrolle der Farben Gleichheit
 
@@ -289,6 +301,7 @@ class Window:
             if stop:
                 break
             for j in range(i + 1, len(Settings.listPlayers)):
+                print(Settings.listPlayers[j].color)
                 distanz = colormath(
                     Settings.listPlayers[i].color, Settings.listPlayers[j].color
                 )

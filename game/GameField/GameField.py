@@ -51,6 +51,13 @@ class GameField:
         else:
             self.explosion = None
 
+    def changeGameSound(self, SoundOn):
+        if SoundOn:
+            pygame.mixer.pause()
+
+        else:
+            pygame.mixer.unpause()
+
     def draw(self, screen):
         self.explosion_images = [
             pygame.image.load(os.path.join(
