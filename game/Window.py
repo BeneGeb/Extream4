@@ -17,7 +17,7 @@ class Window:
         tkFenster.title("Mensch ärgere dich nicht")
         tkFenster.geometry("673x366")
         tkFenster["background"] = "white"
-        p1 = PhotoImage(file="Extream4.png")
+        p1 = PhotoImage(file="./Images/Extream4.png")
         tkFenster.iconphoto(True, p1)
 
         self.callBackStartGame = callBackStartGame
