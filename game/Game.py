@@ -6,11 +6,12 @@ from .Computer import Computer
 from .GameField.GameField import GameField
 from .Helper.GameState import *
 from .settings import Settings
+from .ClickButton import ClickButton
 
 
 def setUpPygame():
     pygame.display.set_caption("Pacheesi")
-    icon = pygame.image.load("Extream4.png")
+    icon = pygame.image.load("./Images/Extream4.png")
     pygame.display.set_icon(icon)
 
 
@@ -38,18 +39,87 @@ class Game:
         self.rollingProgress = 0
         self.diceTries = 0
         self.computers = self.createKi()
+        self.buttons = self.createButtons()
+        self.gameState = GameState()
+
+        pygame.mixer.init()
+        pygame.mixer.music.load("./Sounds/Extrem_Sound.mp3")
+        pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.set_volume(0.2)
+        self.musicOn = True
 
         self.callBackStartEndWindow = callBackStartEndWindow
 
         self.runGame()
+
+    # region ButtonFunctions
+    def rageQuit(self):
+        print("Ragequit")
+
+    def saveGameState(self):
+        self.gameState.saveGameState(
+            self.gamefield, self.currentPlayerNumber, Settings.listPlayers
+        )
+
+    def clickMuteMusic(self):
+        if self.musicOn:
+            pygame.mixer.music.set_volume(0)
+            self.musicOn = False
+        else:
+            pygame.mixer.music.set_volume(0.2)
+            self.musicOn = True
+
+    def clickMuteGameSounds(self):
+        print("mute")
+
+    def createButtons(self):
+        allButtons = []
+        allButtons.append(
+            ClickButton(
+                (45, 300),
+                self.saveGameState,
+                "Speichern",
+                Settings.DARKGRAY,
+            )
+        )
+        allButtons.append(
+            ClickButton((45, 780), self.rageQuit, "RAGEQUIT", Settings.RED)
+        )
+        allButtons.append(
+            ClickButton(
+                (45, 380),
+                self.clickMuteMusic,
+                "Music On",
+                Settings.DARKGRAY,
+            )
+        )
+
+        allButtons.append(
+            ClickButton(
+                (45, 460),
+                self.clickMuteGameSounds,
+                "Gamesound On",
+                Settings.DARKGRAY,
+            )
+        )
+        return allButtons
+
+    def drawButtons(self):
+        for button in self.buttons:
+            button.draw(self.screen)
+
+    # endregion
+
+    def handleButtonClicks(self, mousePosition):
+        for button in self.buttons:
+            button.handleClick(mousePosition)
 
     def createKi(self):
         startFields = [40, 10, 20, 30]
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(
-                    Computer(num, self.gamefield, startFields[num]))
+                computers.append(Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -103,6 +173,7 @@ class Game:
         )
         screen.blit(font_surface, Settings.CURRENT_PLAYER_POSITION)
 
+    # region PlayerFunctions
     def handleWaitingForDice(self, mouseposition):
         diceClicked = self.dice.handleClick(mouseposition, False)
         # If Dice not Clicked
@@ -160,8 +231,7 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(
-                    self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
@@ -169,6 +239,8 @@ class Game:
             self.gamefield.waitClickFigureToMove(
                 mousePosition, self.currentPlayerNumber, self.dice.currentValue
             )
+
+    # endregion
 
     def runGame(self):
         self.gameActive = True
@@ -185,9 +257,7 @@ class Game:
                     and not Settings.listPlayers[self.currentPlayerNumber].isKi
                 ):
                     mousePosition = pygame.mouse.get_pos()
-                    self.gamefield.clickSaveButton(
-                        mousePosition, self.gamefield, self.currentPlayerNumber, Settings.listPlayers)
-                    self.gamefield.clickRageButton(mousePosition)
+                    self.handleButtonClicks(mousePosition)
                     self.gamefield.getClickedCircle(mousePosition)
                     if self.currentStage == "waitingForDice":
                         self.handleWaitingForDice(mousePosition)
@@ -211,8 +281,9 @@ class Game:
             self.screen.fill(Settings.BACKGROUNDCOLOR)
 
             # Draw dice background
-            pygame.draw.rect(self.screen, Settings.GRAY, [
-                20, 20, 250, 235], border_radius=30)
+            pygame.draw.rect(
+                self.screen, Settings.GRAY, [20, 20, 250, 235], border_radius=30
+            )
 
             # Draw dice
             if self.currentStage == "rollingDice":
@@ -226,6 +297,9 @@ class Game:
             self.gamefield.draw(self.screen)
 
             self.drawCurrentPlayer(self.currentPlayerNumber, self.screen)
+
+            # Draw Buttons
+            self.drawButtons()
 
             # Update Display
             pygame.display.flip()

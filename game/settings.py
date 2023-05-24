@@ -45,8 +45,8 @@ class Settings:
 
     RECT_x_Position = 45
     RECT_y_Position = 300
-    RECT_x_Width = 200
-    RECT_y_Height = 60
+    BUTTON_WIDTH = 200
+    BUTTON_HEIGHT = 60
 
     def setUpSettings():
         monitor = [monitor for monitor in get_monitors() if monitor.is_primary]

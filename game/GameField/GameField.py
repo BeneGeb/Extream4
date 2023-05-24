@@ -1,11 +1,8 @@
-from .Circle import Circle
-from .Figure import Figure
 import pygame
 from ..Helper.GameFieldLoader import GameFieldLoader
 from ..settings import Settings
 from pygame import mixer
 import os
-from itertools import cycle
 from ..Helper.GameState import *
 
 pygame.init()
@@ -18,7 +15,6 @@ mixer.init()
 class GameField:
     def __init__(self):
         gfLoader = GameFieldLoader()
-        self.gameState = GameState()
         self.allCircles = gfLoader.loadAllCircles()
         self.allFigures = gfLoader.placeStartFigures(self.allCircles)
         self.lastClickedFigure = None
@@ -27,7 +23,9 @@ class GameField:
 
         self.houseStartFields = [40, 10, 20, 30]
         self.explosion_images = [
-            pygame.image.load(os.path.join(f"frame_{i}.png")) for i in range(23)
+            pygame.image.load(os.path.join(
+                f"./Images/ExplosionFrames/frame_{i}.png"))
+            for i in range(23)
         ]
         self.explosion_frame_count = 0
         self.explosion_update_count = 0
@@ -38,7 +36,9 @@ class GameField:
 
     def update_explosion(self):
         self.explosion_images = [
-            pygame.image.load(os.path.join(f"frame_{i}.png")) for i in range(23)
+            pygame.image.load(os.path.join(
+                f"./Images/ExplosionFrames/frame_{i}.png"))
+            for i in range(23)
         ]
         if self.explosion_running:
             self.explosion_update_count += 1
@@ -53,7 +53,9 @@ class GameField:
 
     def draw(self, screen):
         self.explosion_images = [
-            pygame.image.load(os.path.join(f"frame_{i}.png")) for i in range(23)
+            pygame.image.load(os.path.join(
+                f"./Images/ExplosionFrames/frame_{i}.png"))
+            for i in range(23)
         ]
         pygame.draw.rect(
             screen, (89, 89, 89), [475, 25, 970, 970], border_radius=30, width=5
@@ -74,49 +76,6 @@ class GameField:
         )
         pygame.draw.rect(screen, Settings.GRAY, [
                          20, 275, 250, 600], border_radius=30)
-        # Speichern Button
-        pygame.draw.rect(
-            screen,
-            Settings.DARKGRAY,
-            (
-                Settings.RECT_x_Position,
-                Settings.RECT_y_Position,
-                Settings.RECT_x_Width,
-                Settings.RECT_y_Height,
-            ),
-            border_radius=20,
-        )
-
-        small_font = pygame.font.SysFont("comicsansms", 25)
-        text = small_font.render("Speichern", True, Settings.BLACK)
-        text_rect = text.get_rect()
-        text_rect.center = (
-            (Settings.RECT_x_Position + (Settings.RECT_x_Width / 2)),
-            (Settings.RECT_y_Position + (Settings.RECT_y_Height / 2)),
-        )
-        screen.blit(text, text_rect)
-        # Ragequit
-
-        pygame.draw.rect(
-            screen,
-            Settings.RED,
-            (
-                Settings.RECT_x_Position,
-                Settings.RECT_y_Position*2.6,
-                Settings.RECT_x_Width,
-                Settings.RECT_y_Height,
-            ),
-            border_radius=20,
-        )
-
-        small_font = pygame.font.SysFont("comicsansms", 25)
-        text = small_font.render("RAGEQUIT", True, Settings.BLACK)
-        text_rect = text.get_rect()
-        text_rect.center = (
-            (Settings.RECT_x_Position + (Settings.RECT_x_Width / 2)),
-            (Settings.RECT_y_Position*2.6 + (Settings.RECT_y_Height / 2)),
-        )
-        screen.blit(text, text_rect)
 
         for circle in self.allCircles:
             circle.draw(screen)
@@ -129,31 +88,6 @@ class GameField:
                 ((480 + 960) // 2, (30 + 960) // 2),
             )
             self.update_explosion()
-
-    def clickSaveButton(self, mouse, gamefield, currentPlayerNumber, listPlayers):
-
-        if (
-            Settings.RECT_x_Position + Settings.RECT_x_Width
-            > mouse[0]
-            > Settings.RECT_x_Position
-            and Settings.RECT_y_Position + Settings.RECT_y_Height
-            > mouse[1]
-            > Settings.RECT_y_Position
-        ):
-
-            self.gameState.saveGameState(
-                gamefield, currentPlayerNumber, listPlayers)
-
-    def clickRageButton(self, mouse):
-        if (
-            Settings.RECT_x_Position + Settings.RECT_x_Width
-            > mouse[0]
-            > Settings.RECT_x_Position
-            and Settings.RECT_y_Position*2.6 + Settings.RECT_y_Height
-            > mouse[1]
-            > Settings.RECT_y_Position*2.6
-        ):
-            print("BOOOM")
 
     # region clickHandler
 
@@ -171,14 +105,14 @@ class GameField:
     # region FigureMoving
     def kickFigure(self, clickedFigure, emptyBaseField):
         clickedFigure.move(emptyBaseField.position)
-        Explo_Sound = mixer.Sound("Explosion.mp3")
+        Explo_Sound = mixer.Sound("./Sounds/Explosion.mp3")
         Explo_Sound.play()
 
         self.explosion_running = True
         self.explosion_frame_count = 0
 
     def moveFigure(self, figure, newPosition):
-        Move_Sound = mixer.Sound("Move.mp3")
+        Move_Sound = mixer.Sound("./Sounds/Move.mp3")
         Move_Sound.play()
         figure.move(newPosition)
         figure.innerColor = Settings.UNSELECTED_CIRCLE_COLOR
@@ -216,10 +150,6 @@ class GameField:
             self.lastClickedCircle = clickedCircle
 
             self.markPossibleCircle(clickedCircle, playerNumber, diceValue)
-        if clickedFigure and int(clickedFigure.player) != playerNumber:
-            # clicked = True
-            # clickedCircle = self.getClickedCircle(clickedPos)
-            print("Fehler Mensch")
 
         return clicked
 
@@ -382,7 +312,6 @@ class GameField:
         return True
 
     def findField(self, number, type):
-        print(number)
         return [
             circle
             for circle in self.allCircles
