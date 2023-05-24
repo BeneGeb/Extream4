@@ -11,7 +11,7 @@ from .ClickButton import ClickButton
 
 def setUpPygame():
     pygame.display.set_caption("Pacheesi")
-    icon = pygame.image.load("Extream4.png")
+    icon = pygame.image.load("./Images/Extream4.png")
     pygame.display.set_icon(icon)
 
 
