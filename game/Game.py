@@ -39,6 +39,11 @@ class Game:
         self.diceTries = 0
         self.computers = self.createKi()
 
+        pygame.mixer.init()
+        pygame.mixer.music.load("Extrem_Sound.mp3")
+        pygame.mixer.music.play(loops=-1)
+        pygame.mixer.music.set_volume(0.2)
+
         self.callBackStartEndWindow = callBackStartEndWindow
 
         self.runGame()
