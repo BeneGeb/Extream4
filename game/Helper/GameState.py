@@ -1,7 +1,6 @@
 import pickle
-from ..settings import Settings
 
-filePath = "lastSavedGame"
+filePath = "./SaveFiles/SavedGame"
 
 
 class GameState:
