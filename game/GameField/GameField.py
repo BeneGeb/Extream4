@@ -147,10 +147,6 @@ class GameField:
             self.lastClickedCircle = clickedCircle
 
             self.markPossibleCircle(clickedCircle, playerNumber, diceValue)
-        if clickedFigure and int(clickedFigure.player) != playerNumber:
-            # clicked = True
-            # clickedCircle = self.getClickedCircle(clickedPos)
-            print("Fehler Mensch")
 
         return clicked
 
