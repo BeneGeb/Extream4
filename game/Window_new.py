@@ -90,13 +90,13 @@ class Window:
             master=frame, values=["Mensch", "KI"], variable=self.player_1
         )
         drop2 = customtkinter.CTkOptionMenu(
-            master=frame, values=["Mensch", "KI"], variable=self.player_1
+            master=frame, values=["Mensch", "KI"], variable=self.player_2
         )
         drop3 = customtkinter.CTkOptionMenu(
-            master=frame, values=["Mensch", "KI"], variable=self.player_1
+            master=frame, values=["Mensch", "KI"], variable=self.player_3
         )
         drop4 = customtkinter.CTkOptionMenu(
-            master=frame, values=["Mensch", "KI"], variable=self.player_1
+            master=frame, values=["Mensch", "KI"], variable=self.player_4
         )
 
         drop1.grid(row=1, column=1, padx=12, pady=12, sticky="nsew")
@@ -190,7 +190,7 @@ class Window:
         self.entry4.grid(row=3, column=0, padx=12, pady=12, sticky="nsew")
 
         switch_var = customtkinter.StringVar(value="Extream")
-        switch_1 = customtkinter.CTkSwitch(master=frame, textvariable=switch_var, variable=switch_var, onvalue="Extream", offvalue="Normal")
+        switch_1 = customtkinter.CTkSwitch(master=frame, switch_height= 25, switch_width= 45, font=('Helvetica', 16), textvariable=switch_var, variable=switch_var, onvalue="Extream", offvalue="Normal")
         switch_1.grid(row=0, column = 1, padx = 10)
 
         def SameColorModus():
@@ -203,7 +203,7 @@ class Window:
             else:
                 self.startGame(window, 1)  
                                     
-        startButton  = customtkinter.CTkButton(master=frame, text = "START", fg_color= "#e60000", font=('Helvetica', 15), hover_color = "#ff6666", command= lambda: CheckGameMode(window))
+        startButton  = customtkinter.CTkButton(master=frame, text = "START", fg_color= "#e60000", font=('Helvetica', 13), hover_color = "#ff6666", command= lambda: CheckGameMode(window))
         startButton.grid(row=0, column = 3, padx = 10)
 
         def LoadPreviousGame():
@@ -212,7 +212,7 @@ class Window:
             Settings.listPlayers = loadedState.listPlayers
             self.startGame(window, 2)
 
-        continueButton  = customtkinter.CTkButton(master=frame, text = "Fortsetzen", fg_color= "#e60000", font=('Helvetica', 15), hover_color = "#ff6666", command= lambda: LoadPreviousGame())
+        continueButton  = customtkinter.CTkButton(master=frame, text = "FORTSETZEN", fg_color= "#e60000", font=('Helvetica', 13), hover_color = "#ff6666", command= lambda: LoadPreviousGame())
         continueButton.grid(row=0, column = 2, padx = 20)
 
         window.mainloop()
