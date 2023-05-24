@@ -60,7 +60,7 @@ class Game:
             self.gamefield, self.currentPlayerNumber, Settings.listPlayers
         )
 
-    def clickSoundButton():
+    def clickSoundButton(self):
         print("clickSound")
 
     def createButtons(self):
@@ -98,8 +98,7 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(
-                    Computer(num, self.gamefield, startFields[num]))
+                computers.append(Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -211,8 +210,7 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(
-                    self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
