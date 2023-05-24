@@ -46,6 +46,7 @@ class Game:
         pygame.mixer.music.load("./Sounds/Extrem_Sound.mp3")
         pygame.mixer.music.play(loops=-1)
         pygame.mixer.music.set_volume(0.2)
+        self.musicOn = True
 
         self.callBackStartEndWindow = callBackStartEndWindow
 
@@ -61,7 +62,12 @@ class Game:
         )
 
     def clickSoundButton(self):
-        print("clickSound")
+        if self.musicOn:
+            pygame.mixer.music.set_volume(0)
+            self.musicOn = False
+        else:
+            pygame.mixer.music.set_volume(0.2)
+            self.musicOn = True
 
     def createButtons(self):
         allButtons = []
@@ -98,7 +104,8 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(Computer(num, self.gamefield, startFields[num]))
+                computers.append(
+                    Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -210,7 +217,8 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(
+                    self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
