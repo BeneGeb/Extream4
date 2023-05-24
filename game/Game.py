@@ -60,8 +60,11 @@ class Game:
             self.gamefield, self.currentPlayerNumber, Settings.listPlayers
         )
 
-    def clickSoundButton(self):
+    def clickMuteBackgroundMusic(self):
         print("clickSound")
+
+    def clickMuteGameSounds(self):
+        print("mute")
 
     def createButtons(self):
         allButtons = []
@@ -78,7 +81,19 @@ class Game:
         )
         allButtons.append(
             ClickButton(
-                (45, 380), self.clickSoundButton, "Mute Sound", Settings.DARKGRAY
+                (45, 380),
+                self.clickMuteBackgroundMusic,
+                "Music On",
+                Settings.DARKGRAY,
+            )
+        )
+
+        allButtons.append(
+            ClickButton(
+                (45, 460),
+                self.clickMuteGameSounds,
+                "Gamesound On",
+                Settings.DARKGRAY,
             )
         )
         return allButtons
