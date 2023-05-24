@@ -1,11 +1,8 @@
-from .Circle import Circle
-from .Figure import Figure
 import pygame
 from ..Helper.GameFieldLoader import GameFieldLoader
 from ..settings import Settings
 from pygame import mixer
 import os
-from itertools import cycle
 from ..Helper.GameState import *
 
 pygame.init()
@@ -26,7 +23,8 @@ class GameField:
 
         self.houseStartFields = [40, 10, 20, 30]
         self.explosion_images = [
-            pygame.image.load(os.path.join(f"./Images/ExplosionFrames/frame_{i}.png"))
+            pygame.image.load(os.path.join(
+                f"./Images/ExplosionFrames/frame_{i}.png"))
             for i in range(23)
         ]
         self.explosion_frame_count = 0
@@ -38,7 +36,8 @@ class GameField:
 
     def update_explosion(self):
         self.explosion_images = [
-            pygame.image.load(os.path.join(f"./Images/ExplosionFrames/frame_{i}.png"))
+            pygame.image.load(os.path.join(
+                f"./Images/ExplosionFrames/frame_{i}.png"))
             for i in range(23)
         ]
         if self.explosion_running:
@@ -54,13 +53,15 @@ class GameField:
 
     def draw(self, screen):
         self.explosion_images = [
-            pygame.image.load(os.path.join(f"./Images/ExplosionFrames/frame_{i}.png"))
+            pygame.image.load(os.path.join(
+                f"./Images/ExplosionFrames/frame_{i}.png"))
             for i in range(23)
         ]
         pygame.draw.rect(
             screen, (89, 89, 89), [475, 25, 970, 970], border_radius=30, width=5
         )
-        pygame.draw.rect(screen, Settings.GRAY, [480, 30, 960, 960], border_radius=25)
+        pygame.draw.rect(screen, Settings.GRAY, [
+                         480, 30, 960, 960], border_radius=25)
         pygame.draw.rect(
             screen, Settings.DARKGRAY, [515, 63, 170, 170], border_radius=30
         )
@@ -73,7 +74,8 @@ class GameField:
         pygame.draw.rect(
             screen, Settings.DARKGRAY, [1235, 780, 170, 170], border_radius=30
         )
-        pygame.draw.rect(screen, Settings.GRAY, [20, 275, 250, 600], border_radius=30)
+        pygame.draw.rect(screen, Settings.GRAY, [
+                         20, 275, 250, 600], border_radius=30)
 
         for circle in self.allCircles:
             circle.draw(screen)
@@ -124,7 +126,8 @@ class GameField:
         ]
         if len(matchingFigure) > 0:
             self.kickFigure(
-                matchingFigure[0], self.getEmptyBaseField(matchingFigure[0].player)
+                matchingFigure[0], self.getEmptyBaseField(
+                    matchingFigure[0].player)
             )
         self.moveFigure(figure, newPosition)
 
@@ -166,9 +169,11 @@ class GameField:
                     != playerNumber
                     # and clickedCircle == self.markedCircle
                 ):
-                    emptyBaseField = self.getEmptyBaseField(clickedFigure.player)
+                    emptyBaseField = self.getEmptyBaseField(
+                        clickedFigure.player)
                     self.kickFigure(clickedFigure, emptyBaseField)
-                    self.moveFigure(self.lastClickedFigure, clickedCircle.position)
+                    self.moveFigure(self.lastClickedFigure,
+                                    clickedCircle.position)
                     moved = True
                 else:
                     moved = False
@@ -258,7 +263,8 @@ class GameField:
             and (circle.number + diceValue) >= self.houseStartFields[team]
             and circle.number < self.houseStartFields[team]
         ):
-            houseFieldNumber = (circle.number + diceValue) - self.houseStartFields[team]
+            houseFieldNumber = (circle.number + diceValue) - \
+                self.houseStartFields[team]
             if houseFieldNumber <= 3:
                 if self.checkHouseFigures(team, houseFieldNumber):
                     return self.findField(houseFieldNumber, "house-" + str(team))
@@ -289,7 +295,8 @@ class GameField:
         return False
 
     def checkHouseFigures(self, team, newNumber):
-        teamFigures = [figure for figure in self.allFigures if figure.player == team]
+        teamFigures = [
+            figure for figure in self.allFigures if figure.player == team]
         circlesToCheck = [
             circle
             for circle in self.allCircles
