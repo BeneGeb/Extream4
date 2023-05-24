@@ -42,4 +42,4 @@ class ClickButton:
 
     def handleClick(self, mousePosition):
         if self.isButtonClicked(mousePosition):
-            self.clickFunction()
+            self.clickFunction(self)
