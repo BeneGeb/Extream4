@@ -69,6 +69,9 @@ class Game:
             pygame.mixer.music.set_volume(0.2)
             self.musicOn = True
 
+    def clickMuteGameSounds(self):
+        print("mute")
+
     def createButtons(self):
         allButtons = []
         allButtons.append(
@@ -84,7 +87,19 @@ class Game:
         )
         allButtons.append(
             ClickButton(
-                (45, 380), self.clickSoundButton, "Mute Sound", Settings.DARKGRAY
+                (45, 380),
+                self.clickMuteBackgroundMusic,
+                "Music On",
+                Settings.DARKGRAY,
+            )
+        )
+
+        allButtons.append(
+            ClickButton(
+                (45, 460),
+                self.clickMuteGameSounds,
+                "Gamesound On",
+                Settings.DARKGRAY,
             )
         )
         return allButtons
