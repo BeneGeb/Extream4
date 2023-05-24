@@ -61,7 +61,7 @@ class Game:
             self.gamefield, self.currentPlayerNumber, Settings.listPlayers
         )
 
-    def clickSoundButton(self):
+    def clickMuteMusic(self):
         if self.musicOn:
             pygame.mixer.music.set_volume(0)
             self.musicOn = False
@@ -88,7 +88,7 @@ class Game:
         allButtons.append(
             ClickButton(
                 (45, 380),
-                self.clickMuteBackgroundMusic,
+                self.clickMuteMusic,
                 "Music On",
                 Settings.DARKGRAY,
             )
@@ -119,8 +119,7 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(
-                    Computer(num, self.gamefield, startFields[num]))
+                computers.append(Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -232,8 +231,7 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(
-                    self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
