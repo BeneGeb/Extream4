@@ -58,7 +58,10 @@ class Game:
     def saveGameState(self):
         self.gameState.saveGameState(
             self.gamefield, self.currentPlayerNumber, Settings.listPlayers
-        ),
+        )
+
+    def clickSoundButton():
+        print("clickSound")
 
     def createButtons(self):
         allButtons = []
@@ -72,6 +75,11 @@ class Game:
         )
         allButtons.append(
             ClickButton((45, 780), self.rageQuit, "RAGEQUIT", Settings.RED)
+        )
+        allButtons.append(
+            ClickButton(
+                (45, 380), self.clickSoundButton, "Mute Sound", Settings.DARKGRAY
+            )
         )
         return allButtons
 
