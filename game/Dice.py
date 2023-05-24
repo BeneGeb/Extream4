@@ -21,7 +21,9 @@ class Dice:
         all_dice = []
         all_dice.append(None)
         for i in range(1, 7):
-            nextImage = pygame.image.load("Würfel_" + str(i) + ".png")
+            nextImage = pygame.image.load(
+                "./Images/DiceImages/Würfel_" + str(i) + ".png"
+            )
             nextImage = pygame.transform.scale(nextImage, (self.size, self.size))
             all_dice.append(nextImage)
         self.all_dice = all_dice
@@ -70,7 +72,7 @@ class Dice:
         ) or isKi:
             # Play the music
 
-            Dice_Sound = mixer.Sound("Dice_Sound1.mp3")
+            Dice_Sound = mixer.Sound("./Sounds/Dice_Sound1.mp3")
             Dice_Sound.play()
             return self.rollDice()
 

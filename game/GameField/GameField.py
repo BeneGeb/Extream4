@@ -26,7 +26,8 @@ class GameField:
 
         self.houseStartFields = [40, 10, 20, 30]
         self.explosion_images = [
-            pygame.image.load(os.path.join(f"frame_{i}.png")) for i in range(23)
+            pygame.image.load(os.path.join(f"./Images/ExplosionFrames/frame_{i}.png"))
+            for i in range(23)
         ]
         self.explosion_frame_count = 0
         self.explosion_update_count = 0
@@ -37,7 +38,8 @@ class GameField:
 
     def update_explosion(self):
         self.explosion_images = [
-            pygame.image.load(os.path.join(f"frame_{i}.png")) for i in range(23)
+            pygame.image.load(os.path.join(f"./Images/ExplosionFrames/frame_{i}.png"))
+            for i in range(23)
         ]
         if self.explosion_running:
             self.explosion_update_count += 1
@@ -52,7 +54,8 @@ class GameField:
 
     def draw(self, screen):
         self.explosion_images = [
-            pygame.image.load(os.path.join(f"frame_{i}.png")) for i in range(23)
+            pygame.image.load(os.path.join(f"./Images/ExplosionFrames/frame_{i}.png"))
+            for i in range(23)
         ]
         pygame.draw.rect(
             screen, (89, 89, 89), [475, 25, 970, 970], border_radius=30, width=5
@@ -84,30 +87,6 @@ class GameField:
             )
             self.update_explosion()
 
-    def clickSaveButton(self, mouse, gamefield, currentPlayerNumber, listPlayers):
-
-        if (
-            Settings.RECT_x_Position + Settings.RECT_x_Width
-            > mouse[0]
-            > Settings.RECT_x_Position
-            and Settings.RECT_y_Position + Settings.RECT_y_Height
-            > mouse[1]
-            > Settings.RECT_y_Position
-        ):
-
-            self.gameState.saveGameState(gamefield, currentPlayerNumber, listPlayers)
-
-    def clickRageButton(self, mouse):
-        if (
-            Settings.RECT_x_Position + Settings.RECT_x_Width
-            > mouse[0]
-            > Settings.RECT_x_Position
-            and Settings.RECT_y_Position * 2.6 + Settings.RECT_y_Height
-            > mouse[1]
-            > Settings.RECT_y_Position * 2.6
-        ):
-            print("BOOOM")
-
     # region clickHandler
 
     def getClickedFigure(self, clickedPos):
@@ -119,20 +98,19 @@ class GameField:
         for circle in self.allCircles:
             if circle.handleClick(clickedPos):
                 return circle
-    
 
     # endregion
     # region FigureMoving
     def kickFigure(self, clickedFigure, emptyBaseField):
         clickedFigure.move(emptyBaseField.position)
-        Explo_Sound = mixer.Sound("Explosion.mp3")
+        Explo_Sound = mixer.Sound("./Sounds/Explosion.mp3")
         Explo_Sound.play()
 
         self.explosion_running = True
         self.explosion_frame_count = 0
 
     def moveFigure(self, figure, newPosition):
-        Move_Sound = mixer.Sound("Move.mp3")
+        Move_Sound = mixer.Sound("./Sounds/Move.mp3")
         Move_Sound.play()
         figure.move(newPosition)
         figure.innerColor = Settings.UNSELECTED_CIRCLE_COLOR
@@ -331,7 +309,6 @@ class GameField:
         return True
 
     def findField(self, number, type):
-        print(number)
         return [
             circle
             for circle in self.allCircles

@@ -66,7 +66,7 @@ class Game:
             )
         )
         allButtons.append(
-            ClickButton((45, 380), self.rageQuit, "RAGEQUIT", Settings.RED)
+            ClickButton((45, 780), self.rageQuit, "RAGEQUIT", Settings.RED)
         )
         return allButtons
 

@@ -55,7 +55,7 @@ class Window:
         v = IntVar()
 
         # Hintergrund Musik
-        pygame.mixer.music.load("Menü_Sound.mp3")
+        pygame.mixer.music.load("./Sounds/Menü_Sound.mp3")
         pygame.mixer.music.play()
         pygame.mixer.music.set_volume(0.5)
 
