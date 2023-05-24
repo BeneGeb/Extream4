@@ -12,13 +12,14 @@ class Window:
     def __init__(self, callBackStartGame):
         self.callBackStartGame = callBackStartGame
 
+        customtkinter.set_appearance_mode("dark")
         window = customtkinter.CTk()
         window.title("Mensch ärgere dich nicht")
         window.geometry("673x366")
         window.resizable(0,0)
         window.grid_columnconfigure(0, weight=1)
         window.grid_rowconfigure(0, weight=1)
-
+    
         window_width = 673
         window_height = 366
 
@@ -131,7 +132,7 @@ class Window:
         self.entry4.grid (row = 3, column = 0, padx=12, pady= 12, sticky="nsew")
 
         switch_var = customtkinter.StringVar(value="Extream")
-        switch_1 = customtkinter.CTkSwitch(master=frame, textvariable=switch_var, variable=switch_var, onvalue="Extream", offvalue="Normal")
+        switch_1 = customtkinter.CTkSwitch(master=frame, switch_height=25, switch_width= 45, font=('Helvetica', 16), textvariable=switch_var, variable=switch_var, onvalue="Extream", offvalue="Normal")
         switch_1.grid(row=0, column = 1, padx = 10)
 
         def SameColorModus():
@@ -144,7 +145,7 @@ class Window:
             else:
                 self.startGame(window, 1)  
                                     
-        startButton  = customtkinter.CTkButton(master=frame, text = "START", fg_color= "#e60000", font=('Helvetica', 15), hover_color = "#ff6666", command= lambda: CheckGameMode(window))
+        startButton  = customtkinter.CTkButton(master=frame, text = "START", fg_color= "#e60000", font=('Helvetica', 13), hover_color = "#ff6666", command= lambda: CheckGameMode(window))
         startButton.grid(row=0, column = 3, padx = 10)
 
         def LoadPreviousGame():
@@ -153,7 +154,7 @@ class Window:
             Settings.listPlayers = loadedState.listPlayers
             self.startGame(window, 2)
 
-        continueButton  = customtkinter.CTkButton(master=frame, text = "Fortsetzen", fg_color= "#e60000", font=('Helvetica', 15), hover_color = "#ff6666", command= lambda: LoadPreviousGame())
+        continueButton  = customtkinter.CTkButton(master=frame, text = "FORTSETZEN", fg_color= "#e60000", font=('Helvetica', 13), hover_color = "#ff6666", command= lambda: LoadPreviousGame())
         continueButton.grid(row=0, column = 2, padx = 20)
 
         window.mainloop()
