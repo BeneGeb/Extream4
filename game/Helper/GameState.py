@@ -3,7 +3,6 @@ from ..settings import Settings
 
 
 class GameState:
-
     def saveGameState(self, gameField, currentPlayer, listPlayers):
         dateiname = "Save"
         self.gameField = gameField
@@ -19,5 +18,4 @@ class GameState:
         dateiname = "Save"
         with open(dateiname, "rb") as datei:
             load_object = pickle.load(datei)
-            # print(load_object.listPlayers)
         return load_object
