@@ -57,18 +57,22 @@ class Game:
     def rageQuit(self):
         print("Ragequit")
 
-    def saveGameState(self):
+    def saveGameState(self, button):
         self.gameState.saveGameState(
             self.gamefield, self.currentPlayerNumber, Settings.listPlayers
         )
 
-    def clickMuteMusic(self):
+    def clickMuteMusic(self, button):
         if self.musicOn:
             pygame.mixer.music.set_volume(0)
             self.musicOn = False
+            button.buttonText = "Music Off"
+            button.backgroundColor = Settings.RED
         else:
             pygame.mixer.music.set_volume(0.2)
             self.musicOn = True
+            button.buttonText = "Music On"
+            button.backgroundColor = Settings.GREEN
 
     def clickMuteGameSounds(self):
         if self.soundOn:
@@ -96,7 +100,7 @@ class Game:
                 (45, 380),
                 self.clickMuteMusic,
                 "Music On",
-                Settings.DARKGRAY,
+                Settings.GREEN,
             )
         )
 
@@ -105,7 +109,7 @@ class Game:
                 (45, 460),
                 self.clickMuteGameSounds,
                 "Gamesound On",
-                Settings.DARKGRAY,
+                Settings.GREEN,
             )
         )
         return allButtons
