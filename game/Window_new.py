@@ -6,7 +6,7 @@ from PIL import Image
 from .settings import Settings
 import math
 import pygame
-
+from .Game import *
 
 class Window:
     def __init__(self, callBackStartGame):
@@ -129,13 +129,36 @@ class Window:
         self.entry2.grid (row = 1, column = 0, padx=12, pady= 12, sticky="nsew")
         self.entry3.grid (row = 2, column = 0, padx=12, pady= 12, sticky="nsew")
         self.entry4.grid (row = 3, column = 0, padx=12, pady= 12, sticky="nsew")
+
+        switch_var = customtkinter.StringVar(value="Extream")
+        switch_1 = customtkinter.CTkSwitch(master=frame, textvariable=switch_var, variable=switch_var, onvalue="Extream", offvalue="Normal")
+        switch_1.grid(row=0, column = 1, padx = 10)
+
+        def SameColorModus():
+            self.startGame(window, 3)
+
+        def CheckGameMode(window):
+            GameMode = switch_var.get()
+            if GameMode == "Extream":
+                SameColorModus()
+            else:
+                self.startGame(window, 1)  
                                     
-        button  = customtkinter.CTkButton(master=frame, text = "START", fg_color= "#e60000", font=('Helvetica', 15), hover_color = "#ff6666", command=lambda: self.startGame(window))
-        button.grid(row= 0, column = 3, padx = 10)
+        startButton  = customtkinter.CTkButton(master=frame, text = "START", fg_color= "#e60000", font=('Helvetica', 15), hover_color = "#ff6666", command= lambda: CheckGameMode(window))
+        startButton.grid(row=0, column = 3, padx = 10)
+
+        def LoadPreviousGame():
+            self.gameState = GameState()
+            loadedState = self.gameState.loadGameState()
+            Settings.listPlayers = loadedState.listPlayers
+            self.startGame(window, 2)
+
+        continueButton  = customtkinter.CTkButton(master=frame, text = "Fortsetzen", fg_color= "#e60000", font=('Helvetica', 15), hover_color = "#ff6666", command= lambda: LoadPreviousGame())
+        continueButton.grid(row=0, column = 2, padx = 20)
 
         window.mainloop()
 
-    def startGame(self, window):
+    def startGame(self, window, GameVersion):
 
         # KI Boolean-Werte holen
 
@@ -220,6 +243,15 @@ class Window:
         # Settings.listPlayers[3].name= self.Namefield4.get()
         if startgame:
             window.destroy()
+            if GameVersion == 2:
+                loadedState = self.gameState.loadGameState()
+                self.callBackStartGame(loadedState)
+            if GameVersion == 3:
+                sameColorMode = True
 
-            self.callBackStartGame()
+                for i in range(4):
+                    Settings.listPlayers[i].color = Settings.RED
 
+                self.callBackStartGame(None, sameColorMode)
+            else:
+                self.callBackStartGame()
