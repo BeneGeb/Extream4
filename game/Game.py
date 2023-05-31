@@ -86,6 +86,9 @@ class Game:
             button.buttonText = "Gamesound On"
             button.backgroundColor = Settings.GREEN
 
+    def clickRegeln(self, button):
+        print("Regeln")
+
     def createButtons(self):
         allButtons = []
         allButtons.append(
@@ -114,6 +117,14 @@ class Game:
                 self.clickMuteGameSounds,
                 "Gamesound On",
                 Settings.GREEN,
+            )
+        )
+        allButtons.append(
+            ClickButton(
+                (45, 540),
+                self.clickRegeln,
+                "Regeln",
+                Settings.BLUE,
             )
         )
         return allButtons
@@ -197,7 +208,8 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(Computer(num, self.gamefield, startFields[num]))
+                computers.append(
+                    Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -295,7 +307,8 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(
+                    self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
