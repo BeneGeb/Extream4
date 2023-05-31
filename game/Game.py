@@ -239,7 +239,6 @@ class Game:
             ],
             border_radius=30,
         )
-        print(Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2)
 
     # region KIFunctions
     def createKi(self):
