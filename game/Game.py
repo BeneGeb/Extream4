@@ -122,12 +122,76 @@ class Game:
         for button in self.buttons:
             button.draw(self.screen)
 
-    # endregion
-
     def handleButtonClicks(self, mousePosition):
         for button in self.buttons:
             button.handleClick(mousePosition)
 
+    # endregion
+
+    def changePlayer(self):
+        if self.currentPlayerNumber < 4 - 1:
+            self.currentPlayerNumber += 1
+        else:
+            self.currentPlayerNumber = 0
+
+    def drawCurrentPlayer(self, currentPlayerNumber, screen):
+        font = pygame.font.Font(None, 40)
+        font_surface = font.render(
+            Settings.listPlayers[currentPlayerNumber].name,
+            True,
+            Settings.listPlayers[currentPlayerNumber].color,
+        )
+        screen.blit(font_surface, Settings.CURRENT_PLAYER_POSITION)
+
+    def drawBackgrounds(self):
+        pygame.draw.rect(
+            self.screen,
+            Settings.GRAY,
+            [
+                Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2,
+                Settings.DICE_POSITION[1] - Settings.DICE_SIZE / 2,
+                Settings.DICE_SIZE * 2,
+                Settings.DICE_SIZE * 2,
+            ],
+            border_radius=30,
+        )
+        centerPositionX, centerPositionY = Settings.GAMEFIELD_POSITION
+        topleftCirclePositionX = centerPositionX - 6 * Settings.CIRCLE_DIFFERENCE
+        topleftCirclePositionY = centerPositionY - 6 * Settings.CIRCLE_DIFFERENCE
+        rectangleSize = 12 * Settings.CIRCLE_DIFFERENCE
+        pygame.draw.rect(
+            self.screen,
+            Settings.DARKGRAY,
+            [
+                topleftCirclePositionX,
+                topleftCirclePositionY,
+                rectangleSize,
+                rectangleSize,
+            ],
+            border_radius=30,
+            width=5,
+        )
+
+        # pygame.draw.rect(
+        #     self.screen, Settings.GRAY, [480, 30, 960, 960], border_radius=25
+        # )
+        # pygame.draw.rect(
+        #     self.screen, Settings.DARKGRAY, [515, 63, 170, 170], border_radius=30
+        # )
+        # pygame.draw.rect(
+        #     self.screen, Settings.DARKGRAY, [1235, 63, 170, 170], border_radius=30
+        # )
+        # pygame.draw.rect(
+        #     self.screen, Settings.DARKGRAY, [515, 780, 170, 170], border_radius=30
+        # )
+        # pygame.draw.rect(
+        #     self.screen, Settings.DARKGRAY, [1235, 780, 170, 170], border_radius=30
+        # )
+        # pygame.draw.rect(
+        #     self.screen, Settings.GRAY, [20, 275, 250, 600], border_radius=30
+        # )
+
+    # region KIFunctions
     def createKi(self):
         startFields = [40, 10, 20, 30]
         computers = []
@@ -172,21 +236,7 @@ class Game:
         if self.dice.currentValue <= 5:
             self.changePlayer()
 
-    def changePlayer(self):
-        if self.currentPlayerNumber < 4 - 1:
-            self.currentPlayerNumber += 1
-        else:
-            self.currentPlayerNumber = 0
-
-    def drawCurrentPlayer(self, currentPlayerNumber, screen):
-        font = pygame.font.Font(None, 40)
-        font_surface = font.render(
-            Settings.listPlayers[currentPlayerNumber].name,
-            True,
-            Settings.listPlayers[currentPlayerNumber].color,
-        )
-        screen.blit(font_surface, Settings.CURRENT_PLAYER_POSITION)
-
+    # endregion
     # region PlayerFunctions
     def handleWaitingForDice(self, mouseposition):
         diceClicked = self.dice.handleClick(mouseposition, False, self.soundOn)
@@ -301,9 +351,7 @@ class Game:
             self.screen.fill(Settings.BACKGROUNDCOLOR)
 
             # Draw dice background
-            pygame.draw.rect(
-                self.screen, Settings.GRAY, [20, 20, 250, 235], border_radius=30
-            )
+            self.drawBackgrounds()
 
             # Draw dice
             if self.currentStage == "rollingDice":

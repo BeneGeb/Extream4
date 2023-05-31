@@ -40,7 +40,7 @@ class Settings:
 
     CURRENT_PLAYER_POSITION = (90, 210)
 
-    DICE_POSITION = (80, 60)
+    DICE_POSITION = (80, 80)
     DICE_SIZE = 130
 
     RECT_x_Position = 45
