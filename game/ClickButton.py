@@ -1,7 +1,9 @@
 from .settings import Settings
 import pygame
+from pygame import mixer
 
 pygame.init()
+mixer.init()
 
 
 class ClickButton:
@@ -42,4 +44,6 @@ class ClickButton:
 
     def handleClick(self, mousePosition):
         if self.isButtonClicked(mousePosition):
+            Button_Sound = mixer.Sound("./Sounds/Menü_Klick_Sound3.mp3")
+            Button_Sound.play()
             self.clickFunction(self)

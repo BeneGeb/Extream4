@@ -86,6 +86,9 @@ class Game:
             button.buttonText = "Gamesound On"
             button.backgroundColor = Settings.GREEN
 
+    def clickRegeln(self, button):
+        print("Regeln")
+
     def createButtons(self):
         allButtons = []
         buttonXPosition = (
@@ -120,6 +123,14 @@ class Game:
                 self.clickMuteGameSounds,
                 "Gamesound On",
                 Settings.GREEN,
+            )
+        )
+        allButtons.append(
+            ClickButton(
+                (45, 540),
+                self.clickRegeln,
+                "Regeln",
+                Settings.BLUE,
             )
         )
         allButtons.append(
