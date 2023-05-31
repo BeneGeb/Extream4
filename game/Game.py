@@ -172,24 +172,24 @@ class Game:
             width=5,
         )
 
-        # pygame.draw.rect(
-        #     self.screen, Settings.GRAY, [480, 30, 960, 960], border_radius=25
-        # )
-        # pygame.draw.rect(
-        #     self.screen, Settings.DARKGRAY, [515, 63, 170, 170], border_radius=30
-        # )
-        # pygame.draw.rect(
-        #     self.screen, Settings.DARKGRAY, [1235, 63, 170, 170], border_radius=30
-        # )
-        # pygame.draw.rect(
-        #     self.screen, Settings.DARKGRAY, [515, 780, 170, 170], border_radius=30
-        # )
-        # pygame.draw.rect(
-        #     self.screen, Settings.DARKGRAY, [1235, 780, 170, 170], border_radius=30
-        # )
-        # pygame.draw.rect(
-        #     self.screen, Settings.GRAY, [20, 275, 250, 600], border_radius=30
-        # )
+        pygame.draw.rect(
+            self.screen, Settings.GRAY, [480, 30, 960, 960], border_radius=25
+        )
+        pygame.draw.rect(
+            self.screen, Settings.DARKGRAY, [515, 63, 170, 170], border_radius=30
+        )
+        pygame.draw.rect(
+            self.screen, Settings.DARKGRAY, [1235, 63, 170, 170], border_radius=30
+        )
+        pygame.draw.rect(
+            self.screen, Settings.DARKGRAY, [515, 780, 170, 170], border_radius=30
+        )
+        pygame.draw.rect(
+            self.screen, Settings.DARKGRAY, [1235, 780, 170, 170], border_radius=30
+        )
+        pygame.draw.rect(
+            self.screen, Settings.GRAY, [20, 275, 250, 600], border_radius=30
+        )
 
     # region KIFunctions
     def createKi(self):
