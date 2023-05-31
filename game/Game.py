@@ -172,24 +172,52 @@ class Game:
             width=5,
         )
 
-        # pygame.draw.rect(
-        #     self.screen, Settings.GRAY, [480, 30, 960, 960], border_radius=25
-        # )
-        # pygame.draw.rect(
-        #     self.screen, Settings.DARKGRAY, [515, 63, 170, 170], border_radius=30
-        # )
-        # pygame.draw.rect(
-        #     self.screen, Settings.DARKGRAY, [1235, 63, 170, 170], border_radius=30
-        # )
-        # pygame.draw.rect(
-        #     self.screen, Settings.DARKGRAY, [515, 780, 170, 170], border_radius=30
-        # )
-        # pygame.draw.rect(
-        #     self.screen, Settings.DARKGRAY, [1235, 780, 170, 170], border_radius=30
-        # )
-        # pygame.draw.rect(
-        #     self.screen, Settings.GRAY, [20, 275, 250, 600], border_radius=30
-        # )
+        pygame.draw.rect(
+            self.screen,
+            Settings.GRAY,
+            [
+                topleftCirclePositionX + 5,
+                topleftCirclePositionY + 5,
+                rectangleSize - 10,
+                rectangleSize - 10,
+            ],
+            border_radius=25,
+        )
+        for i in range(0, 4):
+            pygame.draw.rect(
+                self.screen,
+                Settings.DARKGRAY,
+                [
+                    topleftCirclePositionX + Settings.CIRCLE_SIZE,
+                    topleftCirclePositionY + Settings.CIRCLE_SIZE,
+                    6 * Settings.CIRCLE_SIZE,
+                    6 * Settings.CIRCLE_SIZE,
+                ],
+                border_radius=30,
+            )
+            if i == 0:
+                topleftCirclePositionX = (
+                    topleftCirclePositionX + 9 * Settings.CIRCLE_DIFFERENCE
+                )
+            if i == 1:
+                topleftCirclePositionY = (
+                    topleftCirclePositionY + 9 * Settings.CIRCLE_DIFFERENCE
+                )
+            if i == 2:
+                topleftCirclePositionX = (
+                    topleftCirclePositionX - 9 * Settings.CIRCLE_DIFFERENCE
+                )
+        pygame.draw.rect(
+            self.screen,
+            Settings.GRAY,
+            [
+                Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2,
+                Settings.DICE_POSITION[1] + 2 * Settings.DICE_SIZE,
+                Settings.DICE_SIZE * 2,
+                600,
+            ],
+            border_radius=30,
+        )
 
     # region KIFunctions
     def createKi(self):
