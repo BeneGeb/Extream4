@@ -21,7 +21,7 @@ class Window:
         window.resizable(0, 0)
         window.grid_columnconfigure(0, weight=1)
         window.grid_rowconfigure(0, weight=1)
-    
+
         window_width = 673
         window_height = 366
 
@@ -187,14 +187,22 @@ class Window:
         button_color3.grid(row=3, column=2, padx=35, pady=12, sticky="nsew")
         button_color4.grid(row=4, column=2, padx=35, pady=12, sticky="nsew")
 
+        # Namen Begrenzung
+        def validate_input(text):
+            if len(text) > 10:  # Begrenze die Eingabe auf maximal 10 Zeichen
+                return False
+            return True
+
+        validate = window.register(validate_input)
+
         self.entry1 = customtkinter.CTkEntry(
-            master=frame1, placeholder_text="Name")
+            master=frame1, placeholder_text="Name", validate="key", validatecommand=(validate, "%P"))
         self.entry2 = customtkinter.CTkEntry(
-            master=frame1, placeholder_text="Name")
+            master=frame1, placeholder_text="Name", validate="key", validatecommand=(validate, "%P"))
         self.entry3 = customtkinter.CTkEntry(
-            master=frame1, placeholder_text="Name")
+            master=frame1, placeholder_text="Name", validate="key", validatecommand=(validate, "%P"))
         self.entry4 = customtkinter.CTkEntry(
-            master=frame1, placeholder_text="Name")
+            master=frame1, placeholder_text="Name", validate="key", validatecommand=(validate, "%P"))
 
         self.entry1.grid(row=0, column=0, padx=12, pady=12, sticky="nsew")
         self.entry2.grid(row=1, column=0, padx=12, pady=12, sticky="nsew")
@@ -202,8 +210,9 @@ class Window:
         self.entry4.grid(row=3, column=0, padx=12, pady=12, sticky="nsew")
 
         switch_var = customtkinter.StringVar(value="Extream")
-        switch_1 = customtkinter.CTkSwitch(master=frame, switch_height= 25, switch_width= 45, font=('Helvetica', 16), textvariable=switch_var, variable=switch_var, onvalue="Extream", offvalue="Normal")
-        switch_1.grid(row=0, column = 1, padx = 10)
+        switch_1 = customtkinter.CTkSwitch(master=frame, switch_height=25, switch_width=45, font=(
+            'Helvetica', 16), textvariable=switch_var, variable=switch_var, onvalue="Extream", offvalue="Normal")
+        switch_1.grid(row=0, column=1, padx=10)
 
         def SameColorModus():
             self.startGame(window, 3)
@@ -213,10 +222,11 @@ class Window:
             if GameMode == "Extream":
                 SameColorModus()
             else:
-                self.startGame(window, 1)  
-                                    
-        startButton  = customtkinter.CTkButton(master=frame, text = "START", fg_color= "#e60000", font=('Helvetica', 13), hover_color = "#ff6666", command= lambda: CheckGameMode(window))
-        startButton.grid(row=0, column = 3, padx = 10)
+                self.startGame(window, 1)
+
+        startButton = customtkinter.CTkButton(master=frame, text="START", fg_color="#e60000", font=(
+            'Helvetica', 13), hover_color="#ff6666", command=lambda: CheckGameMode(window))
+        startButton.grid(row=0, column=3, padx=10)
 
         def LoadPreviousGame():
             self.gameState = GameState()
@@ -224,8 +234,9 @@ class Window:
             Settings.listPlayers = loadedState.listPlayers
             self.startGame(window, 2)
 
-        continueButton  = customtkinter.CTkButton(master=frame, text = "FORTSETZEN", fg_color= "#e60000", font=('Helvetica', 13), hover_color = "#ff6666", command= lambda: LoadPreviousGame())
-        continueButton.grid(row=0, column = 2, padx = 20)
+        continueButton = customtkinter.CTkButton(master=frame, text="FORTSETZEN", fg_color="#e60000", font=(
+            'Helvetica', 13), hover_color="#ff6666", command=lambda: LoadPreviousGame())
+        continueButton.grid(row=0, column=2, padx=20)
 
         window.mainloop()
 
@@ -276,27 +287,28 @@ class Window:
             return math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2)
 
         # hier geht die Suche mit den Farben ähnlichkeit los
-        stop = False
-        startgame = False
-        for i in range(len(Settings.listPlayers)):
-            if stop:
-                break
-            for j in range(i + 1, len(Settings.listPlayers)):
-                print(Settings.listPlayers[j].color)
-                distanz = colormath(
-                    Settings.listPlayers[i].color, Settings.listPlayers[j].color
-                )
-                if (
-                    distanz < Settings.COLOR_DISTANCE
-                ):  # Schwellenwert: Je höher, desto strenger
-                    messagebox.showinfo(
-                        "Info",
-                        f"Die Farben von {Settings.listPlayers[i].name} und {Settings.listPlayers[j].name} sind zu ähnlich.",
-                    )
-                    stop = True
-                    startgame = False
-
+        if GameVersion != 2:
+            stop = False
+            startgame = False
+            for i in range(len(Settings.listPlayers)):
+                if stop:
                     break
+                for j in range(i + 1, len(Settings.listPlayers)):
+                    print(Settings.listPlayers[j].color)
+                    distanz = colormath(
+                        Settings.listPlayers[i].color, Settings.listPlayers[j].color
+                    )
+                    if (
+                        distanz < Settings.COLOR_DISTANCE
+                    ):  # Schwellenwert: Je höher, desto strenger
+                        messagebox.showinfo(
+                            "Info",
+                            f"Die Farben von {Settings.listPlayers[i].name} und {Settings.listPlayers[j].name} sind zu ähnlich.",
+                        )
+                        stop = True
+                        startgame = False
+
+                        break
                 else:
                     # Musik beenden
                     pygame.mixer.music.stop()
@@ -305,6 +317,9 @@ class Window:
 
                     # game = Game()
                     # game.runGame()
+        else:
+            pygame.mixer.music.stop()
+            startgame = True
 
         # print(self.color_list)
 
