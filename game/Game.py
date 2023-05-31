@@ -91,6 +91,40 @@ class Game:
 
     def createButtons(self):
         allButtons = []
+        allButtons.append(
+            ClickButton(
+                None,
+                self.saveGameState,
+                "Speichern",
+                Settings.DARKGRAY,
+            )
+        )
+        allButtons.append(
+            ClickButton(
+                None,
+                self.clickMuteMusic,
+                "Music On",
+                Settings.GREEN,
+            )
+        )
+        allButtons.append(
+            ClickButton(
+                None,
+                self.clickMuteGameSounds,
+                "Gamesound On",
+                Settings.GREEN,
+            )
+        )
+        allButtons.append(
+            ClickButton(
+                None,
+                self.clickRegeln,
+                "Regeln",
+                Settings.BLUE,
+            )
+        )
+        allButtons.append(ClickButton(None, self.rageQuit, "RAGEQUIT", Settings.RED))
+
         buttonXPosition = (
             Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
         )
@@ -99,43 +133,10 @@ class Game:
             + 2 * Settings.DICE_SIZE
             + Settings.CIRCLE_SIZE / 2
         )
-        allButtons.append(
-            ClickButton(
-                (buttonXPosition, buttonYPosition),
-                self.saveGameState,
-                "Speichern",
-                Settings.DARKGRAY,
-            )
-        )
-        buttonYPosition = buttonYPosition + 3 * Settings.CIRCLE_SIZE
-        allButtons.append(
-            ClickButton(
-                (buttonXPosition, buttonYPosition),
-                self.clickMuteMusic,
-                "Music On",
-                Settings.GREEN,
-            )
-        )
-        buttonYPosition = buttonYPosition + 3 * Settings.CIRCLE_SIZE
-        allButtons.append(
-            ClickButton(
-                (buttonXPosition, buttonYPosition),
-                self.clickMuteGameSounds,
-                "Gamesound On",
-                Settings.GREEN,
-            )
-        )
-        allButtons.append(
-            ClickButton(
-                (45, 540),
-                self.clickRegeln,
-                "Regeln",
-                Settings.BLUE,
-            )
-        )
-        allButtons.append(
-            ClickButton((buttonXPosition, 780), self.rageQuit, "RAGEQUIT", Settings.RED)
-        )
+
+        for button in allButtons:
+            button.position = (buttonXPosition, buttonYPosition)
+            buttonYPosition = buttonYPosition + 2.5 * Settings.CIRCLE_SIZE
         return allButtons
 
     def drawButtons(self):
