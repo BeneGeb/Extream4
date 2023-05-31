@@ -54,7 +54,7 @@ class Game:
         self.runGame()
 
     # region ButtonFunctions
-    def rageQuit(self):
+    def rageQuit(self, button):
         print("Ragequit")
 
     def saveGameState(self, button):
@@ -162,7 +162,14 @@ class Game:
             True,
             Settings.listPlayers[currentPlayerNumber].color,
         )
-        screen.blit(font_surface, Settings.CURRENT_PLAYER_POSITION)
+
+        screen.blit(
+            font_surface,
+            (
+                Settings.DICE_POSITION[0] + 10,
+                Settings.DICE_POSITION[1] + Settings.DICE_SIZE,
+            ),
+        )
 
     def drawBackgrounds(self):
         pygame.draw.rect(
