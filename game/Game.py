@@ -88,33 +88,42 @@ class Game:
 
     def createButtons(self):
         allButtons = []
+        buttonXPosition = (
+            Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
+        )
+        buttonYPosition = (
+            Settings.DICE_POSITION[1]
+            + 2 * Settings.DICE_SIZE
+            + Settings.CIRCLE_SIZE / 2
+        )
         allButtons.append(
             ClickButton(
-                (45, 300),
+                (buttonXPosition, buttonYPosition),
                 self.saveGameState,
                 "Speichern",
                 Settings.DARKGRAY,
             )
         )
-        allButtons.append(
-            ClickButton((45, 780), self.rageQuit, "RAGEQUIT", Settings.RED)
-        )
+        buttonYPosition = buttonYPosition + 3 * Settings.CIRCLE_SIZE
         allButtons.append(
             ClickButton(
-                (45, 380),
+                (buttonXPosition, buttonYPosition),
                 self.clickMuteMusic,
                 "Music On",
                 Settings.GREEN,
             )
         )
-
+        buttonYPosition = buttonYPosition + 3 * Settings.CIRCLE_SIZE
         allButtons.append(
             ClickButton(
-                (45, 460),
+                (buttonXPosition, buttonYPosition),
                 self.clickMuteGameSounds,
                 "Gamesound On",
                 Settings.GREEN,
             )
+        )
+        allButtons.append(
+            ClickButton((buttonXPosition, 780), self.rageQuit, "RAGEQUIT", Settings.RED)
         )
         return allButtons
 
@@ -218,6 +227,7 @@ class Game:
             ],
             border_radius=30,
         )
+        print(Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2)
 
     # region KIFunctions
     def createKi(self):
