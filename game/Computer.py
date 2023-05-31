@@ -45,6 +45,8 @@ class Computer:
         return machingField[0]
 
     def getFieldFromNumber(self, number, allCircles):
+        if number >= 40:
+            number = number - 40
         matchingField = [circle for circle in allCircles if circle.number == number]
         return matchingField[0]
 
@@ -111,11 +113,6 @@ class Computer:
                     circle for circle in self.houseFields if circle.number == number
                 ][0]
             return None
-        if (
-            currCircle.number + diceValue < self.startOfHouseField
-            or currCircle.number <= self.startOfHouseField
-        ):
-            return self.getFieldFromNumber(currCircle.number + diceValue, allCircles)
         # Wenn die Figur noch nicht im Ziel ist, allerdings dort rein muss
         if (
             currCircle.number + diceValue >= self.startOfHouseField
@@ -127,6 +124,11 @@ class Computer:
                     circle for circle in self.houseFields if circle.number == number
                 ][0]
             return None
+        if (
+            currCircle.number + diceValue > self.startOfHouseField
+            or currCircle.number + diceValue <= self.startOfHouseField
+        ):
+            return self.getFieldFromNumber(currCircle.number + diceValue, allCircles)
         return None
 
     def sortFigures(self, allMannedCirclesAndFigures):

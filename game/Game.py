@@ -279,6 +279,12 @@ class Game:
                         self.handleWaitChooseFigure(mousePosition)
                     elif self.currentStage == "waitingForPlacingFigure":
                         self.handleWaitForPlacingFigure(mousePosition)
+                elif (
+                    event.type == pygame.MOUSEBUTTONDOWN
+                    and Settings.listPlayers[self.currentPlayerNumber].isKi
+                ):
+                    mousePosition = pygame.mouse.get_pos()
+                    self.handleButtonClicks(mousePosition)
             if Settings.listPlayers[self.currentPlayerNumber].isKi:
                 if self.currentStage == "waitingForDice":
                     self.kiDiceRolling()
