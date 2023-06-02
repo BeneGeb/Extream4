@@ -13,6 +13,7 @@ class ClickButton:
         self.clickFunction = clickFunction
         self.buttonText = buttonText
         self.backgroundColor = backgroundColor
+        self.animationCounter = 0
 
     def isButtonClicked(self, mousePosition):
         x, y = self.position
@@ -25,14 +26,18 @@ class ClickButton:
         x, y = self.position
         width, height = self.dimensions
 
+        if self.animationCounter > 0:
+            self.animationCounter = self.animationCounter - 0.2
+        else:
+            self.animationCounter = 0
         pygame.draw.rect(
             screen,
             self.backgroundColor,
             (
-                x,
-                y,
-                width,
-                height,
+                x + self.animationCounter,
+                y + self.animationCounter,
+                width - self.animationCounter * 2,
+                height - self.animationCounter * 2,
             ),
             border_radius=20,
         )
@@ -46,4 +51,5 @@ class ClickButton:
         if self.isButtonClicked(mousePosition):
             Button_Sound = mixer.Sound("./Sounds/Menü_Klick_Sound3.mp3")
             Button_Sound.play()
+            self.animationCounter = 2
             self.clickFunction(self)
