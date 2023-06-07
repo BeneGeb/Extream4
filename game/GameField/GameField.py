@@ -21,6 +21,7 @@ class GameField:
         self.lastClickedFigure = None
         self.lastClickedCircle = None
         self.markedCircle = None
+        self.soundsOn = True
 
         self.houseStartFields = [40, 10, 20, 30]
         self.explosion_images = [
@@ -38,13 +39,15 @@ class GameField:
             self.explosion_running = False
             self.explosion_frame_count = 0
 
-
-    def changeGameSound(self, SoundOn):
+    def changeMusic(self, SoundOn):
         if SoundOn:
             pygame.mixer.pause()
-
         else:
             pygame.mixer.unpause()
+
+    def changeGameSound(self, SoundOn):
+        self.soundsOn = SoundOn
+        print("nuuqewwwwwwwwwwwww")
 
     def draw(self, screen):
         for circle in self.allCircles:
@@ -77,19 +80,22 @@ class GameField:
     # endregion
     # region FigureMoving
     def kickFigure(self, clickedFigure, emptyBaseField):
+        self.explosionPosition = (
+            clickedFigure.position[0] - 113,
+            clickedFigure.position[1] - 170,
+        )
         clickedFigure.move(emptyBaseField.position)
-        Explo_Sound = mixer.Sound("./Sounds/Explosion.mp3")
-        Explo_Sound.play()
+        if self.soundsOn:
+            Explo_Sound = mixer.Sound("./Sounds/Explosion.mp3")
+            Explo_Sound.play()
 
-        mouse_pos = pygame.mouse.get_pos()
-        adjusted_pos = (mouse_pos[0] - 115, mouse_pos[1] - 170)  # adjust as needed
-        self.explosionPosition = adjusted_pos
         self.explosion_running = True
         self.explosion_frame_count = 0
 
     def moveFigure(self, figure, newPosition):
-        Move_Sound = mixer.Sound("./Sounds/Move.mp3")
-        Move_Sound.play()
+        if self.soundsOn:
+            Move_Sound = mixer.Sound("./Sounds/Move.mp3")
+            Move_Sound.play()
         figure.move(newPosition)
         figure.innerColor = Settings.UNSELECTED_CIRCLE_COLOR
 
