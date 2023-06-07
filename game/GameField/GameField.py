@@ -70,7 +70,7 @@ class GameField:
         if self.explosion_running:
             screen.blit(
                 self.explosion_images[self.explosion_frame_count],
-                ((480 + 960) // 2, (30 + 960) // 2),
+                (self.explosionPosition[0], self.explosionPosition[1]),
             )
             self.update_explosion()
 
@@ -93,6 +93,7 @@ class GameField:
         Explo_Sound = mixer.Sound("./Sounds/Explosion.mp3")
         Explo_Sound.play()
 
+        self.explosionPosition = clickedFigure.position
         self.explosion_running = True
         self.explosion_frame_count = 0
 
@@ -117,7 +118,7 @@ class GameField:
 
     # endregion
     # region Functions for Round system
-    def waitClickFigureToMove(self, clickedPos, playerNumber, diceValue):
+    def waitClickFigureToMove(self, clickedPos, playerNumber, diceValue, sameColorMode):
         clickedFigure = self.getClickedFigure(clickedPos)
         clickedCircle = None
         clicked = False
@@ -134,6 +135,23 @@ class GameField:
             self.lastClickedCircle = clickedCircle
 
             self.markPossibleCircle(clickedCircle, playerNumber, diceValue)
+
+        if (
+            clickedFigure
+            and sameColorMode
+            and int(clickedFigure.player) != playerNumber
+        ):
+            clicked = True
+            emptyBaseField = self.getEmptyBaseField(playerNumber)
+            allfigures = [
+                figure
+                for figure in self.allFigures
+                if figure.player == playerNumber and not self.isFigureInHouse(figure)
+            ]
+            if len(allfigures) > 0:
+                self.kickFigure(allfigures[0], emptyBaseField)
+
+        # if clickedFigure and
 
         return clicked
 
@@ -349,3 +367,11 @@ class GameField:
 
             placementList.append(x)
         return placementList
+
+    def isFigureInHouse(self, figure):
+        circle = [
+            circle for circle in self.allCircles if circle.position == figure.position
+        ]
+        if circle[0].type == "house":
+            return True
+        return False

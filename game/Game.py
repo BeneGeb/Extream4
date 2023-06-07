@@ -137,6 +137,8 @@ class Game:
         for button in allButtons:
             button.position = (buttonXPosition, buttonYPosition)
             buttonYPosition = buttonYPosition + 2.5 * Settings.CIRCLE_SIZE
+
+        # Hier kommen Buttons hin, die nicht links erscheinen sollen
         return allButtons
 
     def drawButtons(self):
@@ -339,7 +341,10 @@ class Game:
 
     def handleWaitChooseFigure(self, mousePosition):
         if self.gamefield.waitClickFigureToMove(
-            mousePosition, self.currentPlayerNumber, self.dice.currentValue
+            mousePosition,
+            self.currentPlayerNumber,
+            self.dice.currentValue,
+            self.sameColorMode,
         ):
             self.currentStage = "waitingForPlacingFigure"
 

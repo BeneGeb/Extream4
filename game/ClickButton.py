@@ -7,9 +7,12 @@ mixer.init()
 
 
 class ClickButton:
-    def __init__(self, position, clickFunction, buttonText, backgroundColor):
+    def __init__(self, position, clickFunction, buttonText, backgroundColor, size=None):
         self.position = position
-        self.dimensions = (Settings.BUTTON_WIDTH, Settings.BUTTON_HEIGHT)
+        if size == None:
+            self.dimensions = (Settings.BUTTON_WIDTH, Settings.BUTTON_HEIGHT)
+        else:
+            self.dimensions = size
         self.clickFunction = clickFunction
         self.buttonText = buttonText
         self.backgroundColor = backgroundColor
