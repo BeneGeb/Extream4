@@ -28,26 +28,15 @@ class GameField:
         ]
         self.explosion_frame_count = 0
         self.explosion_update_count = 0
-        self.explosion_update_rate = (
-            3  # Adjust this value to control the animation speed
-        )
+        self.explosion_update_rate = 3
         self.explosion_running = False
 
     def update_explosion(self):
-        self.explosion_images = [
-            pygame.image.load(os.path.join(f"./Images/ExplosionFrames/frame_{i}.png"))
-            for i in range(23)
-        ]
-        if self.explosion_running:
-            self.explosion_update_count += 1
-            if self.explosion_update_count >= self.explosion_update_rate:
-                self.explosion_frame_count += 1
-                self.explosion_update_count = 0
-                if self.explosion_frame_count >= len(self.explosion_images):
-                    self.explosion_running = False
-                    self.explosion_frame_count = 0
-        else:
-            self.explosion = None
+        self.explosion_frame_count += 1
+        if self.explosion_frame_count >= len(self.explosion_images):
+            self.explosion_running = False
+            self.explosion_frame_count = 0
+
 
     def changeGameSound(self, SoundOn):
         if SoundOn:
@@ -57,11 +46,6 @@ class GameField:
             pygame.mixer.unpause()
 
     def draw(self, screen):
-        self.explosion_images = [
-            pygame.image.load(os.path.join(f"./Images/ExplosionFrames/frame_{i}.png"))
-            for i in range(23)
-        ]
-
         for circle in self.allCircles:
             circle.draw(screen)
         for figure in self.allFigures:
@@ -93,7 +77,7 @@ class GameField:
         Explo_Sound = mixer.Sound("./Sounds/Explosion.mp3")
         Explo_Sound.play()
 
-        self.explosionPosition = clickedFigure.position
+        self.explosionPosition = emptyBaseField.position
         self.explosion_running = True
         self.explosion_frame_count = 0
 
