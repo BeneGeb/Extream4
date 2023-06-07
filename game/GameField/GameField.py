@@ -14,6 +14,7 @@ mixer.init()
 
 class GameField:
     def __init__(self):
+        self.figure_selected = False
         gfLoader = GameFieldLoader()
         self.allCircles = gfLoader.loadAllCircles()
         self.allFigures = gfLoader.placeStartFigures(self.allCircles)
@@ -56,7 +57,10 @@ class GameField:
                 self.explosion_images[self.explosion_frame_count],
                 (self.explosionPosition[0], self.explosionPosition[1]),
             )
-            self.update_explosion()
+            self.explosion_update_count += 1
+            if self.explosion_update_count >= self.explosion_update_rate:
+                self.update_explosion()
+                self.explosion_update_count = 0
 
     # region clickHandler
 
@@ -77,7 +81,9 @@ class GameField:
         Explo_Sound = mixer.Sound("./Sounds/Explosion.mp3")
         Explo_Sound.play()
 
-        self.explosionPosition = emptyBaseField.position
+        mouse_pos = pygame.mouse.get_pos()
+        adjusted_pos = (mouse_pos[0] - 115, mouse_pos[1] - 170)  # adjust as needed
+        self.explosionPosition = adjusted_pos
         self.explosion_running = True
         self.explosion_frame_count = 0
 
