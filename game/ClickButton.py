@@ -52,7 +52,7 @@ class ClickButton:
 
     def handleClick(self, mousePosition):
         if self.isButtonClicked(mousePosition):
-            Button_Sound = mixer.Sound("./Sounds/Menü_Klick_Sound3.mp3")
+            Button_Sound = mixer.Sound("./Sounds/Button.mp3")
             Button_Sound.play()
             self.animationCounter = 2
             self.clickFunction(self)

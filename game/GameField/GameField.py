@@ -121,10 +121,10 @@ class GameField:
     def waitClickFigureToMove(self, clickedPos, playerNumber, diceValue, sameColorMode):
         clickedFigure = self.getClickedFigure(clickedPos)
         clickedCircle = None
-        clicked = False
+        result = ""
 
         if clickedFigure and int(clickedFigure.player) == playerNumber:
-            clicked = True
+            result = "clicked"
             clickedCircle = self.getClickedCircle(clickedPos)
             if self.lastClickedFigure:
                 self.lastClickedFigure.innerColor = Settings.UNSELECTED_CIRCLE_COLOR
@@ -141,7 +141,6 @@ class GameField:
             and sameColorMode
             and int(clickedFigure.player) != playerNumber
         ):
-            clicked = True
             emptyBaseField = self.getEmptyBaseField(playerNumber)
             allfigures = [
                 figure
@@ -150,10 +149,11 @@ class GameField:
             ]
             if len(allfigures) > 0:
                 self.kickFigure(allfigures[0], emptyBaseField)
+                result = "change"
 
         # if clickedFigure and
 
-        return clicked
+        return result
 
     def waitClickCircleToMoveTo(self, clickedPos, playerNumber, diceValue):
         clickedCircle = self.getClickedCircle(clickedPos)
@@ -372,6 +372,7 @@ class GameField:
         circle = [
             circle for circle in self.allCircles if circle.position == figure.position
         ]
-        if circle[0].type == "house":
+        if "base" in circle[0].type:
             return True
+
         return False
