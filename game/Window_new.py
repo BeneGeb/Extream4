@@ -329,7 +329,6 @@ class Window:
                 if stop:
                     break
                 for j in range(i + 1, len(Settings.listPlayers)):
-                    print(Settings.listPlayers[j].color)
                     distanz = colormath(
                         Settings.listPlayers[i].color, Settings.listPlayers[j].color
                     )
