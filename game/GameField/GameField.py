@@ -25,8 +25,7 @@ class GameField:
 
         self.houseStartFields = [40, 10, 20, 30]
         self.explosion_images = [
-            pygame.image.load(os.path.join(
-                f"./Images/ExplosionFrames/frame_{i}.png"))
+            pygame.image.load(os.path.join(f"./Images/ExplosionFrames/frame_{i}.png"))
             for i in range(23)
         ]
         self.explosion_frame_count = 0
@@ -36,8 +35,7 @@ class GameField:
 
     def update_explosion(self):
         self.explosion_images = [
-            pygame.image.load(os.path.join(
-                f"./Images/ExplosionFrames/frame_{i}.png"))
+            pygame.image.load(os.path.join(f"./Images/ExplosionFrames/frame_{i}.png"))
             for i in range(23)
         ]
         if self.explosion_running:
@@ -57,10 +55,12 @@ class GameField:
         else:
             pygame.mixer.unpause()
 
+    def changeGameSound(self, SoundOn):
+        self.soundsOn = SoundOn
+
     def draw(self, screen):
         self.explosion_images = [
-            pygame.image.load(os.path.join(
-                f"./Images/ExplosionFrames/frame_{i}.png"))
+            pygame.image.load(os.path.join(f"./Images/ExplosionFrames/frame_{i}.png"))
             for i in range(23)
         ]
 
@@ -80,13 +80,13 @@ class GameField:
                 self.update_explosion()
                 self.explosion_update_count = 0
 
-    # Regeln anzeigen
+        # Regeln anzeigen
         pygame.draw.rect(screen, Settings.WHITE, (1500, 20, 400, 900))
 
         text = "Hallo, Welt!"
         font = pygame.font.Font(None, 36)
         text_render = font.render(text, True, Settings.BLACK)
-        text_rect = text_render.get_rect(center=(400//2, 900//2))
+        text_rect = text_render.get_rect(center=(400 // 2, 900 // 2))
         screen.blit(text_render, text_rect)
 
     # region clickHandler
@@ -132,8 +132,7 @@ class GameField:
         ]
         if len(matchingFigure) > 0:
             self.kickFigure(
-                matchingFigure[0], self.getEmptyBaseField(
-                    matchingFigure[0].player)
+                matchingFigure[0], self.getEmptyBaseField(matchingFigure[0].player)
             )
         self.moveFigure(figure, newPosition)
 
@@ -192,11 +191,9 @@ class GameField:
                     != playerNumber
                     # and clickedCircle == self.markedCircle
                 ):
-                    emptyBaseField = self.getEmptyBaseField(
-                        clickedFigure.player)
+                    emptyBaseField = self.getEmptyBaseField(clickedFigure.player)
                     self.kickFigure(clickedFigure, emptyBaseField)
-                    self.moveFigure(self.lastClickedFigure,
-                                    clickedCircle.position)
+                    self.moveFigure(self.lastClickedFigure, clickedCircle.position)
                     moved = True
                 else:
                     moved = False
@@ -286,8 +283,7 @@ class GameField:
             and (circle.number + diceValue) >= self.houseStartFields[team]
             and circle.number < self.houseStartFields[team]
         ):
-            houseFieldNumber = (circle.number + diceValue) - \
-                self.houseStartFields[team]
+            houseFieldNumber = (circle.number + diceValue) - self.houseStartFields[team]
             if houseFieldNumber <= 3:
                 if self.checkHouseFigures(team, houseFieldNumber):
                     return self.findField(houseFieldNumber, "house-" + str(team))
@@ -318,8 +314,7 @@ class GameField:
         return False
 
     def checkHouseFigures(self, team, newNumber):
-        teamFigures = [
-            figure for figure in self.allFigures if figure.player == team]
+        teamFigures = [figure for figure in self.allFigures if figure.player == team]
         circlesToCheck = [
             circle
             for circle in self.allCircles
