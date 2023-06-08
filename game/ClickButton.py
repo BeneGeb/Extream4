@@ -7,13 +7,14 @@ mixer.init()
 
 
 class ClickButton:
-    def __init__(self, position, clickFunction, buttonText, backgroundColor, size=None):
+    def __init__(self, position, clickFunction, buttonText, backgroundColor, size=None, visible=True):
         self.position = position
         if size == None:
             self.dimensions = (Settings.BUTTON_WIDTH, Settings.BUTTON_HEIGHT)
         else:
             self.dimensions = size
         self.clickFunction = clickFunction
+        self.visible = visible
         self.buttonText = buttonText
         self.backgroundColor = backgroundColor
         self.animationCounter = 0
@@ -26,6 +27,8 @@ class ClickButton:
             return True
 
     def draw(self, screen):
+        if not self.visible:
+            return
         x, y = self.position
         width, height = self.dimensions
 

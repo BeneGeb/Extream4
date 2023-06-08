@@ -48,6 +48,8 @@ class Game:
         pygame.mixer.music.set_volume(0.2)
         self.musicOn = True
         self.soundOn = True
+        self.showrules = True
+        self.showtext = "Regeln"
 
         self.callBackStartEndWindow = callBackStartEndWindow
 
@@ -86,8 +88,13 @@ class Game:
             button.buttonText = "Gamesound On"
             button.backgroundColor = Settings.GREEN
 
-    def clickRegeln(self, button):
-        print("Regeln")
+    def clickRule(self, button):
+        if self.showrules:
+            self.showrules = False
+            button.visible = False
+
+        else:
+            self.showrules = True
 
     def createButtons(self):
         allButtons = []
@@ -118,15 +125,17 @@ class Game:
         allButtons.append(
             ClickButton(
                 None,
-                self.clickRegeln,
+                self.clickRule,
                 "Regeln",
                 Settings.BLUE,
             )
         )
-        allButtons.append(ClickButton(None, self.rageQuit, "RAGEQUIT", Settings.RED))
+        allButtons.append(ClickButton(
+            None, self.rageQuit, "RAGEQUIT", Settings.RED))
 
         buttonXPosition = (
-            Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
+            Settings.DICE_POSITION[0] -
+            Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
         )
         buttonYPosition = (
             Settings.DICE_POSITION[1]
@@ -137,6 +146,8 @@ class Game:
         for button in allButtons:
             button.position = (buttonXPosition, buttonYPosition)
             buttonYPosition = buttonYPosition + 2.5 * Settings.CIRCLE_SIZE
+       # allButtons.append(ClickButton((1500, 20), None,
+        #                  "Rege", Settings.WHITE, (400, 900), True))
 
         # Hier kommen Buttons hin, die nicht links erscheinen sollen
         return allButtons
@@ -255,7 +266,8 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(Computer(num, self.gamefield, startFields[num]))
+                computers.append(
+                    Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -356,7 +368,8 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(
+                    self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
