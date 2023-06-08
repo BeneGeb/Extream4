@@ -352,13 +352,17 @@ class Game:
         self.rollingProgress = 0
 
     def handleWaitChooseFigure(self, mousePosition):
-        if self.gamefield.waitClickFigureToMove(
+        waitClickFigure = self.gamefield.waitClickFigureToMove(
             mousePosition,
             self.currentPlayerNumber,
             self.dice.currentValue,
             self.sameColorMode,
-        ):
+        )
+        if "clicked" in waitClickFigure:
             self.currentStage = "waitingForPlacingFigure"
+        elif "change" in waitClickFigure:
+            self.changePlayer()
+            self.currentStage = "waitingForDice"
 
     def handleWaitForPlacingFigure(self, mousePosition):
         waitClickResult = self.gamefield.waitClickCircleToMoveTo(
@@ -374,9 +378,15 @@ class Game:
             if self.dice.currentValue <= 5:
                 self.changePlayer()
         else:
-            self.gamefield.waitClickFigureToMove(
-                mousePosition, self.currentPlayerNumber, self.dice.currentValue
+            waitClick = self.gamefield.waitClickFigureToMove(
+                mousePosition,
+                self.currentPlayerNumber,
+                self.dice.currentValue,
+                self.sameColorMode,
             )
+            if "change" in waitClick:
+                self.changePlayer()
+                self.currentStage = "waitingForDice"
 
     # endregion
 

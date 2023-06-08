@@ -14,12 +14,14 @@ mixer.init()
 
 class GameField:
     def __init__(self):
+        self.figure_selected = False
         gfLoader = GameFieldLoader()
         self.allCircles = gfLoader.loadAllCircles()
         self.allFigures = gfLoader.placeStartFigures(self.allCircles)
         self.lastClickedFigure = None
         self.lastClickedCircle = None
         self.markedCircle = None
+        self.soundsOn = True
 
         self.houseStartFields = [40, 10, 20, 30]
         self.explosion_images = [
@@ -29,9 +31,7 @@ class GameField:
         ]
         self.explosion_frame_count = 0
         self.explosion_update_count = 0
-        self.explosion_update_rate = (
-            3  # Adjust this value to control the animation speed
-        )
+        self.explosion_update_rate = 3
         self.explosion_running = False
 
     def update_explosion(self):
@@ -51,10 +51,9 @@ class GameField:
         else:
             self.explosion = None
 
-    def changeGameSound(self, SoundOn):
+    def changeMusic(self, SoundOn):
         if SoundOn:
             pygame.mixer.pause()
-
         else:
             pygame.mixer.unpause()
 
@@ -65,6 +64,7 @@ class GameField:
             for i in range(23)
         ]
 
+    def draw(self, screen):
         for circle in self.allCircles:
             circle.draw(screen)
         for figure in self.allFigures:
@@ -75,7 +75,10 @@ class GameField:
                 self.explosion_images[self.explosion_frame_count],
                 (self.explosionPosition[0], self.explosionPosition[1]),
             )
-            self.update_explosion()
+            self.explosion_update_count += 1
+            if self.explosion_update_count >= self.explosion_update_rate:
+                self.update_explosion()
+                self.explosion_update_count = 0
 
     # Regeln anzeigen
         pygame.draw.rect(screen, Settings.WHITE, (1500, 20, 400, 900))
@@ -101,17 +104,22 @@ class GameField:
     # endregion
     # region FigureMoving
     def kickFigure(self, clickedFigure, emptyBaseField):
+        self.explosionPosition = (
+            clickedFigure.position[0] - 113,
+            clickedFigure.position[1] - 170,
+        )
         clickedFigure.move(emptyBaseField.position)
-        Explo_Sound = mixer.Sound("./Sounds/Explosion.mp3")
-        Explo_Sound.play()
+        if self.soundsOn:
+            Explo_Sound = mixer.Sound("./Sounds/Explosion.mp3")
+            Explo_Sound.play()
 
-        self.explosionPosition = clickedFigure.position
         self.explosion_running = True
         self.explosion_frame_count = 0
 
     def moveFigure(self, figure, newPosition):
-        Move_Sound = mixer.Sound("./Sounds/Move.mp3")
-        Move_Sound.play()
+        if self.soundsOn:
+            Move_Sound = mixer.Sound("./Sounds/Move.mp3")
+            Move_Sound.play()
         figure.move(newPosition)
         figure.innerColor = Settings.UNSELECTED_CIRCLE_COLOR
 
@@ -134,10 +142,10 @@ class GameField:
     def waitClickFigureToMove(self, clickedPos, playerNumber, diceValue, sameColorMode):
         clickedFigure = self.getClickedFigure(clickedPos)
         clickedCircle = None
-        clicked = False
+        result = ""
 
         if clickedFigure and int(clickedFigure.player) == playerNumber:
-            clicked = True
+            result = "clicked"
             clickedCircle = self.getClickedCircle(clickedPos)
             if self.lastClickedFigure:
                 self.lastClickedFigure.innerColor = Settings.UNSELECTED_CIRCLE_COLOR
@@ -154,7 +162,6 @@ class GameField:
             and sameColorMode
             and int(clickedFigure.player) != playerNumber
         ):
-            clicked = True
             emptyBaseField = self.getEmptyBaseField(playerNumber)
             allfigures = [
                 figure
@@ -163,10 +170,11 @@ class GameField:
             ]
             if len(allfigures) > 0:
                 self.kickFigure(allfigures[0], emptyBaseField)
+                result = "change"
 
         # if clickedFigure and
 
-        return clicked
+        return result
 
     def waitClickCircleToMoveTo(self, clickedPos, playerNumber, diceValue):
         clickedCircle = self.getClickedCircle(clickedPos)
@@ -389,6 +397,7 @@ class GameField:
         circle = [
             circle for circle in self.allCircles if circle.position == figure.position
         ]
-        if circle[0].type == "house":
+        if "base" in circle[0].type:
             return True
+
         return False
