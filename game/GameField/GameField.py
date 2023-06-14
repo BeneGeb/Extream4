@@ -81,13 +81,13 @@ class GameField:
                 self.explosion_update_count = 0
 
         # Regeln anzeigen
-        pygame.draw.rect(screen, Settings.WHITE, (1500, 20, 400, 900))
+        # pygame.draw.rect(screen, Settings.WHITE, (1500, 20, 400, 900))
 
-        text = "Hallo, Welt!"
-        font = pygame.font.Font(None, 36)
-        text_render = font.render(text, True, Settings.BLACK)
-        text_rect = text_render.get_rect(center=(400 // 2, 900 // 2))
-        screen.blit(text_render, text_rect)
+        # text = "Hallo, Welt!"
+        # font = pygame.font.Font(None, 36)
+        # text_render = font.render(text, True, Settings.BLACK)
+        # text_rect = text_render.get_rect(center=(400 // 2, 900 // 2))
+        # screen.blit(text_render, text_rect)
 
     # region clickHandler
 

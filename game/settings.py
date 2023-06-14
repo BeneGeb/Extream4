@@ -57,12 +57,3 @@ class Settings:
             monitor[0].width // 2,
             (monitor[0].height - 63) // 2,
         )
-
-    def adjustSettings(size):
-        Settings.WINDOW_WIDTH = size[0]
-        Settings.WINDOW_HEIGHT = size[1]
-
-        Settings.GAMEFIELD_POSITION = (
-            size[0] // 2,
-            (size[1] - 63) // 2,
-        )
