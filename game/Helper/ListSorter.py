@@ -4,12 +4,11 @@ def sortPlayers(allCircles, allFigures, allPlayers):
         playerfigures = [figure for figure in allFigures if figure.player == i]
         mannedCircles = getMannedCircles(allCircles, playerfigures)
         progress = getProgressForOnePlayer(mannedCircles, player.startfield)
-        playerList.append((player, progress))
-    playerList = playerList.sort(key=lambda entry: entry[0])
-    for item in playerList:
-        print(item[0].name)
-        print(progress)
-        print("-----------------")
+        entry = (player, progress)
+        print(entry)
+        playerList.append(entry)
+    playerList.sort(key=lambda entry: entry[1], reverse=True)
+    return playerList
 
 
 def getProgressForOnePlayer(allCircles, startField):
