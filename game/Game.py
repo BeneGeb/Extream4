@@ -7,6 +7,7 @@ from .GameField.GameField import GameField
 from .Helper.GameState import *
 from .settings import Settings
 from .ClickButton import ClickButton
+from .Helper.ListSorter import sortPlayers
 
 
 def setUpPygame():
@@ -151,9 +152,9 @@ class Game:
             (1500, 20), None, "Reg", Settings.WHITE, (400, 900), True
         )
         self.listButton = ClickButton(
-            (1500, 20), None, "Das ist eine Liste", Settings.WHITE, (400, 900), True
+            (1500, 20), None, "Das ist eine Liste", Settings.WHITE, (400, 400), False
         )
-        self.listButton.visible = False
+
         allButtons.append(self.listButton)
         allButtons.append(self.ruleButton)
 
@@ -175,6 +176,9 @@ class Game:
             self.currentPlayerNumber += 1
         else:
             self.currentPlayerNumber = 0
+        sortPlayers(
+            self.gamefield.allCircles, self.gamefield.allFigures, Settings.listPlayers
+        )
 
     def drawCurrentPlayer(self, currentPlayerNumber, screen):
         font = pygame.font.Font(None, 40)
