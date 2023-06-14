@@ -25,10 +25,10 @@ class Settings:
     SELECTED_CIRCLE_COLOR = BLACK
 
     listPlayers = [
-        Player(RED, "Player 1", False),
-        Player(YELLOW, "Player 2", False),
-        Player(BLUE, "Player 3", False),
-        Player(GREEN, "Player 4", False),
+        Player(RED, "Player 1", False, 40),
+        Player(YELLOW, "Player 2", False, 10),
+        Player(BLUE, "Player 3", False, 20),
+        Player(GREEN, "Player 4", False, 30),
     ]
     NEUTRAL_FIELD_COLOR = WHITE
     MARKED_FIELD_COLOR = ORANGE
