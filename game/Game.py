@@ -7,6 +7,7 @@ from .GameField.GameField import GameField
 from .Helper.GameState import *
 from .settings import Settings
 from .ClickButton import ClickButton
+from .Rule import Rule
 
 
 def setUpPygame():
@@ -35,6 +36,7 @@ class Game:
             self.currentPlayerNumber = loadedState.currentPlayer
         self.sameColorMode = sameColorMode
         self.gameState = GameState()
+        self.rule = Rule()
         self.currentStage = "waitingForDice"
         self.rollingProgress = 0
         self.diceTries = 0
@@ -49,7 +51,6 @@ class Game:
         self.musicOn = True
         self.soundOn = True
         self.showrules = True
-        self.showtext = "Regeln"
 
         self.callBackStartEndWindow = callBackStartEndWindow
 
@@ -132,10 +133,12 @@ class Game:
                 Settings.BLUE,
             )
         )
-        allButtons.append(ClickButton(None, self.rageQuit, "RAGEQUIT", Settings.RED))
+        allButtons.append(ClickButton(
+            None, self.rageQuit, "RAGEQUIT", Settings.RED))
 
         buttonXPosition = (
-            Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
+            Settings.DICE_POSITION[0] -
+            Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
         )
         buttonYPosition = (
             Settings.DICE_POSITION[1]
@@ -148,7 +151,8 @@ class Game:
             buttonYPosition = buttonYPosition + 2.5 * Settings.CIRCLE_SIZE
 
         self.ruleButton = ClickButton(
-            (1500, 20), None, "Reg", Settings.WHITE, (400, 900), True
+            (1500, 20), None, self.rule.showtext(
+            ), Settings.WHITE, (400, 900), True
         )
         self.listButton = ClickButton(
             (1500, 20), None, "Das ist eine Liste", Settings.WHITE, (400, 900), True
@@ -162,7 +166,7 @@ class Game:
 
     def drawButtons(self):
         for button in self.buttons:
-            button.draw(self.screen)
+            button.draw(self.screen, None)
 
     def handleButtonClicks(self, mousePosition):
         for button in self.buttons:
@@ -274,7 +278,8 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(Computer(num, self.gamefield, startFields[num]))
+                computers.append(
+                    Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -379,7 +384,8 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(
+                    self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
