@@ -91,10 +91,12 @@ class Game:
     def clickRule(self, button):
         if self.showrules:
             self.showrules = False
-            button.visible = False
-
+            self.ruleButton.visible = False
+            self.listButton.visible = True
         else:
             self.showrules = True
+            self.ruleButton.visible = True
+            self.listButton.visible = False
 
     def createButtons(self):
         allButtons = []
@@ -130,12 +132,10 @@ class Game:
                 Settings.BLUE,
             )
         )
-        allButtons.append(ClickButton(
-            None, self.rageQuit, "RAGEQUIT", Settings.RED))
+        allButtons.append(ClickButton(None, self.rageQuit, "RAGEQUIT", Settings.RED))
 
         buttonXPosition = (
-            Settings.DICE_POSITION[0] -
-            Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
+            Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
         )
         buttonYPosition = (
             Settings.DICE_POSITION[1]
@@ -146,8 +146,16 @@ class Game:
         for button in allButtons:
             button.position = (buttonXPosition, buttonYPosition)
             buttonYPosition = buttonYPosition + 2.5 * Settings.CIRCLE_SIZE
-       # allButtons.append(ClickButton((1500, 20), None,
-        #                  "Rege", Settings.WHITE, (400, 900), True))
+
+        self.ruleButton = ClickButton(
+            (1500, 20), None, "Reg", Settings.WHITE, (400, 900), True
+        )
+        self.listButton = ClickButton(
+            (1500, 20), None, "Das ist eine Liste", Settings.WHITE, (400, 900), True
+        )
+        self.listButton.visible = False
+        allButtons.append(self.listButton)
+        allButtons.append(self.ruleButton)
 
         # Hier kommen Buttons hin, die nicht links erscheinen sollen
         return allButtons
@@ -180,7 +188,7 @@ class Game:
             font_surface,
             (
                 Settings.DICE_POSITION[0] + 10,
-                Settings.DICE_POSITION[1] + Settings.DICE_SIZE,
+                Settings.DICE_POSITION[1] + Settings.DICE_SIZE * 1.1,
             ),
         )
 
@@ -266,8 +274,7 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(
-                    Computer(num, self.gamefield, startFields[num]))
+                computers.append(Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -372,8 +379,7 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(
-                    self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
