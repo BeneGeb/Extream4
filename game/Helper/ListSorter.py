@@ -5,7 +5,6 @@ def sortPlayers(allCircles, allFigures, allPlayers):
         mannedCircles = getMannedCircles(allCircles, playerfigures)
         progress = getProgressForOnePlayer(mannedCircles, player.startfield)
         entry = (player, progress)
-        print(entry)
         playerList.append(entry)
     playerList.sort(key=lambda entry: entry[1], reverse=True)
     return playerList

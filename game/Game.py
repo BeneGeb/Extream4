@@ -8,6 +8,7 @@ from .Helper.GameState import *
 from .settings import Settings
 from .ClickButton import ClickButton
 from .Rule import Rule
+from .Helper.ListSorter import sortPlayers
 
 
 def setUpPygame():
@@ -90,14 +91,7 @@ class Game:
             button.backgroundColor = Settings.GREEN
 
     def clickRule(self, button):
-        if self.showrules:
-            self.showrules = False
-            self.ruleButton.visible = False
-            self.listButton.visible = True
-        else:
-            self.showrules = True
-            self.ruleButton.visible = True
-            self.listButton.visible = False
+        self.ruleButton.visible = not self.ruleButton.visible
 
     def createButtons(self):
         allButtons = []
@@ -106,6 +100,14 @@ class Game:
                 None,
                 self.saveGameState,
                 "Speichern",
+                Settings.DARKGRAY,
+            )
+        )
+        allButtons.append(
+            ClickButton(
+                None,
+                self.clickRule,
+                "Regeln",
                 Settings.DARKGRAY,
             )
         )
@@ -123,14 +125,6 @@ class Game:
                 self.clickMuteGameSounds,
                 "Gamesound On",
                 Settings.GREEN,
-            )
-        )
-        allButtons.append(
-            ClickButton(
-                None,
-                self.clickRule,
-                "Regeln",
-                Settings.BLUE,
             )
         )
         allButtons.append(ClickButton(None, self.rageQuit, "RAGEQUIT", Settings.RED))
@@ -151,11 +145,7 @@ class Game:
         self.ruleButton = ClickButton(
             (1500, 20), None, self.rule.showtext(), Settings.WHITE, (400, 900), True
         )
-        self.listButton = ClickButton(
-            (1500, 20), None, "Das ist eine Liste", Settings.WHITE, (400, 900), True
-        )
-        self.listButton.visible = False
-        allButtons.append(self.listButton)
+
         allButtons.append(self.ruleButton)
 
         # Hier kommen Buttons hin, die nicht links erscheinen sollen
@@ -176,10 +166,6 @@ class Game:
             self.currentPlayerNumber += 1
         else:
             self.currentPlayerNumber = 0
-        # Hier kommt die sortiere Spielerliste raus, muss als nächstes in Buttone eingetragen werden
-        # sortPlayers(
-        #     self.gamefield.allCircles, self.gamefield.allFigures, Settings.listPlayers
-        # )
 
     def drawCurrentPlayer(self, currentPlayerNumber, screen):
         font = pygame.font.Font(None, 40)
