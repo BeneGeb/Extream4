@@ -251,7 +251,7 @@ class Game:
                 Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2,
                 Settings.DICE_POSITION[1] + 2 * Settings.DICE_SIZE,
                 Settings.DICE_SIZE * 2,
-                600,
+                325,
             ],
             border_radius=30,
         )
@@ -294,10 +294,9 @@ class Game:
             self.gamefield, self.dice.currentValue
         )
         self.currentStage = "waitingForDice"
-        # if self.gamefield.checkWin(self.currentPlayerNumber):
-        #     self.gameActive = False
-        #     self.callBackStartEndWindow(self.currentPlayerNumber)
-
+        if self.gamefield.checkWin(self.currentPlayerNumber):
+            self.gameActive = False
+            self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
         if self.dice.currentValue <= 5:
             self.changePlayer()
 
@@ -394,6 +393,7 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.gameActive = False
+
                 elif (
                     event.type == pygame.MOUSEBUTTONDOWN
                     and not Settings.listPlayers[self.currentPlayerNumber].isKi
