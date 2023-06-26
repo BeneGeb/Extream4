@@ -176,6 +176,7 @@ class Game:
             self.currentPlayerNumber += 1
         else:
             self.currentPlayerNumber = 0
+        # Hier kommt die sortiere Spielerliste raus, muss als nächstes in Buttone eingetragen werden
         sortPlayers(
             self.gamefield.allCircles, self.gamefield.allFigures, Settings.listPlayers
         )
