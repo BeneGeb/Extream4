@@ -26,7 +26,7 @@ class ClickButton:
         if x <= mouseX <= x + width and y <= mouseY <= y + height:
             return True
 
-    def draw(self, screen):
+    def draw(self, screen, newLine):
         if not self.visible:
             return
         x, y = self.position
@@ -47,11 +47,12 @@ class ClickButton:
             ),
             border_radius=20,
         )
-        small_font = pygame.font.SysFont("comicsansms", 25)
-        text = small_font.render(self.buttonText, True, Settings.BLACK)
-        text_x = x + (width - text.get_width()) // 2
-        text_y = y + (height - text.get_height()) // 2
-        screen.blit(text, (text_x, text_y))
+        if newLine == None:
+            small_font = pygame.font.SysFont("comicsansms", 25)
+            text = small_font.render(self.buttonText, True, Settings.BLACK)
+            text_x = x + (width - text.get_width()) // 2
+            text_y = y + (height - text.get_height()) // 2
+            screen.blit(text, (text_x, text_y))
 
     def handleClick(self, mousePosition):
         if self.isButtonClicked(mousePosition):

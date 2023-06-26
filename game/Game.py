@@ -7,7 +7,7 @@ from .GameField.GameField import GameField
 from .Helper.GameState import *
 from .settings import Settings
 from .ClickButton import ClickButton
-from .Helper.ListSorter import sortPlayers
+from .Rule import Rule
 
 
 def setUpPygame():
@@ -36,6 +36,7 @@ class Game:
             self.currentPlayerNumber = loadedState.currentPlayer
         self.sameColorMode = sameColorMode
         self.gameState = GameState()
+        self.rule = Rule()
         self.currentStage = "waitingForDice"
         self.rollingProgress = 0
         self.diceTries = 0
@@ -50,7 +51,6 @@ class Game:
         self.musicOn = True
         self.soundOn = True
         self.showrules = True
-        self.showtext = "Regeln"
 
         self.callBackStartEndWindow = callBackStartEndWindow
 
@@ -149,12 +149,12 @@ class Game:
             buttonYPosition = buttonYPosition + 2.5 * Settings.CIRCLE_SIZE
 
         self.ruleButton = ClickButton(
-            (1500, 20), None, "Reg", Settings.WHITE, (400, 900), True
+            (1500, 20), None, self.rule.showtext(), Settings.WHITE, (400, 900), True
         )
         self.listButton = ClickButton(
-            (1500, 20), None, "Das ist eine Liste", Settings.WHITE, (400, 400), False
+            (1500, 20), None, "Das ist eine Liste", Settings.WHITE, (400, 900), True
         )
-
+        self.listButton.visible = False
         allButtons.append(self.listButton)
         allButtons.append(self.ruleButton)
 
@@ -163,7 +163,7 @@ class Game:
 
     def drawButtons(self):
         for button in self.buttons:
-            button.draw(self.screen)
+            button.draw(self.screen, None)
 
     def handleButtonClicks(self, mousePosition):
         for button in self.buttons:
@@ -177,9 +177,9 @@ class Game:
         else:
             self.currentPlayerNumber = 0
         # Hier kommt die sortiere Spielerliste raus, muss als nächstes in Buttone eingetragen werden
-        sortPlayers(
-            self.gamefield.allCircles, self.gamefield.allFigures, Settings.listPlayers
-        )
+        # sortPlayers(
+        #     self.gamefield.allCircles, self.gamefield.allFigures, Settings.listPlayers
+        # )
 
     def drawCurrentPlayer(self, currentPlayerNumber, screen):
         font = pygame.font.Font(None, 40)
