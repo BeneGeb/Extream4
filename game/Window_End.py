@@ -42,7 +42,7 @@ class Window_Finished:
         frame2.grid_columnconfigure((0, 1, 2), weight=1)
         frame2.grid_rowconfigure((0, 1, 2, 3, 4), weight=1)
 
-        #Beschriftung
+        # Beschriftung
         labelMenue = customtkinter.CTkLabel(
             master=frame2,
             text=f"Glückwünsch {Settings.listPlayers[placement].name}",
@@ -52,17 +52,19 @@ class Window_Finished:
             fg_color="#4d4d4d",
             corner_radius=5,
         )
-        labelMenue.grid(row=0, column=0, columnspan= 3, padx=12, pady=12, sticky="nsew")
+        labelMenue.grid(row=0, column=0, columnspan=3, padx=12, pady=12, sticky="nsew")
 
         # Liste der Spieler
         playerSortedPlacementDict = {}
 
         for i in range(len(Settings.listPlayers)):
-            playerSortedPlacementDict[Settings.listPlayers[i]
-                                      .name] = gameField.placementlist[i]
+            playerSortedPlacementDict[
+                Settings.listPlayers[i].name
+            ] = gameField.placementlist[i]
 
         sorted_dict = dict(
-            sorted(playerSortedPlacementDict.items(), key=lambda x: x[1], reverse=True))
+            sorted(playerSortedPlacementDict.items(), key=lambda x: x[1], reverse=True)
+        )
         print(sorted_dict)
 
         # Dict_Keys in Liste
@@ -86,12 +88,9 @@ class Window_Finished:
             previous_value = value
         print("hier", place_list)
 
-        # Farben Platzierung 
-        placecolor= ("#f7d934",
-                     "#aaa9ad",
-                     "#cd7f32",
-                     "#873e23")
-        
+        # Farben Platzierung
+        placecolor = ("#f7d934", "#aaa9ad", "#cd7f32", "#873e23")
+
         # ListeSpieler Output
         # Platzierung Heckmeck
         for i, j in zip(range(1, 5), range(4)):
@@ -99,51 +98,57 @@ class Window_Finished:
                 master=frame2,
                 # text=str(i) + "." + " " + "Player " + str(i),
                 text=f"{place_list[j]}.Platz",
-                corner_radius=5, 
-                fg_color= placecolor[(-1)+place_list[j]],
+                corner_radius=5,
+                fg_color=placecolor[(-1) + place_list[j]],
                 font=("Arial", 14),
             )
-            labelplace.grid(row=0+i, column=0, padx=12, pady=12, sticky="nsew")
+            labelplace.grid(row=0 + i, column=0, padx=12, pady=12, sticky="nsew")
 
             labelplayer = customtkinter.CTkLabel(
                 master=frame2,
                 # text=str(i) + "." + " " + "Player " + str(i),
-                text=f"{key_list[j]}" + " " + ":" +f"{values_list[j]} Spieler im Hausfeld",
-                corner_radius=5, 
+                text=f"{key_list[j]}"
+                + " "
+                + ":"
+                + f"{values_list[j]} Spieler im Hausfeld",
+                corner_radius=5,
                 fg_color="#4d4d4d",
                 font=("Arial", 14),
             )
-            labelplayer.grid(row=0+i, column=1, columnspan = 2, padx=12, pady=12, sticky="nsew")
+            labelplayer.grid(
+                row=0 + i, column=1, columnspan=2, padx=12, pady=12, sticky="nsew"
+            )
 
-        buttonStart  = customtkinter.CTkButton(
-            master=frame1, 
-            text = "Neustart", 
-            fg_color= "#31b031",
-            font=('Helvetica', 30), 
-            hover_color = "#72cf72", 
-            corner_radius=10, 
-            command= lambda: self.Restart(window))
-    
-        buttonStart.grid(row=0, column = 0, padx = 35, pady= 35, sticky="nsew")
+        buttonStart = customtkinter.CTkButton(
+            master=frame1,
+            text="Neustart",
+            fg_color="#31b031",
+            font=("Helvetica", 30),
+            hover_color="#72cf72",
+            corner_radius=10,
+            command=lambda: self.Restart(window),
+        )
 
-        buttonEnd  = customtkinter.CTkButton(
-            master=frame1, 
-            text = "Beenden", 
-            fg_color= "#c73636",
-            font=('Helvetica', 30), 
-            hover_color = "#cc7676",
-            corner_radius=10, 
-            command= lambda: self.Quit(window))
-    
-        buttonEnd.grid(row=1, column = 0, padx = 35, pady = 35, sticky="nsew")
+        buttonStart.grid(row=0, column=0, padx=35, pady=35, sticky="nsew")
+
+        buttonEnd = customtkinter.CTkButton(
+            master=frame1,
+            text="Beenden",
+            fg_color="#c73636",
+            font=("Helvetica", 30),
+            hover_color="#cc7676",
+            corner_radius=10,
+            command=lambda: self.Quit(window),
+        )
+
+        buttonEnd.grid(row=1, column=0, padx=35, pady=35, sticky="nsew")
 
         # Aktivierung des Fensters
         window.mainloop()
 
     def Restart(self, tkfenster):
-
         tkfenster.destroy()
-        self.callBackStartWindow()
+        self.callBackStartGame()
 
     def Quit(self, tkfenster):
 

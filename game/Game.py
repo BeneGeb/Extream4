@@ -57,9 +57,7 @@ class Game:
 
         self.runGame()
 
-    # region ButtonFunctions
-    def rageQuit(self, button):
-        print("Ragequit")
+    # region ButtonFunction
 
     def saveGameState(self, button):
         self.gameState.saveGameState(
@@ -127,7 +125,6 @@ class Game:
                 Settings.GREEN,
             )
         )
-        allButtons.append(ClickButton(None, self.rageQuit, "RAGEQUIT", Settings.RED))
 
         buttonXPosition = (
             Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
