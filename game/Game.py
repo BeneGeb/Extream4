@@ -20,8 +20,6 @@ def setUpPygame():
 setUpPygame()
 pygame.init()
 
-# Nur bei 6 darf eine Figure aus der Base raus gehen
-
 
 class Game:
     def __init__(self, callBackStartEndWindow, loadedState=None, sameColorMode=None):
@@ -142,6 +140,7 @@ class Game:
         self.ruleButton = ClickButton(
             (1500, 20), None, self.rule.showtext(), Settings.WHITE, (400, 900), True
         )
+        self.ruleButton.visible = False
 
         allButtons.append(self.ruleButton)
 
