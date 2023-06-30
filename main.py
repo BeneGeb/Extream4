@@ -1,8 +1,7 @@
 from game.Game import Game
-from game.Window_new import Window
+from game.Window_Start import Window
 from game.settings import Settings
 from game.Window_End import Window_Finished
-from game.Window_Ragequit import Window_RageQuit
 
 
 def startWindow():
@@ -15,10 +14,6 @@ def startGame(loadedState=None, sameColorMode=None):
 
 def startEndWindow(placement, gameField):
     Window_Finished(startWindow, placement, gameField)
-
-
-def startRagequitWindow():
-    Window_RageQuit(startWindow)
 
 
 if __name__ == "__main__":
