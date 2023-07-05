@@ -9,6 +9,8 @@ from .settings import Settings
 from .ClickButton import ClickButton
 from .Rule import Rule
 from .Helper.ListSorter import sortPlayers
+from .Textbox import TextBox
+from .Ressources.Rules import rules
 
 
 def setUpPygame():
@@ -42,6 +44,8 @@ class Game:
         self.computers = self.createKi()
         self.buttons = self.createButtons()
         self.gameState = GameState()
+        #################################################################
+        self.ruleBox = TextBox(rules, (1500, 20), True)
 
         pygame.mixer.init()
         pygame.mixer.music.load("./Sounds/Extrem_Sound.mp3")
@@ -129,8 +133,7 @@ class Game:
         )
 
         buttonXPosition = (
-            Settings.DICE_POSITION[0] -
-            Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
+            Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
         )
         buttonYPosition = (
             Settings.DICE_POSITION[1]
@@ -141,14 +144,6 @@ class Game:
         for button in allButtons:
             button.position = (buttonXPosition, buttonYPosition)
             buttonYPosition = buttonYPosition + 2.5 * Settings.CIRCLE_SIZE
-
-        self.ruleButton = ClickButton(
-            (1500, 20), None, self.rule.showtext(
-            ), Settings.WHITE, (400, 900), True
-        )
-        self.ruleButton.visible = False
-
-        allButtons.append(self.ruleButton)
 
         # Hier kommen Buttons hin, die nicht links erscheinen sollen
         return allButtons
@@ -267,8 +262,7 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(
-                    Computer(num, self.gamefield, startFields[num]))
+                computers.append(Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -302,8 +296,7 @@ class Game:
         self.currentStage = "waitingForDice"
         if self.gamefield.checkWin(self.currentPlayerNumber):
             self.gameActive = False
-            self.callBackStartEndWindow(
-                self.currentPlayerNumber, self.gamefield)
+            self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
         if self.dice.currentValue <= 5:
             self.changePlayer()
 
@@ -373,8 +366,7 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(
-                    self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
@@ -458,9 +450,13 @@ class Game:
             # Draw Rules
 
             if self.showrules:
-                # Mit Skale versucht das Bild zu verändern
-                # image = pygame.transform.scale(self.image, (400, 900))
-                self.screen.blit(self.image, (1430, 20))
+                pygame.draw.rect(
+                    self.screen,
+                    Settings.WHITE,
+                    (1500, 0, 300, 400),
+                    border_radius=20,
+                )
+                self.ruleBox.draw(self.screen)
 
             # Update Display
             pygame.display.flip()
