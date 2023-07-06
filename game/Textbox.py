@@ -27,7 +27,7 @@ class TextBox:
         txts = []
         for line in lines:
             # Schriftgröße
-            font = pygame.font.Font(None, 32)
+            font = pygame.font.Font(None, 30)
             txt = font.render(line, True, Settings.BLACK)
             txts.append(txt)
         return txts
@@ -37,4 +37,4 @@ class TextBox:
             x, y = self.position
             for i, line in enumerate(self.lines):
                 # Zeilenabstand
-                screen.blit(line, (x, y + 20 * i))
+                screen.blit(line, (x, y + 25 * i))

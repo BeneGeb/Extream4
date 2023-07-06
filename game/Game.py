@@ -45,7 +45,7 @@ class Game:
         self.buttons = self.createButtons()
         self.gameState = GameState()
         #################################################################
-        self.ruleBox = TextBox(rules, (1500, 20), True)
+        self.ruleBox = TextBox(rules, (1450, 20), True)
 
         pygame.mixer.init()
         pygame.mixer.music.load("./Sounds/Extrem_Sound.mp3")
@@ -133,7 +133,8 @@ class Game:
         )
 
         buttonXPosition = (
-            Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
+            Settings.DICE_POSITION[0] -
+            Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
         )
         buttonYPosition = (
             Settings.DICE_POSITION[1]
@@ -262,7 +263,8 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(Computer(num, self.gamefield, startFields[num]))
+                computers.append(
+                    Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -296,7 +298,8 @@ class Game:
         self.currentStage = "waitingForDice"
         if self.gamefield.checkWin(self.currentPlayerNumber):
             self.gameActive = False
-            self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
+            self.callBackStartEndWindow(
+                self.currentPlayerNumber, self.gamefield)
         if self.dice.currentValue <= 5:
             self.changePlayer()
 
@@ -366,7 +369,8 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(
+                    self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
@@ -453,7 +457,7 @@ class Game:
                 pygame.draw.rect(
                     self.screen,
                     Settings.WHITE,
-                    (1500, 0, 300, 400),
+                    (1440, 0, 500, 1000),
                     border_radius=20,
                 )
                 self.ruleBox.draw(self.screen)
