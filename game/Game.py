@@ -10,7 +10,7 @@ from .ClickButton import ClickButton
 from .Rule import Rule
 from .Helper.ListSorter import sortPlayers
 from .Textbox import TextBox
-from .Ressources.Rules import rules
+from .Ressources.Rules import *
 
 
 def setUpPygame():
@@ -45,7 +45,11 @@ class Game:
         self.buttons = self.createButtons()
         self.gameState = GameState()
         #################################################################
-        self.ruleBox = TextBox(rules, (1450, 20), True)
+        self.ruleBox = None
+        if sameColorMode == None:
+            self.ruleBox = TextBox(rules, (1450, 20), True)
+        else:
+            self.ruleBox = TextBox(extremrules, (1450, 20), True)
 
         pygame.mixer.init()
         pygame.mixer.music.load("./Sounds/Extrem_Sound.mp3")

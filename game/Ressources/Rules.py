@@ -8,3 +8,8 @@ Würfelt man eine 6, würfelt man erneut, \n danach kann man entscheiden, ob man
 Die gegnerischen Spielfiguren müssen \n nicht geschlagen werden. \n \n \
 Eigene Spielfiguren kann man nicht \n stapeln. \n \n \
 Wenn man im Zug eine Augenzahl würfelt, \n die man nicht nutzen kann, um zu bewegen, \n wird der Zug an den nächsten Spieler \n übergeben."
+
+extremrules = " Ziel: Alle Spielfiguren in die Hausfelder \n bringen. \n \n \
+Spielsteuerung wie im Normal Mode \n \n \
+Ihr müsst eure eigenen Spielfiguren \n Positionen merken. \n \n \
+Klickst du eine falsche Spielfigur \n an, wird irgendeine Spielfigur \n wieder zum Hausfeld gebracht. \n \n"
