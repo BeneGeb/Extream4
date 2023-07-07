@@ -24,14 +24,12 @@ class Dice:
             nextImage = pygame.image.load(
                 "./Images/DiceImages/Würfel_" + str(i) + ".png"
             )
-            nextImage = pygame.transform.scale(
-                nextImage, (self.size, self.size))
+            nextImage = pygame.transform.scale(nextImage, (self.size, self.size))
             all_dice.append(nextImage)
         self.all_dice = all_dice
 
     def rollDice(self):
-        self.currentValue = random.randint(5, 6)
-        # self.currentValue = 6
+        self.currentValue = random.randint(1, 6)
         return self.currentValue
 
     def drawRectAroundDice(self, screen, currentPlayerNumber):

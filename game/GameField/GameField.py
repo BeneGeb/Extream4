@@ -198,9 +198,9 @@ class GameField:
                 else:
                     moved = False
             else:
-                # if clickedCircle == self.markedCircle:
-                self.moveFigure(self.lastClickedFigure, clickedCircle.position)
-                moved = True
+                if clickedCircle == self.markedCircle:
+                    self.moveFigure(self.lastClickedFigure, clickedCircle.position)
+                    moved = True
 
         if moved:
             if self.markedCircle:
