@@ -198,9 +198,9 @@ class GameField:
                 else:
                     moved = False
             else:
-                if clickedCircle == self.markedCircle:
-                    self.moveFigure(self.lastClickedFigure, clickedCircle.position)
-                    moved = True
+                # if clickedCircle == self.markedCircle:
+                self.moveFigure(self.lastClickedFigure, clickedCircle.position)
+                moved = True
 
         if moved:
             if self.markedCircle:
@@ -318,14 +318,16 @@ class GameField:
         circlesToCheck = [
             circle
             for circle in self.allCircles
-            if "house-" + str(team) in circle.type and circle.number <= newNumber
+            if "house-" + str(team) in circle.type and circle.number > newNumber
         ]
-
+        print(len(circlesToCheck))
         for circle in circlesToCheck:
             matchingFigure = [
                 figure for figure in teamFigures if figure.position == circle.position
             ]
-            if len(matchingFigure):
+            print(len(matchingFigure))
+            print(matchingFigure)
+            if len(matchingFigure) > 0:
                 return False
         return True
 
