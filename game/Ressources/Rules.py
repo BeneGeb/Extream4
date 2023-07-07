@@ -4,12 +4,12 @@ Die Platzierung ergibt sich aus den im \n Hausfeld platzierten Spielfiguren. \n 
 Man muss eine 6 würfeln, um eine \n Spielfigur vom Startfeld auf das \n Spielbrett zu bringen. \n \n \
 Wenn alle Spielfiguren eines Spielers \n auf dem Startfeld sind, darf man maximal \n dreimal würfeln, um eine 6 zu kriegen. \n \n \
 Die gewürfelten Augenzahl entspricht den \n Feldern, die man die Spielfigur bewegen \n darf. \n \n \
-Würfelt man eine 6, würfelt man erneut, \n danach kann man entscheiden, ob man \n eine weitere Spielfigur ins Spiel bringt oder \n eine um 6 Felder bewegt. \n \n \
-Die gegnerischen Spielfiguren müssen \n nicht geschlagen werden. \n \n \
+Würfelt man eine 6, darf man erneut würfeln \n \n \
+Die gegnerischen Spielfiguren können, aber\n müssen nicht geschlagen werden. \n \n \
 Eigene Spielfiguren kann man nicht \n stapeln. \n \n \
-Wenn man im Zug eine Augenzahl würfelt, \n die man nicht nutzen kann, um zu bewegen, \n wird der Zug an den nächsten Spieler \n übergeben."
+Wenn man im Zug eine Augenzahl würfelt, \n die man nicht nutzen kann, um eine Figur zu\n bewegen, wird der Zug \n an den nächsten Spieler \n übergeben."
 
 extremrules = " Ziel: Alle Spielfiguren in die Hausfelder \n bringen. \n \n \
-Spielsteuerung wie im Normal Mode \n \n \
-Ihr müsst eure eigenen Spielfiguren \n Positionen merken. \n \n \
-Klickst du eine falsche Spielfigur \n an, wird irgendeine Spielfigur \n wieder zum Hausfeld gebracht. \n \n"
+Grundregeln entsprechen den Regeln des \n normalen Mensch Ärgere dich nicht Spiels \n \n \
+Jeder Spieler muss sich seine eigenen\n Spielfiguren merken \n \n \
+Klickt ein Spieler eine Figur an, die ihm\n nicht gehört, so wird zufällig eine seiner \n Figuren gekickt\n \n"

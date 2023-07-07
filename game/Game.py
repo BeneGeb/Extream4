@@ -47,9 +47,9 @@ class Game:
         #################################################################
         self.ruleBox = None
         if sameColorMode == None:
-            self.ruleBox = TextBox(rules, (1450, 20), True)
+            self.ruleBox = TextBox(rules, (1460, 40), True)
         else:
-            self.ruleBox = TextBox(extremrules, (1450, 20), True)
+            self.ruleBox = TextBox(extremrules, (1460, 40), True)
 
         pygame.mixer.init()
         pygame.mixer.music.load("./Sounds/Extrem_Sound.mp3")
@@ -137,8 +137,7 @@ class Game:
         )
 
         buttonXPosition = (
-            Settings.DICE_POSITION[0] -
-            Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
+            Settings.DICE_POSITION[0] - Settings.DICE_SIZE / 2 + Settings.CIRCLE_SIZE
         )
         buttonYPosition = (
             Settings.DICE_POSITION[1]
@@ -267,8 +266,7 @@ class Game:
         computers = []
         for num, player in enumerate(Settings.listPlayers):
             if player.isKi:
-                computers.append(
-                    Computer(num, self.gamefield, startFields[num]))
+                computers.append(Computer(num, self.gamefield, startFields[num]))
             else:
                 computers.append(None)
         return computers
@@ -302,8 +300,7 @@ class Game:
         self.currentStage = "waitingForDice"
         if self.gamefield.checkWin(self.currentPlayerNumber):
             self.gameActive = False
-            self.callBackStartEndWindow(
-                self.currentPlayerNumber, self.gamefield)
+            self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
         if self.dice.currentValue <= 5:
             self.changePlayer()
 
@@ -373,8 +370,7 @@ class Game:
             self.currentStage = "waitingForDice"
             if self.gamefield.checkWin(self.currentPlayerNumber):
                 self.gameActive = False
-                self.callBackStartEndWindow(
-                    self.currentPlayerNumber, self.gamefield)
+                self.callBackStartEndWindow(self.currentPlayerNumber, self.gamefield)
 
             if self.dice.currentValue <= 5:
                 self.changePlayer()
@@ -458,12 +454,6 @@ class Game:
             # Draw Rules
 
             if self.showrules:
-                pygame.draw.rect(
-                    self.screen,
-                    Settings.WHITE,
-                    (1440, 0, 500, 1000),
-                    border_radius=20,
-                )
                 self.ruleBox.draw(self.screen)
 
             # Update Display

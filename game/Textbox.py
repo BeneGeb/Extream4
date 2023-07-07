@@ -33,8 +33,14 @@ class TextBox:
         return txts
 
     def draw(self, screen):
+        x, y = self.position
+        pygame.draw.rect(
+            screen,
+            Settings.WHITE,
+            (x - 5, y - 20, 450, len(self.lines) * 25 + 40),
+            border_radius=20,
+        )
         if self.visible:
-            x, y = self.position
             for i, line in enumerate(self.lines):
                 # Zeilenabstand
                 screen.blit(line, (x, y + 25 * i))
